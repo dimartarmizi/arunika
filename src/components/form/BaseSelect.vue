@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted, onUnmounted, nextTick } from 'vue'
+import { ref, computed, onMounted, onUnmounted, nextTick, watch } from 'vue'
 import {
 	IconChevronDown,
 	IconCheck,
@@ -119,6 +119,8 @@ const emit = defineEmits([
 
 const isOpen = ref(false)
 const selectRef = ref(null)
+const dropdownRef = ref(null)
+const dropdownStyle = ref({})
 const searchInputRef = ref(null)
 const optionsListRef = ref(null)
 const searchQuery = ref('')
@@ -230,19 +232,68 @@ const handleSearchInput = () => {
 	}, props.debounce)
 }
 
+const updatePosition = () => {
+	if (!isOpen.value || !selectRef.value) return
+	const rect = selectRef.value.getBoundingClientRect()
+	if (rect.width === 0 && rect.height === 0) return
+
+	if (rect.bottom < 0 || rect.top > window.innerHeight) {
+		isOpen.value = false
+		return
+	}
+
+	const spaceBelow = window.innerHeight - rect.bottom
+	const spaceAbove = rect.top
+	const dropdownHeight = 288
+
+	const openUpwards = spaceBelow < dropdownHeight && spaceAbove > spaceBelow
+	const targetWidth = Math.max(rect.width, 220)
+	let left = rect.left
+
+	if (left + targetWidth > window.innerWidth - 16) {
+		left = Math.max(16, window.innerWidth - targetWidth - 16)
+	}
+
+	dropdownStyle.value = {
+		position: 'fixed',
+		top: openUpwards ? 'auto' : `${rect.bottom + 6}px`,
+		bottom: openUpwards ? `${window.innerHeight - rect.top + 6}px` : 'auto',
+		left: `${left}px`,
+		width: `${rect.width}px`,
+		minWidth: `${Math.min(targetWidth, window.innerWidth - 32)}px`,
+		zIndex: 9999
+	}
+}
+
 const toggleOpen = () => {
 	if (props.disabled) return
+	if (!isOpen.value) {
+		updatePosition()
+	}
 	isOpen.value = !isOpen.value
 	if (isOpen.value) {
 		searchQuery.value = ''
 		if (props.loadOptions && asyncOptions.value.length === 0) {
 			executeAsyncSearch('', false)
 		}
-		if (props.searchable || props.loadOptions || props.creatable) {
-			nextTick(() => searchInputRef.value?.focus())
-		}
 	}
 }
+
+watch(isOpen, async (val) => {
+	if (val) {
+		updatePosition()
+		await nextTick()
+		updatePosition()
+		if (props.searchable || props.loadOptions || props.creatable) {
+			searchInputRef.value?.focus()
+		}
+		window.addEventListener('scroll', updatePosition, true)
+		window.addEventListener('resize', updatePosition)
+	} else {
+		window.removeEventListener('scroll', updatePosition, true)
+		window.removeEventListener('resize', updatePosition)
+	}
+})
 
 const selectOption = (opt) => {
 	if (props.disabled) return
@@ -318,7 +369,13 @@ const handleScroll = (e) => {
 }
 
 const handleClickOutside = (e) => {
-	if (selectRef.value && !selectRef.value.contains(e.target)) {
+	if (
+		isOpen.value &&
+		selectRef.value &&
+		!selectRef.value.contains(e.target) &&
+		dropdownRef.value &&
+		!dropdownRef.value.contains(e.target)
+	) {
 		isOpen.value = false
 	}
 }
@@ -328,13 +385,15 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
+	window.removeEventListener('scroll', updatePosition, true)
+	window.removeEventListener('resize', updatePosition)
 	document.removeEventListener('click', handleClickOutside)
 	clearTimeout(debounceTimer)
 })
 </script>
 
 <template>
-	<div class="w-full">
+	<div class="w-full min-w-0">
 		<label v-if="label" class="form-label flex items-center justify-between">
 			<span>
 				{{ label }}
@@ -342,9 +401,9 @@ onUnmounted(() => {
 			</span>
 			<slot name="label-extra" />
 		</label>
-		<div class="relative" ref="selectRef">
+		<div class="relative w-full min-w-0" ref="selectRef">
 			<button type="button" :disabled="disabled" @click="toggleOpen" :class="[
-				'input min-h-10 h-auto py-1.5 flex items-center justify-between cursor-pointer text-left gap-2',
+				'w-full min-w-0 input min-h-10 h-auto py-1.5 flex items-center justify-between cursor-pointer text-left gap-2',
 				computedState === 'error' ? 'input-error' : '',
 				computedState === 'success' ? 'input-success' : '',
 				computedState === 'warning' ? 'input-warning' : '',
@@ -363,10 +422,10 @@ onUnmounted(() => {
 					</template>
 					<template v-else-if="!multiple && selectedList.length > 0">
 						<slot name="selected-item" :item="selectedList[0]">
-							<span class="text-foreground font-medium truncate">{{ selectedList[0].label }}</span>
+							<span class="text-foreground font-medium truncate block max-w-full" :title="selectedList[0].label">{{ selectedList[0].label }}</span>
 						</slot>
 					</template>
-					<span v-else class="text-muted-foreground">{{ placeholder }}</span>
+					<span v-else class="text-muted-foreground truncate">{{ placeholder }}</span>
 				</div>
 
 				<div class="flex items-center gap-1 shrink-0 ml-1">
@@ -383,66 +442,68 @@ onUnmounted(() => {
 				</div>
 			</button>
 
-			<div v-if="isOpen" class="absolute z-40 w-full mt-1.5 bg-card border border-border rounded-xl shadow-xl overflow-hidden flex flex-col max-h-72">
-				<div v-if="searchable || loadOptions || creatable" class="p-2 border-b border-border/80 bg-card sticky top-0 z-10">
-					<div class="relative flex items-center">
-						<IconSearch :size="15" class="absolute left-2.5 text-muted-foreground pointer-events-none" />
-						<input ref="searchInputRef" v-model="searchQuery" @input="handleSearchInput" @keydown.enter.prevent="canCreate && handleCreate()" type="text" placeholder="Search options..." class="w-full bg-muted/60 text-foreground text-xs rounded-lg pl-8 pr-2.5 py-1.5 outline-hidden focus:ring-1 focus:ring-primary" />
-						<button v-if="searchQuery" @click="searchQuery = ''; handleSearchInput()" type="button" class="absolute right-2 text-muted-foreground hover:text-foreground">
-							<IconX :size="13" />
+			<Teleport to="body">
+				<div v-if="isOpen" ref="dropdownRef" :style="dropdownStyle" class="bg-card border border-border rounded-xl shadow-xl overflow-hidden flex flex-col max-h-72">
+					<div v-if="searchable || loadOptions || creatable" class="p-2 border-b border-border/80 bg-card sticky top-0 z-10">
+						<div class="relative flex items-center">
+							<IconSearch :size="15" class="absolute left-2.5 text-muted-foreground pointer-events-none" />
+							<input ref="searchInputRef" v-model="searchQuery" @input="handleSearchInput" @keydown.enter.prevent="canCreate && handleCreate()" type="text" placeholder="Search options..." class="w-full bg-muted/60 text-foreground text-xs rounded-lg pl-8 pr-2.5 py-1.5 outline-hidden focus:ring-1 focus:ring-primary" />
+							<button v-if="searchQuery" @click="searchQuery = ''; handleSearchInput()" type="button" class="absolute right-2 text-muted-foreground hover:text-foreground">
+								<IconX :size="13" />
+							</button>
+						</div>
+					</div>
+
+					<div v-if="multiple && selectAll && activeOptions.length > 0" class="px-4 py-2 border-b border-border/60 bg-muted/30 flex items-center justify-between text-xs">
+						<button type="button" @click="toggleSelectAll" class="text-primary font-semibold hover:underline cursor-pointer">
+							{{ isAllSelected ? 'Deselect All' : 'Select All' }}
 						</button>
-					</div>
-				</div>
-
-				<div v-if="multiple && selectAll && activeOptions.length > 0" class="px-4 py-2 border-b border-border/60 bg-muted/30 flex items-center justify-between text-xs">
-					<button type="button" @click="toggleSelectAll" class="text-primary font-semibold hover:underline cursor-pointer">
-						{{ isAllSelected ? 'Deselect All' : 'Select All' }}
-					</button>
-					<span class="text-muted-foreground">{{ selectedList.length }} selected</span>
-				</div>
-
-				<div ref="optionsListRef" @scroll="handleScroll" class="overflow-y-auto flex-1 p-1 custom-scrollbar">
-					<div v-if="fetchError || errorMessage" class="p-3 text-xs text-center text-destructive flex items-center justify-center gap-1.5">
-						<IconAlertCircle :size="15" />
-						<span>{{ fetchError || errorMessage }}</span>
+						<span class="text-muted-foreground">{{ selectedList.length }} selected</span>
 					</div>
 
-					<div v-else-if="isLoading && activeOptions.length === 0" class="p-4 text-xs text-center text-muted-foreground flex items-center justify-center gap-2">
-						<IconLoader2 :size="16" class="animate-spin text-primary" />
-						<span>Loading data...</span>
-					</div>
+					<div ref="optionsListRef" @scroll="handleScroll" class="overflow-y-auto flex-1 p-1 custom-scrollbar">
+						<div v-if="fetchError || errorMessage" class="p-3 text-xs text-center text-destructive flex items-center justify-center gap-1.5">
+							<IconAlertCircle :size="15" />
+							<span>{{ fetchError || errorMessage }}</span>
+						</div>
 
-					<template v-else-if="filteredOptions.length > 0">
-						<div v-for="opt in filteredOptions" :key="opt.value" @click="selectOption(opt)" :class="[
-							'flex items-center justify-between px-3 py-2 text-sm rounded-lg cursor-pointer transition select-none',
-							isOptionSelected(opt)
-								? 'bg-primary-soft text-primary font-medium'
-								: 'text-foreground hover:bg-muted'
-						]">
-							<div class="flex items-center gap-2.5 min-w-0 flex-1">
-								<slot name="option" :option="opt" :selected="isOptionSelected(opt)">
-									<span class="truncate">{{ opt.label }}</span>
-								</slot>
+						<div v-else-if="isLoading && activeOptions.length === 0" class="p-4 text-xs text-center text-muted-foreground flex items-center justify-center gap-2">
+							<IconLoader2 :size="16" class="animate-spin text-primary" />
+							<span>Loading data...</span>
+						</div>
+
+						<template v-else-if="filteredOptions.length > 0">
+							<div v-for="opt in filteredOptions" :key="opt.value" @click="selectOption(opt)" :class="[
+								'flex items-center justify-between px-3 py-2 text-sm rounded-lg cursor-pointer transition select-none',
+								isOptionSelected(opt)
+									? 'bg-primary-soft text-primary font-medium'
+									: 'text-foreground hover:bg-muted'
+							]">
+								<div class="flex items-center gap-2.5 min-w-0 flex-1">
+									<slot name="option" :option="opt" :selected="isOptionSelected(opt)">
+										<span class="truncate" :title="opt.label">{{ opt.label }}</span>
+									</slot>
+								</div>
+								<IconCheck v-if="isOptionSelected(opt)" :size="16" class="text-primary shrink-0 ml-2" />
 							</div>
-							<IconCheck v-if="isOptionSelected(opt)" :size="16" class="text-primary shrink-0 ml-2" />
+
+							<div v-if="isLoading && activeOptions.length > 0" class="p-2 text-center text-xs text-muted-foreground flex items-center justify-center gap-1.5">
+								<IconLoader2 :size="14" class="animate-spin text-primary" />
+								<span>Loading more...</span>
+							</div>
+						</template>
+
+						<div v-else-if="canCreate" @click="handleCreate" class="flex items-center gap-2 px-3 py-2 text-sm rounded-lg text-primary hover:bg-primary-soft cursor-pointer font-medium">
+							<IconPlus :size="16" />
+							<span>Create "{{ searchQuery }}"</span>
 						</div>
 
-						<div v-if="isLoading && activeOptions.length > 0" class="p-2 text-center text-xs text-muted-foreground flex items-center justify-center gap-1.5">
-							<IconLoader2 :size="14" class="animate-spin text-primary" />
-							<span>Loading more...</span>
+						<div v-else class="p-4 text-xs text-center text-muted-foreground">
+							No options found.
 						</div>
-					</template>
-
-					<div v-else-if="canCreate" @click="handleCreate" class="flex items-center gap-2 px-3 py-2 text-sm rounded-lg text-primary hover:bg-primary-soft cursor-pointer font-medium">
-						<IconPlus :size="16" />
-						<span>Create "{{ searchQuery }}"</span>
-					</div>
-
-					<div v-else class="p-4 text-xs text-center text-muted-foreground">
-						No options found.
 					</div>
 				</div>
-			</div>
+			</Teleport>
 		</div>
 
 		<p v-if="feedbackMessage" :class="[

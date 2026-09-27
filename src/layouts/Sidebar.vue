@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, nextTick, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import {
 	IconLayoutDashboard,
@@ -50,6 +50,28 @@ const route = useRoute()
 
 const sidebarProfileOpen = ref(false)
 const sidebarProfileRef = ref(null)
+const scrollContainerRef = ref(null)
+
+const onScroll = () => {
+	if (scrollContainerRef.value) {
+		sessionStorage.setItem('sidebar_scroll_top', String(scrollContainerRef.value.scrollTop))
+	}
+}
+
+const restoreScroll = () => {
+	nextTick(() => {
+		if (!scrollContainerRef.value) return
+		const saved = sessionStorage.getItem('sidebar_scroll_top')
+		if (saved !== null) {
+			scrollContainerRef.value.scrollTop = Number(saved)
+		} else {
+			const activeEl = scrollContainerRef.value.querySelector('.menu-item-active')
+			if (activeEl) {
+				activeEl.scrollIntoView({ block: 'nearest' })
+			}
+		}
+	})
+}
 
 const toggleSidebarProfile = () => {
 	sidebarProfileOpen.value = !sidebarProfileOpen.value
@@ -61,8 +83,13 @@ const closeSidebarProfile = (e) => {
 	}
 }
 
+watch(() => route.path, () => {
+	restoreScroll()
+})
+
 onMounted(() => {
 	window.addEventListener('click', closeSidebarProfile)
+	restoreScroll()
 })
 
 onUnmounted(() => {
@@ -80,7 +107,7 @@ const menuSections = [
 	{
 		title: 'Main',
 		items: [
-			{ to: '/', label: 'Dashboard', icon: IconLayoutDashboard },
+			{ to: '/', label: 'Beranda', icon: IconLayoutDashboard },
 			{ to: '/users', label: 'Users', icon: IconUsers }
 		]
 	},
@@ -133,7 +160,7 @@ const menuSections = [
 		mini ? 'lg:w-20' : 'lg:w-64',
 		open ? 'translate-x-0 w-64' : '-translate-x-full lg:translate-x-0'
 	]">
-		<div class="flex-1 overflow-y-auto custom-scrollbar">
+		<div ref="scrollContainerRef" @scroll.passive="onScroll" class="flex-1 overflow-y-auto custom-scrollbar custom-scrollbar-dark">
 			<div :class="['h-16 flex items-center border-b border-sidebar-border px-4 transition-all', mini ? 'justify-center' : 'justify-between']">
 				<router-link to="/" class="flex items-center gap-3 overflow-hidden" @click="close">
 					<div class="icon-box icon-box-md icon-box-primary shadow-sm shrink-0">

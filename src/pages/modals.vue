@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import BaseModal from '../components/ui/BaseModal.vue'
 import BaseInput from '../components/form/BaseInput.vue'
+import BaseTextarea from '../components/form/BaseTextarea.vue'
 import { IconAlertTriangle, IconCheck } from '@tabler/icons-vue'
 
 const showBasicModal = ref(false)
@@ -75,10 +76,7 @@ const newProjectDesc = ref('')
 		<BaseModal v-model="showFormModal" title="Create New Project" size="md">
 			<form @submit.prevent="showFormModal = false" class="flex flex-col gap-4">
 				<BaseInput v-model="newProjectName" label="Project Name" placeholder="e.g. Redesign Dashboard" required />
-				<div>
-					<label class="form-label">Description</label>
-					<textarea v-model="newProjectDesc" rows="3" class="input resize-none" placeholder="Brief summary of project objectives..."></textarea>
-				</div>
+				<BaseTextarea v-model="newProjectDesc" label="Description" :rows="3" placeholder="Brief summary of project objectives..." />
 			</form>
 			<template #footer="{ close }">
 				<button @click="close" class="btn btn-ghost">Cancel</button>

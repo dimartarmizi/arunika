@@ -6,7 +6,7 @@ import Navbar from './layouts/Navbar.vue'
 
 const route = useRoute()
 const sidebarOpen = ref(typeof window !== 'undefined' ? window.innerWidth >= 1024 : true)
-const sidebarMini = ref(false)
+const sidebarMini = ref(typeof window !== 'undefined' ? localStorage.getItem('sidebar_mini') === 'true' : false)
 
 const isStandalonePage = computed(() => {
 	const authPages = ['/login', '/register', '/forgot-password', '/reset-password']
@@ -22,6 +22,7 @@ const currentUser = ref({
 const toggleSidebar = () => {
 	if (typeof window !== 'undefined' && window.innerWidth >= 1024) {
 		sidebarMini.value = !sidebarMini.value
+		localStorage.setItem('sidebar_mini', String(sidebarMini.value))
 	} else {
 		sidebarOpen.value = !sidebarOpen.value
 	}

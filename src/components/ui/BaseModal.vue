@@ -27,14 +27,14 @@ const emit = defineEmits(['update:modelValue', 'close'])
 const sizeClass = computed(() => {
 	switch (props.size) {
 		case 'sm':
-			return 'max-w-sm'
+			return 'max-w-md'
 		case 'lg':
-			return 'max-w-2xl'
-		case 'xl':
 			return 'max-w-4xl'
+		case 'xl':
+			return 'max-w-7xl'
 		case 'md':
 		default:
-			return 'max-w-lg'
+			return 'max-w-2xl'
 	}
 })
 

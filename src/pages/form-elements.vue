@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import BaseInput from '../components/form/BaseInput.vue'
+import BaseTextarea from '../components/form/BaseTextarea.vue'
 import BaseSelect from '../components/form/BaseSelect.vue'
 import BaseDatePicker from '../components/form/BaseDatePicker.vue'
 import BaseToggle from '../components/form/BaseToggle.vue'
@@ -19,6 +20,7 @@ const form = ref({
 	url: '',
 	search: '',
 	select: '',
+	bio: '',
 	date: '',
 	time: '',
 	datetime: '',
@@ -228,6 +230,8 @@ const testForm = ref({
 				<BaseDatePicker v-model="form.datetime" type="datetime-local" label="Datetime-Local" />
 				<BaseDatePicker v-model="form.month" type="month" label="Month" />
 				<BaseDatePicker v-model="form.week" type="week" label="Week" />
+
+				<BaseTextarea v-model="form.bio" label="Textarea" placeholder="Write something about yourself..." class="md:col-span-2 lg:col-span-3" />
 
 				<div>
 					<label class="form-label">Toggle</label>

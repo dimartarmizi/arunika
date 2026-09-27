@@ -49,6 +49,14 @@
 	--sidebar-accent: #1e293b;
 	--sidebar-accent-foreground: #f8fafc;
 	--sidebar-ring: #334155;
+
+	--scrollbar-thumb-light: #cbd5e1;
+	--scrollbar-thumb-light-hover: #94a3b8;
+	--scrollbar-thumb-dark: #334155;
+	--scrollbar-thumb-dark-hover: #475569;
+
+	--scrollbar-thumb: var(--scrollbar-thumb-light);
+	--scrollbar-thumb-hover: var(--scrollbar-thumb-light-hover);
 }
 
 .dark {
@@ -98,6 +106,9 @@
 	--sidebar-accent: #1e293b;
 	--sidebar-accent-foreground: #f8fafc;
 	--sidebar-ring: #334155;
+
+	--scrollbar-thumb: var(--scrollbar-thumb-dark);
+	--scrollbar-thumb-hover: var(--scrollbar-thumb-dark-hover);
 }
 
 @theme {
@@ -152,7 +163,7 @@
 
 @layer components {
 	.btn {
-		@apply inline-flex items-center justify-center font-semibold rounded-xl h-10 px-4 text-xs sm:text-sm gap-2 transition duration-150 cursor-pointer select-none disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2 active:scale-[0.98];
+		@apply inline-flex items-center justify-center font-semibold rounded-xl h-10 px-4 text-sm gap-2 transition duration-150 cursor-pointer select-none disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2 active:scale-[0.98];
 	}
 
 	.btn-primary {
@@ -196,11 +207,11 @@
 	}
 
 	.btn-md {
-		@apply h-10 px-4 text-xs sm:text-sm gap-2 rounded-xl;
+		@apply h-10 px-4 text-sm gap-2 rounded-xl;
 	}
 
 	.btn-lg {
-		@apply h-12 px-5 text-sm sm:text-base gap-2.5 rounded-xl;
+		@apply h-12 px-5 text-base gap-2.5 rounded-xl;
 	}
 
 	.btn-icon {
@@ -272,7 +283,11 @@
 	}
 
 	.input {
-		@apply w-full rounded-xl border border-border bg-card px-3.5 py-2.5 text-foreground placeholder:text-muted-foreground text-xs sm:text-sm transition focus:border-primary focus:outline-hidden focus:ring-2 focus:ring-primary/20 disabled:bg-muted disabled:text-muted-foreground disabled:cursor-not-allowed;
+		@apply w-full rounded-xl border border-border bg-card px-3.5 py-2 text-foreground placeholder:text-muted-foreground text-sm transition focus:border-primary focus:outline-hidden focus:ring-2 focus:ring-primary/20 disabled:bg-muted disabled:text-muted-foreground disabled:cursor-not-allowed;
+	}
+
+	.textarea {
+		@apply w-full rounded-xl border border-border bg-card px-3.5 py-2.5 text-foreground placeholder:text-muted-foreground text-sm transition focus:border-primary focus:outline-hidden focus:ring-2 focus:ring-primary/20 disabled:bg-muted disabled:text-muted-foreground disabled:cursor-not-allowed;
 	}
 
 	.input-error {
@@ -497,7 +512,7 @@
 	}
 
 	.modal-box {
-		@apply bg-card text-foreground rounded-2xl shadow-2xl border border-border w-full max-w-lg p-6 relative transition-all;
+		@apply bg-card text-foreground rounded-2xl shadow-2xl border border-border w-full p-6 relative transition-all;
 	}
 
 	.modal-title {
@@ -506,35 +521,6 @@
 
 	.modal-action {
 		@apply flex items-center justify-end gap-2.5 mt-6;
-	}
-
-	.tooltip {
-		@apply relative inline-flex;
-	}
-
-	.tooltip::before {
-		content: attr(data-tip);
-		@apply absolute invisible opacity-0 z-50 px-2.5 py-1 text-xs font-medium text-foreground bg-card border border-border rounded-lg shadow-md whitespace-nowrap transition-all duration-150 pointer-events-none;
-	}
-
-	.tooltip:hover::before {
-		@apply visible opacity-100;
-	}
-
-	.tooltip-top::before {
-		@apply bottom-full left-1/2 -translate-x-1/2 mb-2;
-	}
-
-	.tooltip-bottom::before {
-		@apply top-full left-1/2 -translate-x-1/2 mt-2;
-	}
-
-	.tooltip-left::before {
-		@apply right-full top-1/2 -translate-y-1/2 mr-2;
-	}
-
-	.tooltip-right::before {
-		@apply left-full top-1/2 -translate-y-1/2 ml-2;
 	}
 
 	.toast {
@@ -621,9 +607,32 @@
 		@apply border border-border bg-card p-1 rounded-xl gap-1;
 	}
 
+	* {
+		scrollbar-width: thin;
+		scrollbar-color: var(--scrollbar-thumb) transparent;
+	}
+
+	*::-webkit-scrollbar {
+		width: 6px;
+		height: 6px;
+	}
+
+	*::-webkit-scrollbar-track {
+		background: transparent;
+	}
+
+	*::-webkit-scrollbar-thumb {
+		background-color: var(--scrollbar-thumb);
+		border-radius: 9999px;
+	}
+
+	*::-webkit-scrollbar-thumb:hover {
+		background-color: var(--scrollbar-thumb-hover);
+	}
+
 	.custom-scrollbar {
 		scrollbar-width: thin;
-		scrollbar-color: #334155 transparent;
+		scrollbar-color: var(--scrollbar-thumb) transparent;
 	}
 
 	.custom-scrollbar::-webkit-scrollbar {
@@ -636,12 +645,18 @@
 	}
 
 	.custom-scrollbar::-webkit-scrollbar-thumb {
-		background-color: #334155;
+		background-color: var(--scrollbar-thumb);
 		border-radius: 9999px;
 	}
 
 	.custom-scrollbar::-webkit-scrollbar-thumb:hover {
-		background-color: #475569;
+		background-color: var(--scrollbar-thumb-hover);
+	}
+
+	aside,
+	.bg-sidebar {
+		--scrollbar-thumb: var(--scrollbar-thumb-dark);
+		--scrollbar-thumb-hover: var(--scrollbar-thumb-dark-hover);
 	}
 
 	.accordion {
