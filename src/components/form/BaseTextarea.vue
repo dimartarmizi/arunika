@@ -78,21 +78,12 @@ const feedbackMessage = computed(() => {
 		</label>
 
 		<div class="relative">
-			<textarea
-				:value="modelValue"
-				:placeholder="placeholder"
-				:rows="rows"
-				:disabled="disabled"
-				:required="required"
-				@input="$emit('update:modelValue', $event.target.value)"
-				v-bind="$attrs"
-				:class="[
-					'textarea resize-y',
-					computedState === 'error' ? 'input-error' : '',
-					computedState === 'success' ? 'input-success' : '',
-					computedState === 'warning' ? 'input-warning' : ''
-				]"
-			></textarea>
+			<textarea :value="modelValue" :placeholder="placeholder" :rows="rows" :disabled="disabled" :required="required" @input="$emit('update:modelValue', $event.target.value)" v-bind="$attrs" :class="[
+				'textarea resize-y',
+				computedState === 'error' ? 'input-error' : '',
+				computedState === 'success' ? 'input-success' : '',
+				computedState === 'warning' ? 'input-warning' : ''
+			]"></textarea>
 
 			<div v-if="computedState" class="absolute top-3 right-3 pointer-events-none">
 				<IconAlertCircle v-if="computedState === 'error'" :size="18" class="text-destructive" />

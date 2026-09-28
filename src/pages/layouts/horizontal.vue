@@ -1,6 +1,8 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, watch } from 'vue'
+import { useRoute } from 'vue-router'
 import BaseTable from '../../components/ui/BaseTable.vue'
+import { useTheme } from '../../composables/useTheme'
 import {
 	IconBuildingStore,
 	IconBadge,
@@ -23,15 +25,27 @@ import {
 	IconEye,
 	IconUser,
 	IconLock,
-	IconLogout
+	IconLogout,
+	IconMenu2,
+	IconX,
+	IconSun,
+	IconMoon
 } from '@tabler/icons-vue'
 
+const { isDark, toggleTheme } = useTheme()
+const route = useRoute()
 const activeDropdown = ref(null)
 const profileOpen = ref(false)
 const profileDropdownRef = ref(null)
+const mobileMenuOpen = ref(false)
+const mobileSubmenu = ref(null)
 
 const toggleDropdown = (key) => {
 	activeDropdown.value = activeDropdown.value === key ? null : key
+}
+
+const toggleMobileSubmenu = (key) => {
+	mobileSubmenu.value = mobileSubmenu.value === key ? null : key
 }
 
 const toggleProfile = () => {
@@ -44,6 +58,10 @@ const closeDropdowns = (e) => {
 		profileOpen.value = false
 	}
 }
+
+watch(() => route.path, () => {
+	mobileMenuOpen.value = false
+})
 
 onMounted(() => {
 	window.addEventListener('click', closeDropdowns)
@@ -80,26 +98,147 @@ const products = ref([
 
 <template>
 	<div class="min-h-screen bg-background flex flex-col text-foreground antialiased font-sans" @click="closeDropdowns">
-		<header class="sticky top-0 z-40 bg-card border-b border-border/80 shadow-xs">
-			<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-6">
-				<router-link to="/" class="flex items-center gap-3 shrink-0">
-					<div class="icon-box icon-box-md icon-box-primary shadow-sm">
+		<div v-if="mobileMenuOpen" @click="mobileMenuOpen = false" class="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs md:hidden transition-opacity"></div>
+
+		<aside :class="[
+			'fixed inset-y-0 left-0 z-50 w-72 bg-card text-foreground border-r border-border shadow-2xl flex flex-col transition-transform duration-300 ease-in-out md:hidden',
+			mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
+		]" @click.stop>
+			<div class="h-16 flex items-center justify-between px-4 border-b border-border">
+				<router-link to="/" class="flex items-center gap-3" @click="mobileMenuOpen = false">
+					<div class="icon-box icon-box-md icon-box-primary shadow-sm shrink-0">
 						<IconBuildingStore :size="20" />
 					</div>
-					<span class="text-base font-bold text-foreground tracking-tight leading-none">Arunika</span>
+					<span class="text-base font-bold text-foreground tracking-tight">Arunika</span>
+				</router-link>
+				<button @click="mobileMenuOpen = false" class="p-1.5 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted cursor-pointer" aria-label="Close menu">
+					<IconX :size="20" />
+				</button>
+			</div>
+
+			<div class="px-4 py-2.5 border-b border-border flex items-center gap-2">
+				<button class="flex-1 flex items-center justify-center gap-2 p-2 rounded-xl text-xs font-medium text-muted-foreground hover:text-foreground bg-muted/50 hover:bg-muted transition cursor-pointer" title="Search">
+					<IconSearch :size="16" />
+					<span>Search</span>
+				</button>
+				<button @click="toggleTheme" class="p-2 rounded-xl text-muted-foreground hover:text-foreground bg-muted/50 hover:bg-muted transition cursor-pointer" :title="isDark ? 'Switch to Light' : 'Switch to Dark'">
+					<IconSun v-if="isDark" :size="16" />
+					<IconMoon v-else :size="16" />
+				</button>
+				<button class="p-2 rounded-xl text-muted-foreground hover:text-foreground bg-muted/50 hover:bg-muted transition relative cursor-pointer" title="Notifications">
+					<IconBell :size="16" />
+					<span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-primary ring-2 ring-card"></span>
+				</button>
+			</div>
+
+			<div class="p-3 flex-1 overflow-y-auto flex flex-col gap-1">
+				<router-link to="/" @click="mobileMenuOpen = false" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium transition hover:bg-muted" :class="route.path === '/' ? 'bg-primary-soft text-primary' : 'text-foreground'">
+					<IconLayoutDashboard :size="18" />
+					<span>Dashboard</span>
 				</router-link>
 
+				<div>
+					<button type="button" @click="toggleMobileSubmenu('forms')" class="w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm font-medium text-foreground hover:bg-muted transition cursor-pointer">
+						<span class="flex items-center gap-2.5">
+							<IconForms :size="18" class="text-muted-foreground" />
+							<span>Forms & Tables</span>
+						</span>
+						<IconChevronDown :size="16" :class="['transition-transform duration-200', mobileSubmenu === 'forms' ? 'rotate-180' : '']" />
+					</button>
+					<div v-if="mobileSubmenu === 'forms'" class="pl-6 pr-2 py-1 flex flex-col gap-0.5">
+						<router-link to="/form-elements" @click="mobileMenuOpen = false" class="flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-muted transition">
+							<IconForms :size="16" />
+							<span>Form Elements</span>
+						</router-link>
+						<router-link to="/tables" @click="mobileMenuOpen = false" class="flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-muted transition">
+							<IconTable :size="16" />
+							<span>Data Tables</span>
+						</router-link>
+					</div>
+				</div>
+
+				<div>
+					<button type="button" @click="toggleMobileSubmenu('ui')" class="w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm font-medium text-foreground hover:bg-muted transition cursor-pointer">
+						<span class="flex items-center gap-2.5">
+							<IconComponents :size="18" class="text-muted-foreground" />
+							<span>Components</span>
+						</span>
+						<IconChevronDown :size="16" :class="['transition-transform duration-200', mobileSubmenu === 'ui' ? 'rotate-180' : '']" />
+					</button>
+					<div v-if="mobileSubmenu === 'ui'" class="pl-6 pr-2 py-1 flex flex-col gap-0.5">
+						<router-link to="/accordion" @click="mobileMenuOpen = false" class="flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-muted transition">
+							<IconLayoutList :size="16" />
+							<span>Accordion</span>
+						</router-link>
+						<router-link to="/alerts" @click="mobileMenuOpen = false" class="flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-muted transition">
+							<IconBell :size="16" />
+							<span>Alerts</span>
+						</router-link>
+						<router-link to="/badges" @click="mobileMenuOpen = false" class="flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-muted transition">
+							<IconBadge :size="16" />
+							<span>Badges</span>
+						</router-link>
+						<router-link to="/buttons" @click="mobileMenuOpen = false" class="flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-muted transition">
+							<IconClick :size="16" />
+							<span>Buttons</span>
+						</router-link>
+						<router-link to="/modals" @click="mobileMenuOpen = false" class="flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-muted transition">
+							<IconAppWindow :size="16" />
+							<span>Modals</span>
+						</router-link>
+						<router-link to="/tabs" @click="mobileMenuOpen = false" class="flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-muted transition">
+							<IconFolders :size="16" />
+							<span>Tabs</span>
+						</router-link>
+						<router-link to="/toasts" @click="mobileMenuOpen = false" class="flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-muted transition">
+							<IconNotification :size="16" />
+							<span>Toasts</span>
+						</router-link>
+						<router-link to="/tooltips" @click="mobileMenuOpen = false" class="flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-muted transition">
+							<IconHelpCircle :size="16" />
+							<span>Tooltips</span>
+						</router-link>
+					</div>
+				</div>
+
+				<router-link to="/users" @click="mobileMenuOpen = false" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium transition hover:bg-muted" :class="route.path === '/users' ? 'bg-primary-soft text-primary' : 'text-foreground'">
+					<IconUsers :size="18" />
+					<span>Users</span>
+				</router-link>
+			</div>
+		</aside>
+
+		<header class="sticky top-0 z-40 bg-card border-b border-border/80 shadow-xs">
+			<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-6">
+				<div class="flex items-center gap-3 shrink-0">
+					<button type="button" @click.stop="mobileMenuOpen = !mobileMenuOpen" class="md:hidden p-2 rounded-xl text-muted-foreground hover:text-foreground hover:bg-muted transition cursor-pointer" aria-label="Toggle menu">
+						<IconMenu2 :size="20" />
+					</button>
+
+					<router-link to="/" class="flex items-center gap-3 shrink-0">
+						<div class="icon-box icon-box-md icon-box-primary shadow-sm">
+							<IconBuildingStore :size="20" />
+						</div>
+						<span class="text-base font-bold text-foreground tracking-tight leading-none">Arunika</span>
+					</router-link>
+				</div>
+
 				<div class="flex items-center gap-2">
-					<button class="p-2 rounded-xl text-muted-foreground hover:text-foreground hover:bg-muted transition cursor-pointer" title="Search">
+					<button class="hidden md:flex p-2 rounded-xl text-muted-foreground hover:text-foreground hover:bg-muted transition cursor-pointer" title="Search">
 						<IconSearch :size="18" />
 					</button>
 
-					<button class="p-2 rounded-xl text-muted-foreground hover:text-foreground hover:bg-muted transition relative cursor-pointer" title="Notifications">
+					<button @click="toggleTheme" class="hidden md:flex p-2 rounded-xl text-muted-foreground hover:text-foreground hover:bg-muted transition cursor-pointer" :title="isDark ? 'Switch to Light' : 'Switch to Dark'">
+						<IconSun v-if="isDark" :size="18" />
+						<IconMoon v-else :size="18" />
+					</button>
+
+					<button class="hidden md:flex p-2 rounded-xl text-muted-foreground hover:text-foreground hover:bg-muted transition relative cursor-pointer" title="Notifications">
 						<IconBell :size="18" />
 						<span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-primary ring-2 ring-card"></span>
 					</button>
 
-					<div class="h-6 w-px bg-muted hidden sm:block mx-1"></div>
+					<div class="h-6 w-px bg-muted hidden md:block mx-1"></div>
 
 					<div class="relative" ref="profileDropdownRef" @click.stop>
 						<button type="button" @click="toggleProfile" class="flex items-center gap-2 p-1.5 rounded-xl hover:bg-muted transition cursor-pointer select-none text-left" aria-label="User menu">
@@ -138,7 +277,7 @@ const products = ref([
 				</div>
 			</div>
 
-			<nav class="border-t border-border bg-card">
+			<nav class="border-t border-border bg-card hidden md:block">
 				<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center gap-1 overflow-visible">
 					<router-link to="/" class="flex items-center gap-2 px-3.5 py-3 text-sm font-medium border-b-2 border-primary text-primary transition">
 						<IconLayoutDashboard :size="18" />

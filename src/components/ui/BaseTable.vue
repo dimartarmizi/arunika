@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, watch, onUnmounted } from 'vue'
+import { ref, computed, watch, unref, onUnmounted } from 'vue'
 import BaseInput from '../form/BaseInput.vue'
 import BaseSelect from '../form/BaseSelect.vue'
 import BaseCheckbox from '../form/BaseCheckbox.vue'
@@ -47,10 +47,17 @@ const props = defineProps({
 		type: Boolean,
 		default: true
 	},
-
 	advanced: {
 		type: Boolean,
 		default: false
+	},
+	filterable: {
+		type: Boolean,
+		default: true
+	},
+	columnToggleable: {
+		type: Boolean,
+		default: true
 	},
 	selectable: {
 		type: Boolean,
@@ -88,10 +95,17 @@ const searchInput = ref('')
 const debouncedSearch = ref('')
 let debounceTimer = null
 
-const handleSearchInput = (e) => {
+const getColFilterOptions = (col) => {
+	const raw = unref(col.filterOptions)
+	if (!Array.isArray(raw)) return []
+	return raw.map((opt) => (typeof opt === 'object' && opt !== null ? opt : { label: opt, value: opt }))
+}
+
+const handleSearchInput = (val) => {
+	const rawValue = typeof val === 'object' && val !== null && 'target' in val ? val.target.value : val
 	clearTimeout(debounceTimer)
 	debounceTimer = setTimeout(() => {
-		debouncedSearch.value = e.target.value
+		debouncedSearch.value = rawValue ?? ''
 		currentPage.value = 1
 	}, 300)
 }
@@ -434,7 +448,7 @@ const tableClasses = computed(() => [
 		<div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
 			<div class="flex items-center gap-2 flex-1 max-w-md">
 				<div class="w-full">
-					<BaseInput v-model="searchInput" type="text" @input="handleSearchInput" placeholder="Search table records...">
+					<BaseInput v-model="searchInput" type="text" @update:model-value="handleSearchInput" placeholder="Search table records...">
 						<template #prefix>
 							<IconSearch :size="16" />
 						</template>
@@ -446,7 +460,7 @@ const tableClasses = computed(() => [
 					</BaseInput>
 				</div>
 
-				<button @click="showFilters = !showFilters" :class="[
+				<button v-if="filterable" @click="showFilters = !showFilters" :class="[
 					'btn btn-outline h-10 px-3 gap-1.5 relative shrink-0',
 					showFilters || activeFiltersCount > 0 ? 'border-primary text-primary bg-primary-soft' : ''
 				]" title="Column filters">
@@ -456,10 +470,29 @@ const tableClasses = computed(() => [
 						{{ activeFiltersCount }}
 					</span>
 				</button>
+
+				<div v-if="columnToggleable" class="relative shrink-0 sm:hidden">
+					<button @click="showColumnPicker = !showColumnPicker" class="btn btn-outline h-10 px-3 gap-1.5" title="Toggle column visibility">
+						<IconAdjustmentsHorizontal :size="16" />
+					</button>
+
+					<div v-if="showColumnPicker" class="absolute right-0 mt-1 w-48 bg-card rounded-xl shadow-xl border border-border p-1.5 z-40 flex flex-col gap-0.5">
+						<div class="text-[11px] font-bold text-muted-foreground uppercase px-2.5 py-1.5">Toggle Columns</div>
+						<label v-for="col in columns" :key="col.key" class="flex items-center gap-2 px-2.5 py-1.5 hover:bg-muted rounded-lg cursor-pointer select-none transition-colors">
+							<div class="relative flex items-center justify-center shrink-0">
+								<input type="checkbox" v-model="columnVisibility[col.key]" class="peer appearance-none w-4 h-4 border-2 border-border rounded-md bg-card checked:bg-primary checked:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition cursor-pointer" />
+								<svg class="absolute w-2.5 h-2.5 text-primary-foreground pointer-events-none hidden peer-checked:block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+									<polyline points="20 6 9 17 4 12"></polyline>
+								</svg>
+							</div>
+							<span class="text-xs font-medium text-foreground leading-none">{{ col.label }}</span>
+						</label>
+					</div>
+				</div>
 			</div>
 
 			<div class="flex items-center gap-2 self-end sm:self-auto">
-				<div class="relative">
+				<div v-if="columnToggleable" class="relative hidden sm:block">
 					<button @click="showColumnPicker = !showColumnPicker" class="btn btn-outline h-10 px-3 gap-1.5" title="Toggle column visibility">
 						<IconAdjustmentsHorizontal :size="16" />
 						<span class="hidden sm:inline">Columns</span>
@@ -508,7 +541,7 @@ const tableClasses = computed(() => [
 
 					<BaseInput v-if="col.filterType === 'text'" v-model="columnFilters[col.key]" type="text" :placeholder="`Filter ${col.label}...`" />
 
-					<BaseSelect v-else-if="col.filterType === 'select'" v-model="columnFilters[col.key]" :options="[{ label: `All ${col.label}`, value: '' }, ...col.filterOptions.map(opt => typeof opt === 'object' ? opt : { label: opt, value: opt })]" :placeholder="`All ${col.label}`" />
+					<BaseSelect v-else-if="col.filterType === 'select'" v-model="columnFilters[col.key]" :options="[{ label: `All ${col.label}`, value: '' }, ...getColFilterOptions(col)]" :placeholder="`All ${col.label}`" :searchable="col.filterSearchable ?? true" />
 
 					<div v-else-if="col.filterType === 'number-range'" class="flex items-center gap-2">
 						<BaseInput v-model.number="columnFilters[col.key].min" type="number" placeholder="Min" />
@@ -517,9 +550,9 @@ const tableClasses = computed(() => [
 					</div>
 
 					<div v-else-if="col.filterType === 'date-range'" class="flex items-center gap-2">
-						<BaseDatePicker v-model="columnFilters[col.key].start" placeholder="Start date" />
+						<BaseDatePicker v-model="columnFilters[col.key].start" placeholder="Tanggal awal" />
 						<span class="text-muted-foreground font-bold shrink-0">-</span>
-						<BaseDatePicker v-model="columnFilters[col.key].end" placeholder="End date" />
+						<BaseDatePicker v-model="columnFilters[col.key].end" placeholder="Tanggal akhir" />
 					</div>
 				</div>
 			</template>
@@ -527,7 +560,7 @@ const tableClasses = computed(() => [
 			<div class="sm:col-span-2 md:col-span-3 lg:col-span-4 flex items-center justify-end gap-2 pt-2 border-t border-border">
 				<button @click="resetFilters" class="btn btn-ghost btn-sm gap-1.5 text-muted-foreground hover:text-foreground">
 					<IconRefresh :size="14" />
-					<span>Reset All Filters</span>
+					<span>Reset Semua Filter</span>
 				</button>
 			</div>
 		</div>
@@ -555,10 +588,10 @@ const tableClasses = computed(() => [
 
 									<span v-if="col.sortable !== false" class="inline-flex items-center text-muted-foreground">
 										<template v-if="getSortOrder(col.key) === 'asc'">
-											<IconChevronUp :size="15" class="text-primary stroke-[2.5]" />
+											<IconChevronUp :size="15" class="stroke-[2.5]" />
 										</template>
 										<template v-else-if="getSortOrder(col.key) === 'desc'">
-											<IconChevronDown :size="15" class="text-primary stroke-[2.5]" />
+											<IconChevronDown :size="15" class="stroke-[2.5]" />
 										</template>
 										<template v-else>
 											<IconSelector :size="15" class="opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -570,7 +603,7 @@ const tableClasses = computed(() => [
 									</span>
 								</div>
 
-								<div v-if="col.resizable !== false" @click.stop @mousedown="startResize(col.key, $event)" class="absolute right-0 top-0 bottom-0 w-1.5 cursor-col-resize hover:bg-primary/50 active:bg-primary transition" title="Drag to resize"></div>
+								<div v-if="col.resizable !== false" @click.stop @mousedown="startResize(col.key, $event)" class="absolute right-0 top-0 bottom-0 w-1.5 cursor-col-resize hover:bg-primary/50 active:bg-primary transition" title="Tarik untuk mengubah ukuran"></div>
 							</th>
 						</tr>
 					</thead>
@@ -590,11 +623,11 @@ const tableClasses = computed(() => [
 									<div class="w-12 h-12 rounded-full bg-destructive-soft text-destructive flex items-center justify-center">
 										<IconAlertTriangle :size="24" />
 									</div>
-									<h5 class="font-bold text-sm text-foreground">Failed to load records</h5>
+									<h5 class="font-bold text-sm text-foreground">Gagal memuat data</h5>
 									<p class="text-xs text-muted-foreground">{{ error }}</p>
 									<button @click="$emit('retry')" class="btn btn-outline btn-sm mt-2 gap-1.5">
 										<IconRefresh :size="14" />
-										<span>Retry</span>
+										<span>Coba Lagi</span>
 									</button>
 								</div>
 							</td>
@@ -606,13 +639,10 @@ const tableClasses = computed(() => [
 									<div class="w-12 h-12 rounded-full bg-muted text-muted-foreground flex items-center justify-center">
 										<IconInbox :size="24" />
 									</div>
-									<h5 class="font-bold text-sm text-foreground">No records found</h5>
+									<h5 class="font-bold text-sm text-foreground">Data tidak ditemukan</h5>
 									<p class="text-xs text-muted-foreground">
-										{{ debouncedSearch || activeFiltersCount > 0 ? 'Try adjusting your search query or filters.' : 'No data records available at this time.' }}
+										{{ debouncedSearch || activeFiltersCount > 0 ? 'Coba sesuaikan kata kunci pencarian atau filter Anda.' : 'Belum ada data tersedia saat ini.' }}
 									</p>
-									<button v-if="debouncedSearch || activeFiltersCount > 0" @click="resetFilters" class="btn btn-outline btn-sm mt-2">
-										Clear Filters
-									</button>
 								</div>
 							</td>
 						</tr>
@@ -642,42 +672,42 @@ const tableClasses = computed(() => [
 
 			<div class="p-4 border-t border-border bg-background/50 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
 				<div class="flex items-center gap-1.5 text-muted-foreground">
-					<span>Rows per page:</span>
+					<span>Baris per halaman:</span>
 					<select v-model.number="pageSize" class="bg-card border border-border rounded-lg px-2 py-1 font-medium text-foreground focus:outline-none focus:ring-2 focus:ring-primary">
 						<option v-for="opt in pageSizeOptions" :key="opt" :value="opt">{{ opt }}</option>
 					</select>
 				</div>
 
 				<div class="flex items-center gap-1">
-					<button @click="currentPage = 1" :disabled="currentPage === 1" class="p-1.5 rounded-lg border border-border bg-card hover:bg-muted disabled:opacity-40 disabled:hover:bg-card cursor-pointer disabled:cursor-not-allowed text-muted-foreground" title="First page">
+					<button @click="currentPage = 1" :disabled="currentPage === 1" class="p-1.5 rounded-lg border border-border bg-card hover:bg-muted disabled:opacity-40 disabled:hover:bg-card cursor-pointer disabled:cursor-not-allowed text-muted-foreground" title="Halaman pertama">
 						<IconChevronsLeft :size="16" />
 					</button>
 
-					<button @click="currentPage--" :disabled="currentPage === 1" class="p-1.5 rounded-lg border border-border bg-card hover:bg-muted disabled:opacity-40 disabled:hover:bg-card cursor-pointer disabled:cursor-not-allowed text-muted-foreground" title="Previous page">
+					<button @click="currentPage--" :disabled="currentPage === 1" class="p-1.5 rounded-lg border border-border bg-card hover:bg-muted disabled:opacity-40 disabled:hover:bg-card cursor-pointer disabled:cursor-not-allowed text-muted-foreground" title="Halaman sebelumnya">
 						<IconChevronLeft :size="16" />
 					</button>
 
 					<span class="px-3 py-1 font-semibold text-muted-foreground">
-						Page {{ currentPage }} of {{ totalPages }}
+						Halaman {{ currentPage }} dari {{ totalPages }}
 					</span>
 
-					<button @click="currentPage++" :disabled="currentPage === totalPages" class="p-1.5 rounded-lg border border-border bg-card hover:bg-muted disabled:opacity-40 disabled:hover:bg-card cursor-pointer disabled:cursor-not-allowed text-muted-foreground" title="Next page">
+					<button @click="currentPage++" :disabled="currentPage === totalPages" class="p-1.5 rounded-lg border border-border bg-card hover:bg-muted disabled:opacity-40 disabled:hover:bg-card cursor-pointer disabled:cursor-not-allowed text-muted-foreground" title="Halaman berikutnya">
 						<IconChevronRight :size="16" />
 					</button>
 
-					<button @click="currentPage = totalPages" :disabled="currentPage === totalPages" class="p-1.5 rounded-lg border border-border bg-card hover:bg-muted disabled:opacity-40 disabled:hover:bg-card cursor-pointer disabled:cursor-not-allowed text-muted-foreground" title="Last page">
+					<button @click="currentPage = totalPages" :disabled="currentPage === totalPages" class="p-1.5 rounded-lg border border-border bg-card hover:bg-muted disabled:opacity-40 disabled:hover:bg-card cursor-pointer disabled:cursor-not-allowed text-muted-foreground" title="Halaman terakhir">
 						<IconChevronsRight :size="16" />
 					</button>
 				</div>
 
 				<div class="text-muted-foreground text-center sm:text-right">
-					Showing
+					Menampilkan
 					<strong class="text-muted-foreground font-semibold">{{ filteredData.length === 0 ? 0 : (currentPage - 1) * pageSize + 1 }}</strong>
-					to
+					sampai
 					<strong class="text-muted-foreground font-semibold">{{ Math.min(currentPage * pageSize, filteredData.length) }}</strong>
-					of
+					dari
 					<strong class="text-muted-foreground font-semibold">{{ filteredData.length }}</strong>
-					results
+					hasil
 				</div>
 			</div>
 		</div>
