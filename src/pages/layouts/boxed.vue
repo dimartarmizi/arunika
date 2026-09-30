@@ -38,7 +38,7 @@ onUnmounted(() => {
 		<div class="max-w-7xl w-full bg-card rounded-2xl shadow-2xl border border-border overflow-hidden flex flex-col md:flex-row min-h-[85vh]">
 			<aside class="w-full md:w-60 bg-sidebar text-sidebar-foreground flex flex-col justify-between shrink-0 p-4 border-r border-sidebar-border">
 				<div>
-					<div class="h-12 flex items-center gap-3 border-b border-sidebar-border pb-3">
+					<div class="h-12 flex items-center gap-2 border-b border-sidebar-border pb-3">
 						<div class="icon-box icon-box-md icon-box-primary shadow-sm">
 							<IconBuildingStore :size="20" />
 						</div>
@@ -68,7 +68,7 @@ onUnmounted(() => {
 
 			<div class="flex-1 flex flex-col min-w-0 bg-background">
 				<header class="h-16 bg-card border-b border-border px-6 flex items-center justify-between">
-					<div class="flex items-center gap-3">
+					<div class="flex items-center gap-2">
 						<h3 class="text-sm font-bold text-foreground">Dashboard</h3>
 					</div>
 
@@ -104,17 +104,17 @@ onUnmounted(() => {
 					</div>
 				</header>
 
-				<main class="flex-1 p-6 flex flex-col gap-6">
-					<section aria-label="Key metrics" class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-						<article class="card p-4">
+				<main class="flex-1 p-6 flex flex-col gap-4">
+					<section aria-label="Key metrics" class="flex flex-col sm:flex-row gap-4">
+						<article class="card p-4 flex-1">
 							<span class="text-xs text-muted-foreground font-medium">Monthly Active</span>
 							<span class="text-xl font-bold text-foreground mt-1 block">18,420</span>
 						</article>
-						<article class="card p-4">
+						<article class="card p-4 flex-1">
 							<span class="text-xs text-muted-foreground font-medium">Storage Quota</span>
 							<span class="text-xl font-bold text-foreground mt-1 block">64.2 GB / 100 GB</span>
 						</article>
-						<article class="card p-4">
+						<article class="card p-4 flex-1">
 							<span class="text-xs text-muted-foreground font-medium">Uptime Guarantee</span>
 							<span class="text-xl font-bold text-success mt-1 block">99.98%</span>
 						</article>

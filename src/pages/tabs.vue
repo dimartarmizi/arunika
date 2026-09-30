@@ -31,7 +31,7 @@ const boxedTabs = ['general', 'team', 'integrations']
 </script>
 
 <template>
-	<div class="flex flex-col gap-6">
+	<div class="flex flex-col gap-4">
 		<div>
 			<h3 class="text-xl font-bold text-foreground">Tabs</h3>
 			<p class="text-xs sm:text-sm text-muted-foreground">Navigation tabs with underline, pill, and boxed styling variations.</p>

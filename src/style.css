@@ -436,7 +436,7 @@
 	}
 
 	.menu-item {
-		@apply flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground transition;
+		@apply flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm font-medium text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground transition;
 	}
 
 	.menu-item-active {
@@ -488,7 +488,7 @@
 	}
 
 	.alert {
-		@apply flex items-start sm:items-center gap-3 p-4 rounded-xl text-sm border transition-colors;
+		@apply flex items-start sm:items-center gap-4 p-4 rounded-xl text-sm border transition-colors;
 	}
 
 	.alert-info {
@@ -520,7 +520,7 @@
 	}
 
 	.modal-action {
-		@apply flex items-center justify-end gap-2.5 mt-6;
+		@apply flex items-center justify-end gap-2 mt-6;
 	}
 
 	.toast {
@@ -532,7 +532,7 @@
 	}
 
 	.toast-item {
-		@apply flex items-start sm:items-center gap-3 p-4 rounded-xl text-sm border shadow-lg backdrop-blur-md transition-colors;
+		@apply flex items-start sm:items-center gap-4 p-4 rounded-xl text-sm border shadow-lg backdrop-blur-md transition-colors;
 	}
 
 	.toast-item-info {
@@ -580,7 +580,7 @@
 	}
 
 	.tabs-bordered {
-		@apply border-b border-border gap-6;
+		@apply border-b border-border gap-4;
 	}
 
 	.tab {
@@ -668,7 +668,7 @@
 	}
 
 	.accordion-separated {
-		@apply border-0 rounded-none divide-y-0 space-y-3 bg-transparent;
+		@apply border-0 rounded-none divide-y-0 flex flex-col gap-4 bg-transparent;
 	}
 
 	.accordion-separated .accordion-item {
@@ -692,13 +692,13 @@
 	}
 
 	.accordion-collapse {
-		display: grid;
-		grid-template-rows: 0fr;
-		transition: grid-template-rows 200ms cubic-bezier(0.4, 0, 0.2, 1);
+		max-height: 0;
+		overflow: hidden;
+		transition: max-height 250ms cubic-bezier(0.4, 0, 0.2, 1);
 	}
 
 	.accordion-collapse.is-open {
-		grid-template-rows: 1fr;
+		max-height: 1000px;
 	}
 
 	.accordion-collapse > div {

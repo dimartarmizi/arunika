@@ -43,7 +43,7 @@ const orders = ref([
 </script>
 
 <template>
-	<div class="flex flex-col gap-6">
+	<div class="flex flex-col gap-4">
 		<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-linear-to-r from-primary to-primary-hover text-primary-foreground rounded-2xl p-6 shadow-sm">
 			<div>
 				<h3 class="text-xl sm:text-2xl font-bold">Welcome back, Administrator!</h3>
@@ -61,8 +61,8 @@ const orders = ref([
 			</div>
 		</div>
 
-		<section aria-label="Dashboard statistics" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-			<article v-for="(st, index) in stats" :key="index" class="card p-5">
+		<section aria-label="Dashboard statistics" class="flex flex-col sm:flex-row flex-wrap gap-4">
+			<article v-for="(st, index) in stats" :key="index" class="card p-5 flex-1 min-w-[220px]">
 				<div class="flex items-center justify-between">
 					<span class="stat-title">{{ st.title }}</span>
 					<div class="icon-box icon-box-md icon-box-neutral">
@@ -83,8 +83,8 @@ const orders = ref([
 			</article>
 		</section>
 
-		<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-			<div class="lg:col-span-2 card overflow-hidden">
+		<div class="flex flex-col lg:flex-row gap-4">
+			<div class="lg:w-2/3 card overflow-hidden">
 				<div class="card-header">
 					<h4 class="font-bold text-foreground text-sm sm:text-base">Recent Orders</h4>
 				</div>
@@ -115,11 +115,11 @@ const orders = ref([
 				</BaseTable>
 			</div>
 
-			<div class="card p-5 flex flex-col justify-between">
+			<div class="lg:w-1/3 card p-5 flex flex-col justify-between">
 				<div>
 					<h4 class="font-bold text-foreground text-sm sm:text-base mb-4">System Activity</h4>
 					<div class="flex flex-col gap-4">
-						<div class="flex gap-3">
+						<div class="flex gap-4">
 							<div class="w-8 h-8 rounded-full bg-success-soft text-success flex items-center justify-center shrink-0">
 								<IconCircleCheck :size="16" />
 							</div>
@@ -130,7 +130,7 @@ const orders = ref([
 							</div>
 						</div>
 
-						<div class="flex gap-3">
+						<div class="flex gap-4">
 							<div class="w-8 h-8 rounded-full bg-primary-soft text-primary flex items-center justify-center shrink-0">
 								<IconUser :size="16" />
 							</div>
@@ -141,7 +141,7 @@ const orders = ref([
 							</div>
 						</div>
 
-						<div class="flex gap-3">
+						<div class="flex gap-4">
 							<div class="w-8 h-8 rounded-full bg-warning-soft text-warning flex items-center justify-center shrink-0">
 								<IconPackage :size="16" />
 							</div>

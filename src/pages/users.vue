@@ -48,7 +48,7 @@ const filteredUsers = computed(() => {
 </script>
 
 <template>
-	<div class="flex flex-col gap-6">
+	<div class="flex flex-col gap-4">
 		<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
 			<div>
 				<h3 class="text-xl font-bold text-foreground">User Management</h3>
@@ -60,7 +60,7 @@ const filteredUsers = computed(() => {
 			</button>
 		</div>
 
-		<div class="card p-4 flex flex-col sm:flex-row gap-3 items-center justify-between">
+		<div class="card p-4 flex flex-col sm:flex-row gap-4 items-center justify-between">
 			<div class="w-full sm:w-72">
 				<BaseInput v-model="searchQuery" placeholder="Search name or email...">
 					<template #prefix>
@@ -79,7 +79,7 @@ const filteredUsers = computed(() => {
 		<div class="card overflow-hidden">
 			<BaseTable :columns="userColumns" :data="filteredUsers">
 				<template #cell(user)="{ row }">
-					<div class="flex items-center gap-3">
+					<div class="flex items-center gap-2">
 						<img :src="row.avatar" class="avatar avatar-sm" />
 						<div>
 							<p class="font-semibold text-foreground text-xs sm:text-sm">{{ row.name }}</p>
@@ -104,7 +104,7 @@ const filteredUsers = computed(() => {
 					<span class="text-xs text-muted-foreground">{{ value }}</span>
 				</template>
 				<template #cell(action)>
-					<div class="inline-flex items-center gap-1">
+					<div class="inline-flex items-center gap-1.5">
 						<button class="btn btn-ghost btn-icon hover:text-primary">
 							<IconPencil :size="16" />
 						</button>

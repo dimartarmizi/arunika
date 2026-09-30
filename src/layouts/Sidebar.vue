@@ -162,7 +162,7 @@ const menuSections = [
 	]">
 		<div ref="scrollContainerRef" @scroll.passive="onScroll" class="flex-1 overflow-y-auto custom-scrollbar custom-scrollbar-dark">
 			<div :class="['h-16 flex items-center border-b border-sidebar-border px-4 transition-all', mini ? 'justify-center' : 'justify-between']">
-				<router-link to="/" class="flex items-center gap-3 overflow-hidden" @click="close">
+				<router-link to="/" class="flex items-center gap-2 overflow-hidden" @click="close">
 					<div class="icon-box icon-box-md icon-box-primary shadow-sm shrink-0">
 						<IconBuildingStore :size="20" />
 					</div>
@@ -193,7 +193,7 @@ const menuSections = [
 		</div>
 
 		<div class="shrink-0 p-3 border-t border-sidebar-border">
-			<div v-if="mini" class="flex flex-col items-center gap-3">
+			<div v-if="mini" class="flex flex-col items-center gap-2">
 				<img :src="user.avatar" :alt="user.name" class="avatar avatar-sm ring-2 ring-sidebar-ring" :title="user.name" />
 				<router-link to="/login" @click="close" class="p-2 rounded-xl text-destructive hover:opacity-80 hover:bg-destructive-soft transition" title="Log Out">
 					<IconLogout :size="18" />

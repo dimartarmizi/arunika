@@ -117,14 +117,14 @@ const testForm = ref({
 </script>
 
 <template>
-	<div class="flex flex-col gap-6">
+	<div class="flex flex-col gap-4">
 		<div>
 			<h3 class="text-xl font-bold text-foreground">Form Elements</h3>
 			<p class="text-xs sm:text-sm text-muted-foreground">Compilation of standard form input elements.</p>
 		</div>
 
 		<div class="card">
-			<div class="card-header flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+			<div class="card-header flex flex-col sm:flex-row sm:items-center justify-between gap-4">
 				<div>
 					<h4 class="font-semibold text-sm text-foreground">Interactive State Tester</h4>
 					<p class="text-xs text-muted-foreground">Click state buttons to test the visual response of the inputs live.</p>
@@ -147,12 +147,12 @@ const testForm = ref({
 					</button>
 				</div>
 			</div>
-			<div class="card-body grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-				<BaseInput v-model="testForm.username" label="Username / Email" placeholder="Enter username" :required="testState !== 'disabled'" :disabled="testState === 'disabled'" :error="testState === 'error' ? 'Username is invalid or already taken.' : false" :success="testState === 'success' ? 'Username is valid and available!' : false" :warning="testState === 'warning' ? 'Username format is not recommended.' : false" :hint="testState === 'normal' ? 'Use 3-20 alphanumeric characters.' : ''" />
+			<div class="card-body flex flex-col md:flex-row flex-wrap gap-4">
+				<BaseInput v-model="testForm.username" label="Username / Email" placeholder="Enter username" :required="testState !== 'disabled'" :disabled="testState === 'disabled'" :error="testState === 'error' ? 'Username is invalid or already taken.' : false" :success="testState === 'success' ? 'Username is valid and available!' : false" :warning="testState === 'warning' ? 'Username format is not recommended.' : false" :hint="testState === 'normal' ? 'Use 3-20 alphanumeric characters.' : ''" class="flex-1 min-w-[240px]" />
 
-				<BaseSelect v-model="testForm.role" label="User Role" :options="options" :required="testState !== 'disabled'" :disabled="testState === 'disabled'" :error="testState === 'error' ? 'Role selection is required.' : false" :success="testState === 'success' ? 'Role has been successfully set.' : false" :warning="testState === 'warning' ? 'This role has restricted access.' : false" :hint="testState === 'normal' ? 'Select an account access level.' : ''" />
+				<BaseSelect v-model="testForm.role" label="User Role" :options="options" :required="testState !== 'disabled'" :disabled="testState === 'disabled'" :error="testState === 'error' ? 'Role selection is required.' : false" :success="testState === 'success' ? 'Role has been successfully set.' : false" :warning="testState === 'warning' ? 'This role has restricted access.' : false" :hint="testState === 'normal' ? 'Select an account access level.' : ''" class="flex-1 min-w-[240px]" />
 
-				<BaseDatePicker v-model="testForm.date" label="Activation Date" :required="testState !== 'disabled'" :disabled="testState === 'disabled'" :error="testState === 'error' ? 'Date cannot be in the past.' : false" :success="testState === 'success' ? 'Activation date confirmed.' : false" :warning="testState === 'warning' ? 'Date falls on a weekend.' : false" :hint="testState === 'normal' ? 'Choose when activation begins.' : ''" />
+				<BaseDatePicker v-model="testForm.date" label="Activation Date" :required="testState !== 'disabled'" :disabled="testState === 'disabled'" :error="testState === 'error' ? 'Date cannot be in the past.' : false" :success="testState === 'success' ? 'Activation date confirmed.' : false" :warning="testState === 'warning' ? 'Date falls on a weekend.' : false" :hint="testState === 'normal' ? 'Choose when activation begins.' : ''" class="flex-1 min-w-[240px]" />
 			</div>
 		</div>
 
@@ -163,8 +163,8 @@ const testForm = ref({
 					<p class="text-xs text-muted-foreground">Searchable, Multi-select, Creatable, Dependent, Async/API, Custom template</p>
 				</div>
 			</div>
-			<div class="card-body grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-				<BaseSelect v-model="selectedFramework" label="Custom Option & Searchable" :options="frameworkOptions" searchable clearable hint="Custom display with icons and description metadata">
+			<div class="card-body flex flex-col md:flex-row flex-wrap gap-4">
+				<BaseSelect v-model="selectedFramework" label="Custom Option & Searchable" :options="frameworkOptions" searchable clearable hint="Custom display with icons and description metadata" class="flex-1 min-w-[240px]">
 					<template #option="{ option }">
 						<span class="text-base mr-1">{{ option.icon }}</span>
 						<div class="flex flex-col">
@@ -180,9 +180,9 @@ const testForm = ref({
 					</template>
 				</BaseSelect>
 
-				<BaseSelect v-model="multiTags" label="Multi-Select + Creatable" :options="tagOptions" multiple searchable creatable clearable selectAll hint="Select multiple, select all, or type a new option then Enter" />
+				<BaseSelect v-model="multiTags" label="Multi-Select + Creatable" :options="tagOptions" multiple searchable creatable clearable selectAll hint="Select multiple, select all, or type a new option then Enter" class="flex-1 min-w-[240px]" />
 
-				<BaseSelect v-model="asyncUser" label="Async / Debounce Search" :loadOptions="loadUsersApi" :debounce="400" searchable clearable placeholder="Search users via API..." hint="Async search with debounced requests and loader">
+				<BaseSelect v-model="asyncUser" label="Async / Debounce Search" :loadOptions="loadUsersApi" :debounce="400" searchable clearable placeholder="Search users via API..." hint="Async search with debounced requests and loader" class="flex-1 min-w-[240px]">
 					<template #option="{ option }">
 						<div class="flex flex-col">
 							<span class="font-medium text-xs">{{ option.label }}</span>
@@ -191,9 +191,9 @@ const testForm = ref({
 					</template>
 				</BaseSelect>
 
-				<BaseSelect v-model="selectedProvince" label="Dependent: Region" :options="provinces" clearable placeholder="Select region..." @change="onProvinceChange" />
+				<BaseSelect v-model="selectedProvince" label="Dependent: Region" :options="provinces" clearable placeholder="Select region..." @change="onProvinceChange" class="flex-1 min-w-[240px]" />
 
-				<BaseSelect v-model="selectedCity" label="Dependent: City" :options="currentCities" :disabled="!selectedProvince" clearable placeholder="Select city..." :hint="!selectedProvince ? 'Please select a region first' : ''" />
+				<BaseSelect v-model="selectedCity" label="Dependent: City" :options="currentCities" :disabled="!selectedProvince" clearable placeholder="Select city..." :hint="!selectedProvince ? 'Please select a region first' : ''" class="flex-1 min-w-[240px]" />
 			</div>
 		</div>
 
@@ -204,73 +204,73 @@ const testForm = ref({
 					<p class="text-xs text-muted-foreground">Drag & drop, multi-file, preview, progress, image compression, chunks & validation</p>
 				</div>
 			</div>
-			<div class="card-body grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-				<BaseFileUpload v-model="uploadedDocs" label="Multiple Documents" multiple :maxFiles="5" :maxSize="15 * 1024 * 1024" hint="Drag & drop PDF, ZIP, or Docs (max 15MB each, up to 5 files)" />
+			<div class="card-body flex flex-col md:flex-row flex-wrap gap-4">
+				<BaseFileUpload v-model="uploadedDocs" label="Multiple Documents" multiple :maxFiles="5" :maxSize="15 * 1024 * 1024" hint="Drag & drop PDF, ZIP, or Docs (max 15MB each, up to 5 files)" class="flex-1 min-w-[260px]" />
 
-				<BaseFileUpload v-model="uploadedImages" label="Image Upload + Client Compression" multiple accept="image/*" compressImages :maxWidth="1200" :maxHeight="1200" :quality="0.75" hint="Images auto-resized to max 1200px & compressed before upload" />
+				<BaseFileUpload v-model="uploadedImages" label="Image Upload + Client Compression" multiple accept="image/*" compressImages :maxWidth="1200" :maxHeight="1200" :quality="0.75" hint="Images auto-resized to max 1200px & compressed before upload" class="flex-1 min-w-[260px]" />
 
-				<BaseFileUpload v-model="chunkedFiles" label="Chunked / Resumable Large File" chunked :chunkSize="512 * 1024" :maxSize="100 * 1024 * 1024" hint="Simulates resumable chunk uploads (512KB chunks, pause & retry)" />
+				<BaseFileUpload v-model="chunkedFiles" label="Chunked / Resumable Large File" chunked :chunkSize="512 * 1024" :maxSize="100 * 1024 * 1024" hint="Simulates resumable chunk uploads (512KB chunks, pause & retry)" class="flex-1 min-w-[260px]" />
 			</div>
 		</div>
 
-		<form @submit.prevent class="card card-body flex flex-col gap-6">
-			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-				<BaseInput v-model="form.text" label="Text" placeholder="Full Name" />
-				<BaseInput v-model="form.password" type="password" label="Password" placeholder="Password" />
-				<BaseInput v-model="form.email" type="email" label="Email" placeholder="name@email.com" />
-				<BaseInput v-model="form.number" type="number" label="Number" placeholder="Age" />
-				<BaseInput v-model="form.tel" type="tel" label="Tel" placeholder="+1234567890" />
-				<BaseInput v-model="form.url" type="url" label="URL" placeholder="https://example.com" />
-				<BaseInput v-model="form.search" type="search" label="Search" placeholder="Keywords" />
+		<form @submit.prevent class="card card-body flex flex-col gap-4">
+			<div class="flex flex-wrap gap-4">
+				<BaseInput v-model="form.text" label="Text" placeholder="Full Name" class="w-full md:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.67rem)]" />
+				<BaseInput v-model="form.password" type="password" label="Password" placeholder="Password" class="w-full md:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.67rem)]" />
+				<BaseInput v-model="form.email" type="email" label="Email" placeholder="name@email.com" class="w-full md:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.67rem)]" />
+				<BaseInput v-model="form.number" type="number" label="Number" placeholder="Age" class="w-full md:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.67rem)]" />
+				<BaseInput v-model="form.tel" type="tel" label="Tel" placeholder="+1234567890" class="w-full md:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.67rem)]" />
+				<BaseInput v-model="form.url" type="url" label="URL" placeholder="https://example.com" class="w-full md:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.67rem)]" />
+				<BaseInput v-model="form.search" type="search" label="Search" placeholder="Keywords" class="w-full md:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.67rem)]" />
 
-				<BaseSelect v-model="form.select" label="Select" :options="options" />
+				<BaseSelect v-model="form.select" label="Select" :options="options" class="w-full md:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.67rem)]" />
 
-				<BaseDatePicker v-model="form.date" type="date" label="Date" />
-				<BaseDatePicker v-model="form.time" type="time" label="Time" />
-				<BaseDatePicker v-model="form.datetime" type="datetime-local" label="Datetime-Local" />
-				<BaseDatePicker v-model="form.month" type="month" label="Month" />
-				<BaseDatePicker v-model="form.week" type="week" label="Week" />
+				<BaseDatePicker v-model="form.date" type="date" label="Date" class="w-full md:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.67rem)]" />
+				<BaseDatePicker v-model="form.time" type="time" label="Time" class="w-full md:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.67rem)]" />
+				<BaseDatePicker v-model="form.datetime" type="datetime-local" label="Datetime-Local" class="w-full md:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.67rem)]" />
+				<BaseDatePicker v-model="form.month" type="month" label="Month" class="w-full md:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.67rem)]" />
+				<BaseDatePicker v-model="form.week" type="week" label="Week" class="w-full md:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.67rem)]" />
 
-				<BaseTextarea v-model="form.bio" label="Textarea" placeholder="Write something about yourself..." class="md:col-span-2 lg:col-span-3" />
+				<BaseTextarea v-model="form.bio" label="Textarea" placeholder="Write something about yourself..." class="w-full" />
 
-				<div>
+				<div class="w-full md:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.67rem)]">
 					<label class="form-label">Toggle</label>
-					<div class="flex items-center gap-5 mt-2">
+					<div class="flex items-center gap-4 mt-2">
 						<BaseToggle v-model="form.notifications" label="Notifications" />
 						<BaseToggle v-model="form.autoSave" label="Auto Save" />
 					</div>
 				</div>
 
-				<BaseRange v-model="form.range" label="Range (0–100)" />
+				<BaseRange v-model="form.range" label="Range (0–100)" class="w-full md:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.67rem)]" />
 
-				<div>
+				<div class="w-full md:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.67rem)]">
 					<label class="form-label">Checkbox</label>
-					<div class="flex items-center gap-5 mt-2">
+					<div class="flex items-center gap-4 mt-2">
 						<BaseCheckbox v-model="form.agree" label="Agree" />
 						<BaseCheckbox v-model="form.subscribed" label="Subscribe" />
 					</div>
 				</div>
 
-				<div>
+				<div class="w-full md:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.67rem)]">
 					<label class="form-label">Radio</label>
-					<div class="flex items-center gap-5 mt-2">
+					<div class="flex items-center gap-4 mt-2">
 						<BaseRadio v-model="form.gender" value="l" name="gender" label="Male" />
 						<BaseRadio v-model="form.gender" value="p" name="gender" label="Female" />
 					</div>
 				</div>
 
-				<div class="md:col-span-2 lg:col-span-3">
+				<div class="w-full">
 					<label class="form-label">File</label>
-					<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-						<BaseFileInput />
-						<BaseFileInput dropzone />
+					<div class="flex flex-col md:flex-row gap-4">
+						<BaseFileInput class="flex-1" />
+						<BaseFileInput dropzone class="flex-1" />
 					</div>
 				</div>
 			</div>
 
 			<input type="hidden" name="token" value="secret_csrf_12345" />
 
-			<div class="pt-6 border-t border-border flex flex-wrap items-center gap-3">
+			<div class="pt-6 border-t border-border flex flex-wrap items-center gap-2">
 				<input type="submit" value="Submit" class="btn btn-primary" />
 
 				<input type="reset" value="Reset" class="btn btn-secondary" />

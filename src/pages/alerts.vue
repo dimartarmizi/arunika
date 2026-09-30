@@ -9,7 +9,7 @@ const resetAlert = () => {
 </script>
 
 <template>
-	<div class="flex flex-col gap-6">
+	<div class="flex flex-col gap-4">
 		<div class="flex items-center justify-between">
 			<div>
 				<h3 class="text-xl font-bold text-foreground">Alerts</h3>
@@ -24,7 +24,7 @@ const resetAlert = () => {
 			<div class="card-header">
 				<h4 class="font-semibold text-sm text-foreground">Basic Variants</h4>
 			</div>
-			<div class="card-body flex flex-col gap-3">
+			<div class="card-body flex flex-col gap-4">
 				<BaseAlert variant="info">
 					A new software update is available for your system.
 				</BaseAlert>

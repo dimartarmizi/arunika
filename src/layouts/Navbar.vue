@@ -47,7 +47,7 @@ onUnmounted(() => {
 <template>
 	<header class="h-16 bg-card border-b border-border sticky top-0 z-30 transition-colors duration-200">
 		<div class="max-w-7xl mx-auto h-full px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
-			<div class="flex items-center gap-3 flex-1 max-w-md">
+			<div class="flex items-center gap-2 flex-1 max-w-md">
 				<button @click="$emit('toggle-sidebar')" class="p-2 rounded-xl text-muted-foreground hover:text-foreground hover:bg-muted transition cursor-pointer shrink-0" aria-label="Toggle sidebar">
 					<IconMenu2 :size="20" />
 				</button>
@@ -60,7 +60,7 @@ onUnmounted(() => {
 				</div>
 			</div>
 
-			<div class="flex items-center gap-2 sm:gap-3">
+			<div class="flex items-center gap-2">
 				<button @click="toggleTheme" class="p-2 rounded-xl text-muted-foreground hover:text-foreground hover:bg-muted transition cursor-pointer" :title="isDark ? 'Switch to Light' : 'Switch to Dark'">
 					<IconSun v-if="isDark" :size="20" />
 					<IconMoon v-else :size="20" />

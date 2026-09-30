@@ -444,8 +444,8 @@ const tableClasses = computed(() => [
 		</table>
 	</div>
 
-	<div v-else class="flex flex-col gap-3 font-sans antialiased text-foreground">
-		<div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+	<div v-else class="flex flex-col gap-4 font-sans antialiased text-foreground">
+		<div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
 			<div class="flex items-center gap-2 flex-1 max-w-md">
 				<div class="w-full">
 					<BaseInput v-model="searchInput" type="text" @update:model-value="handleSearchInput" placeholder="Search table records...">
@@ -516,7 +516,7 @@ const tableClasses = computed(() => [
 			</div>
 		</div>
 
-		<div v-if="selectedRows.length > 0" class="bg-primary-soft border border-primary/20 rounded-xl px-4 py-2.5 flex items-center justify-between gap-3 text-sm text-primary">
+		<div v-if="selectedRows.length > 0" class="bg-primary-soft border border-primary/20 rounded-xl px-4 py-2.5 flex items-center justify-between gap-4 text-sm text-primary">
 			<span class="font-medium">
 				<strong>{{ selectedRows.length }}</strong> row(s) selected
 			</span>
@@ -534,9 +534,9 @@ const tableClasses = computed(() => [
 			</div>
 		</div>
 
-		<div v-if="showFilters" class="p-4 bg-muted/70 border border-border rounded-xl grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 text-xs">
+		<div v-if="showFilters" class="p-4 bg-muted/70 border border-border rounded-xl flex flex-wrap gap-4 text-xs">
 			<template v-for="col in columns" :key="col.key">
-				<div v-if="col.filterType" class="flex flex-col gap-1.5">
+				<div v-if="col.filterType" class="flex flex-col gap-1.5 flex-1 min-w-[200px]">
 					<label class="font-semibold text-muted-foreground text-xs">{{ col.label }}</label>
 
 					<BaseInput v-if="col.filterType === 'text'" v-model="columnFilters[col.key]" type="text" :placeholder="`Filter ${col.label}...`" />
@@ -557,7 +557,7 @@ const tableClasses = computed(() => [
 				</div>
 			</template>
 
-			<div class="sm:col-span-2 md:col-span-3 lg:col-span-4 flex items-center justify-end gap-2 pt-2 border-t border-border">
+			<div class="w-full flex items-center justify-end gap-2 pt-2 border-t border-border">
 				<button @click="resetFilters" class="btn btn-ghost btn-sm gap-1.5 text-muted-foreground hover:text-foreground">
 					<IconRefresh :size="14" />
 					<span>Reset Semua Filter</span>
@@ -611,7 +611,7 @@ const tableClasses = computed(() => [
 					<tbody>
 						<tr v-if="loading">
 							<td :colspan="visibleColumns.length + 1" class="p-8">
-								<div class="flex flex-col gap-3">
+								<div class="flex flex-col gap-4">
 									<div v-for="i in 5" :key="i" class="h-8 bg-muted rounded-lg animate-pulse"></div>
 								</div>
 							</td>
@@ -670,7 +670,7 @@ const tableClasses = computed(() => [
 				</table>
 			</div>
 
-			<div class="p-4 border-t border-border bg-background/50 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+			<div class="p-4 border-t border-border bg-background/50 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
 				<div class="flex items-center gap-1.5 text-muted-foreground">
 					<span>Baris per halaman:</span>
 					<select v-model.number="pageSize" class="bg-card border border-border rounded-lg px-2 py-1 font-medium text-foreground focus:outline-none focus:ring-2 focus:ring-primary">

@@ -22,7 +22,7 @@ const products = ref([
 </script>
 
 <template>
-	<div class="flex flex-col gap-6">
+	<div class="flex flex-col gap-4">
 		<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
 			<div>
 				<h3 class="text-xl font-bold text-foreground">Tables</h3>
@@ -68,7 +68,7 @@ const products = ref([
 				</template>
 
 				<template #cell(actions)>
-					<div class="inline-flex items-center gap-1">
+					<div class="inline-flex items-center gap-1.5">
 						<button class="btn btn-ghost btn-icon" title="View details">
 							<IconEye :size="16" />
 						</button>

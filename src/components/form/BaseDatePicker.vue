@@ -756,9 +756,9 @@ onUnmounted(() => {
 						</div>
 					</div>
 
-					<div v-if="navMode === 'years'" class="grid grid-cols-4 gap-2 mb-4">
+					<div v-if="navMode === 'years'" class="flex flex-wrap gap-2 mb-4">
 						<button v-for="y in yearsList" :key="y" type="button" @click.stop="selectYearNav(y)" :class="[
-							'py-2 rounded-lg text-xs font-semibold cursor-pointer transition',
+							'py-2 w-[calc(25%-0.375rem)] rounded-lg text-xs font-semibold cursor-pointer transition text-center',
 							viewYear === y
 								? 'bg-primary text-primary-foreground font-bold shadow-xs'
 								: 'text-foreground hover:bg-muted'
@@ -767,9 +767,9 @@ onUnmounted(() => {
 						</button>
 					</div>
 
-					<div v-else class="grid grid-cols-4 gap-2 mb-4">
+					<div v-else class="flex flex-wrap gap-2 mb-4">
 						<button v-for="(mName, idx) in monthShortNames" :key="mName" type="button" @click.stop="selectMonth(idx)" :class="[
-							'py-2 rounded-lg text-xs font-semibold cursor-pointer transition',
+							'py-2 w-[calc(25%-0.375rem)] rounded-lg text-xs font-semibold cursor-pointer transition text-center',
 							selectedMonth && selectedMonth.month === idx && selectedMonth.year === viewYear
 								? 'bg-primary text-primary-foreground font-bold shadow-xs'
 								: 'text-foreground hover:bg-muted'
@@ -784,7 +784,7 @@ onUnmounted(() => {
 					</div>
 				</div>
 
-				<div v-else class="flex gap-3" @click.stop>
+				<div v-else class="flex gap-4" @click.stop>
 					<div :class="[isWeek ? 'w-72' : 'w-60']">
 						<div class="flex items-center justify-between mb-3 px-1">
 							<button type="button" @click.stop="handleHeaderTitleClick" class="flex items-center gap-1 font-bold text-sm text-foreground hover:text-primary cursor-pointer">
@@ -805,9 +805,9 @@ onUnmounted(() => {
 						</div>
 
 						<div v-if="navMode === 'years'" class="py-2">
-							<div class="grid grid-cols-4 gap-2">
+							<div class="flex flex-wrap gap-2">
 								<button v-for="y in yearsList" :key="y" type="button" @click.stop="selectYearNav(y)" :class="[
-									'py-2 rounded-lg text-xs font-semibold cursor-pointer transition',
+									'py-2 w-[calc(25%-0.375rem)] rounded-lg text-xs font-semibold cursor-pointer transition text-center',
 									viewYear === y
 										? 'bg-primary text-primary-foreground font-bold shadow-xs'
 										: 'hover:bg-muted text-foreground'
@@ -818,9 +818,9 @@ onUnmounted(() => {
 						</div>
 
 						<div v-else-if="navMode === 'months'" class="py-2">
-							<div class="grid grid-cols-3 gap-2">
+							<div class="flex flex-wrap gap-2">
 								<button v-for="(mName, idx) in monthShortNames" :key="mName" type="button" @click.stop="selectMonth(idx)" :class="[
-									'py-2 rounded-lg text-xs font-semibold cursor-pointer transition',
+									'py-2 w-[calc(33.333%-0.375rem)] rounded-lg text-xs font-semibold cursor-pointer transition text-center',
 									viewMonth === idx
 										? 'bg-primary text-primary-foreground font-bold shadow-xs'
 										: 'hover:bg-muted text-foreground'
@@ -849,16 +849,16 @@ onUnmounted(() => {
 								</div>
 
 								<div class="flex-1 flex flex-col gap-1">
-									<div class="grid grid-cols-7 mb-1.5 text-center text-xs font-bold text-foreground h-6 items-center">
-										<span v-for="wd in weekDays" :key="wd">{{ wd }}</span>
+									<div class="flex mb-1.5 text-center text-xs font-bold text-foreground h-6 items-center">
+										<span v-for="wd in weekDays" :key="wd" class="w-[14.285%] text-center">{{ wd }}</span>
 									</div>
 
 									<div v-for="(row, rIdx) in calendarRows" :key="'d-' + rIdx" @click="selectWeek(row)" :class="[
-										'grid grid-cols-7 items-center rounded-md cursor-pointer transition',
+										'flex items-center rounded-md cursor-pointer transition',
 										isRowSelectedWeek(row) ? 'bg-primary text-primary-foreground font-semibold shadow-xs' : 'hover:bg-muted/50'
 									]">
 										<div v-for="(item, dIdx) in row.days" :key="dIdx" :class="[
-											'h-7 flex items-center justify-center text-xs font-medium',
+											'h-7 w-[14.285%] flex items-center justify-center text-xs font-medium',
 											isRowSelectedWeek(row)
 												? 'text-primary-foreground'
 												: item.isCurrentMonth
@@ -872,14 +872,14 @@ onUnmounted(() => {
 							</div>
 
 							<div v-else>
-								<div class="grid grid-cols-7 mb-1.5 text-center text-xs font-bold text-foreground">
-									<span v-for="wd in weekDays" :key="wd">{{ wd }}</span>
+								<div class="flex mb-1.5 text-center text-xs font-bold text-foreground">
+									<span v-for="wd in weekDays" :key="wd" class="w-[14.285%] text-center">{{ wd }}</span>
 								</div>
 
 								<div class="flex flex-col gap-1">
-									<div v-for="(row, rIdx) in calendarRows" :key="rIdx" class="grid grid-cols-7 items-center">
+									<div v-for="(row, rIdx) in calendarRows" :key="rIdx" class="flex items-center">
 										<button v-for="(item, dIdx) in row.days" :key="dIdx" type="button" @click="handleDayClick(item.date)" @mouseenter="handleDayHover(item.date)" :class="[
-											'h-7 w-7 mx-auto flex items-center justify-center text-xs font-medium rounded cursor-pointer transition',
+											'h-7 w-[14.285%] flex items-center justify-center text-xs font-medium rounded cursor-pointer transition',
 											isRange
 												? (isRangeStart(item.date) || isRangeEnd(item.date))
 													? 'bg-primary text-primary-foreground font-semibold shadow-xs'

@@ -28,7 +28,7 @@ const triggerLoading = () => {
 </script>
 
 <template>
-	<div class="flex flex-col gap-6">
+	<div class="flex flex-col gap-4">
 		<div>
 			<h3 class="text-xl font-bold text-foreground">Buttons</h3>
 			<p class="text-xs sm:text-sm text-muted-foreground">Semantic buttons, state styling, and interactive button groups.</p>
@@ -38,7 +38,7 @@ const triggerLoading = () => {
 			<div class="card-header">
 				<h4 class="font-semibold text-sm text-foreground">Button Variants</h4>
 			</div>
-			<div class="card-body flex flex-wrap items-center gap-3">
+			<div class="card-body flex flex-wrap items-center gap-2">
 				<button class="btn btn-primary">Primary</button>
 				<button class="btn btn-secondary">Secondary</button>
 				<button class="btn btn-outline">Outline</button>
@@ -54,7 +54,7 @@ const triggerLoading = () => {
 			<div class="card-header">
 				<h4 class="font-semibold text-sm text-foreground">Button Sizes</h4>
 			</div>
-			<div class="card-body flex flex-wrap items-center gap-4">
+			<div class="card-body flex flex-wrap items-center gap-2">
 				<button class="btn btn-primary btn-sm">Small (btn-sm)</button>
 				<button class="btn btn-primary btn-md">Medium (btn-md)</button>
 				<button class="btn btn-primary btn-lg">Large (btn-lg)</button>
@@ -66,7 +66,7 @@ const triggerLoading = () => {
 				<h4 class="font-semibold text-sm text-foreground">Icons & States</h4>
 			</div>
 			<div class="card-body flex flex-col gap-4">
-				<div class="flex flex-wrap items-center gap-3">
+				<div class="flex flex-wrap items-center gap-2">
 					<button class="btn btn-primary">
 						<IconPlus :size="16" />
 						<span>Add Project</span>
@@ -85,7 +85,7 @@ const triggerLoading = () => {
 					</button>
 				</div>
 
-				<div class="flex flex-wrap items-center gap-3 pt-3 border-t border-border">
+				<div class="flex flex-wrap items-center gap-2 pt-3 border-t border-border">
 					<div class="flex items-center gap-2">
 						<button class="btn btn-icon btn-sm btn-secondary" title="Bookmark (btn-sm)">
 							<IconBookmark :size="14" />
@@ -120,7 +120,7 @@ const triggerLoading = () => {
 			<div class="card-header">
 				<h4 class="font-semibold text-sm text-foreground">Button Groups</h4>
 			</div>
-			<div class="card-body flex flex-col gap-6">
+			<div class="card-body flex flex-col gap-4">
 				<div>
 					<p class="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Segmented Filter</p>
 					<div class="btn-group">

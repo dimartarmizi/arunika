@@ -24,7 +24,7 @@ const resetTags = () => {
 </script>
 
 <template>
-	<div class="flex flex-col gap-6">
+	<div class="flex flex-col gap-4">
 		<div class="flex items-center justify-between">
 			<div>
 				<h3 class="text-xl font-bold text-foreground">Badges</h3>
@@ -39,7 +39,7 @@ const resetTags = () => {
 			<div class="card-header">
 				<h4 class="font-semibold text-sm text-foreground">Soft / Light Variants</h4>
 			</div>
-			<div class="card-body flex flex-wrap items-center gap-3">
+			<div class="card-body flex flex-wrap items-center gap-2">
 				<BaseBadge variant="primary">Primary</BaseBadge>
 				<BaseBadge variant="secondary">Secondary</BaseBadge>
 				<BaseBadge variant="success">Success</BaseBadge>
@@ -55,7 +55,7 @@ const resetTags = () => {
 			<div class="card-header">
 				<h4 class="font-semibold text-sm text-foreground">Solid / Filled Variants</h4>
 			</div>
-			<div class="card-body flex flex-wrap items-center gap-3">
+			<div class="card-body flex flex-wrap items-center gap-2">
 				<BaseBadge variant="primary" solid>Primary</BaseBadge>
 				<BaseBadge variant="success" solid>Success</BaseBadge>
 				<BaseBadge variant="warning" solid>Warning</BaseBadge>
@@ -68,7 +68,7 @@ const resetTags = () => {
 			<div class="card-header">
 				<h4 class="font-semibold text-sm text-foreground">Outline Variants</h4>
 			</div>
-			<div class="card-body flex flex-wrap items-center gap-3">
+			<div class="card-body flex flex-wrap items-center gap-2">
 				<BaseBadge variant="primary" outline>Primary</BaseBadge>
 				<BaseBadge variant="success" outline>Success</BaseBadge>
 				<BaseBadge variant="warning" outline>Warning</BaseBadge>
@@ -78,12 +78,12 @@ const resetTags = () => {
 			</div>
 		</div>
 
-		<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-			<div class="card">
+		<div class="flex flex-col md:flex-row gap-4">
+			<div class="card flex-1">
 				<div class="card-header">
 					<h4 class="font-semibold text-sm text-foreground">Sizes</h4>
 				</div>
-				<div class="card-body flex flex-wrap items-center gap-4">
+				<div class="card-body flex flex-wrap items-center gap-2">
 					<div class="flex items-center gap-2">
 						<BaseBadge variant="primary" size="sm">Small (sm)</BaseBadge>
 						<BaseBadge variant="primary" size="md">Medium (md)</BaseBadge>
@@ -97,18 +97,18 @@ const resetTags = () => {
 				</div>
 			</div>
 
-			<div class="card">
+			<div class="card flex-1">
 				<div class="card-header">
 					<h4 class="font-semibold text-sm text-foreground">Status Dots</h4>
 				</div>
-				<div class="card-body flex flex-wrap items-center gap-3">
+				<div class="card-body flex flex-wrap items-center gap-2">
 					<BaseBadge variant="success" dot>Active</BaseBadge>
 					<BaseBadge variant="warning" dot>Pending</BaseBadge>
 					<BaseBadge variant="destructive" dot>Inactive</BaseBadge>
 					<BaseBadge variant="info" dot>In Progress</BaseBadge>
 					<BaseBadge variant="neutral" dot>Draft</BaseBadge>
 
-					<div class="flex flex-wrap items-center gap-3 pt-3 border-t border-border w-full">
+					<div class="flex flex-wrap items-center gap-2 pt-3 border-t border-border w-full">
 						<BaseBadge variant="success" solid dot>Online</BaseBadge>
 						<BaseBadge variant="warning" solid dot>Away</BaseBadge>
 						<BaseBadge variant="destructive" solid dot>Offline</BaseBadge>
@@ -117,12 +117,12 @@ const resetTags = () => {
 			</div>
 		</div>
 
-		<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-			<div class="card">
+		<div class="flex flex-col md:flex-row gap-4">
+			<div class="card flex-1">
 				<div class="card-header">
 					<h4 class="font-semibold text-sm text-foreground">With Icons</h4>
 				</div>
-				<div class="card-body flex flex-wrap items-center gap-3">
+				<div class="card-body flex flex-wrap items-center gap-2">
 					<BaseBadge variant="primary">
 						<IconStar :size="13" />
 						<span>Featured</span>
@@ -163,7 +163,7 @@ const resetTags = () => {
 			<div class="card-header">
 				<h4 class="font-semibold text-sm text-foreground">Positioned Notification Indicators</h4>
 			</div>
-			<div class="card-body flex flex-wrap items-center gap-8">
+			<div class="card-body flex flex-wrap items-center gap-4">
 				<button class="btn btn-outline relative">
 					<IconBell :size="18" />
 					<span>Notifications</span>

@@ -105,7 +105,7 @@ const products = ref([
 			mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
 		]" @click.stop>
 			<div class="h-16 flex items-center justify-between px-4 border-b border-border">
-				<router-link to="/" class="flex items-center gap-3" @click="mobileMenuOpen = false">
+				<router-link to="/" class="flex items-center gap-2" @click="mobileMenuOpen = false">
 					<div class="icon-box icon-box-md icon-box-primary shadow-sm shrink-0">
 						<IconBuildingStore :size="20" />
 					</div>
@@ -209,14 +209,14 @@ const products = ref([
 		</aside>
 
 		<header class="sticky top-0 z-40 bg-card border-b border-border/80 shadow-xs">
-			<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-6">
-				<div class="flex items-center gap-3 md:gap-6">
-					<div class="flex items-center gap-3 shrink-0">
+			<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+				<div class="flex items-center gap-4">
+					<div class="flex items-center gap-2 shrink-0">
 						<button type="button" @click.stop="mobileMenuOpen = !mobileMenuOpen" class="md:hidden p-2 rounded-xl text-muted-foreground hover:text-foreground hover:bg-muted transition cursor-pointer" aria-label="Toggle menu">
 							<IconMenu2 :size="20" />
 						</button>
 
-						<router-link to="/" class="flex items-center gap-3 shrink-0">
+						<router-link to="/" class="flex items-center gap-2 shrink-0">
 							<div class="icon-box icon-box-md icon-box-primary shadow-sm">
 								<IconBuildingStore :size="20" />
 							</div>
@@ -366,9 +366,9 @@ const products = ref([
 			</div>
 		</header>
 
-		<main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col gap-6">
-			<section aria-label="Key metrics" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-				<article v-for="metric in metrics" :key="metric.label" class="card p-5 flex flex-col justify-between">
+		<main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col gap-4">
+			<section aria-label="Key metrics" class="flex flex-col sm:flex-row flex-wrap gap-4">
+				<article v-for="metric in metrics" :key="metric.label" class="card p-5 flex-1 min-w-[200px] flex flex-col justify-between">
 					<span class="text-xs font-medium text-muted-foreground">{{ metric.label }}</span>
 					<div class="flex items-baseline justify-between mt-2">
 						<span class="text-2xl font-bold text-foreground">{{ metric.value }}</span>
@@ -414,7 +414,7 @@ const products = ref([
 					</template>
 
 					<template #cell(actions)>
-						<div class="inline-flex items-center gap-1">
+						<div class="inline-flex items-center gap-1.5">
 							<button class="btn btn-ghost btn-icon" title="View details">
 								<IconEye :size="16" />
 							</button>

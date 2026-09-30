@@ -80,14 +80,14 @@ const iconItems = [
 </script>
 
 <template>
-	<div class="flex flex-col gap-6">
+	<div class="flex flex-col gap-4">
 		<div>
 			<h3 class="text-xl font-bold text-foreground">Accordion</h3>
 			<p class="text-xs sm:text-sm text-muted-foreground">Expandable collapse sections for FAQs, segmented settings, and collapsible content.</p>
 		</div>
 
-		<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-			<div class="card">
+		<div class="flex flex-col lg:flex-row gap-4">
+			<div class="card flex-1">
 				<div class="card-header">
 					<h4 class="font-semibold text-sm text-foreground">Basic (Single Expand)</h4>
 				</div>
@@ -96,7 +96,7 @@ const iconItems = [
 				</div>
 			</div>
 
-			<div class="card">
+			<div class="card flex-1">
 				<div class="card-header">
 					<h4 class="font-semibold text-sm text-foreground">Multiple Expand (Always Open)</h4>
 				</div>
@@ -115,8 +115,8 @@ const iconItems = [
 			</div>
 		</div>
 
-		<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-			<div class="card">
+		<div class="flex flex-col lg:flex-row gap-4">
+			<div class="card flex-1">
 				<div class="card-header">
 					<h4 class="font-semibold text-sm text-foreground">Flush Variant (Border-free)</h4>
 				</div>
@@ -125,7 +125,7 @@ const iconItems = [
 				</div>
 			</div>
 
-			<div class="card">
+			<div class="card flex-1">
 				<div class="card-header flex items-center justify-between">
 					<h4 class="font-semibold text-sm text-foreground">Native HTML5 &lt;details&gt; (Zero JS)</h4>
 				</div>

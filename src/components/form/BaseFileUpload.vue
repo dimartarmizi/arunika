@@ -467,7 +467,7 @@ const computedError = computed(() => {
 		</p>
 
 		<div v-if="items.length > 0" class="flex flex-col gap-2 mt-1">
-			<div v-for="(item, idx) in items" :key="item.id" class="relative p-2.5 rounded-xl border border-border bg-card flex items-center gap-3 overflow-hidden shadow-xs">
+			<div v-for="(item, idx) in items" :key="item.id" class="relative p-2.5 rounded-xl border border-border bg-card flex items-center gap-4 overflow-hidden shadow-xs">
 				<div class="size-11 rounded-lg bg-muted flex items-center justify-center shrink-0 overflow-hidden border border-border">
 					<img v-if="item.preview" :src="item.preview" class="size-full object-cover" alt="preview" />
 					<component v-else :is="getFileIcon(item.file)" :size="20" class="text-muted-foreground" />

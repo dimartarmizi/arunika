@@ -69,7 +69,7 @@ const feedbackMessage = computed(() => {
 		</label>
 
 		<label v-if="dropzone" :class="[
-			'flex items-center justify-center gap-3 px-4 py-2.5 border-2 border-dashed rounded-xl transition group h-[42px]',
+			'flex items-center justify-center gap-2 px-4 py-2.5 border-2 border-dashed rounded-xl transition group h-[42px]',
 			disabled ? 'opacity-50 cursor-not-allowed bg-muted border-border' : 'cursor-pointer',
 			computedState === 'error' ? 'border-destructive bg-destructive-soft' : '',
 			computedState === 'success' ? 'border-success bg-success-soft' : '',

@@ -76,7 +76,7 @@ const toggle = (id) => {
 		<div v-for="(item, index) in items" :key="item.id ?? index" :class="['accordion-item', item.class || '']">
 			<button type="button" @click="toggle(item.id ?? index)" class="accordion-header group" :aria-expanded="isOpen(item.id ?? index)">
 				<slot name="header" :item="item" :is-open="isOpen(item.id ?? index)" :index="index">
-					<div class="flex items-center gap-3 min-w-0 pr-2">
+					<div class="flex items-center gap-2 min-w-0 pr-2">
 						<component :is="item.icon" v-if="item.icon" :size="18" class="text-muted-foreground shrink-0" />
 						<span class="truncate">{{ item.title }}</span>
 						<span v-if="item.badge" :class="['badge badge-sm shrink-0', item.badgeVariant ? `badge-${item.badgeVariant}` : 'badge-primary']">

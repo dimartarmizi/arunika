@@ -23,7 +23,7 @@ const removeToast = (id) => {
 </script>
 
 <template>
-	<div class="flex flex-col gap-6">
+	<div class="flex flex-col gap-4">
 		<div>
 			<h3 class="text-xl font-bold text-foreground">Toasts</h3>
 			<p class="text-xs sm:text-sm text-muted-foreground">Floating notifications stacked in any screen corner.</p>
@@ -34,7 +34,7 @@ const removeToast = (id) => {
 				<h4 class="font-semibold text-sm text-foreground">Trigger Toast Notifications</h4>
 			</div>
 			<div class="card-body flex flex-col gap-4">
-				<div class="flex flex-wrap items-center gap-3">
+				<div class="flex flex-wrap items-center gap-2">
 					<button @click="addToast('success', 'Success!', 'Changes saved to server successfully.')" class="btn btn-primary">
 						Trigger Success Toast
 					</button>
@@ -81,24 +81,24 @@ const removeToast = (id) => {
 				<h4 class="font-semibold text-sm text-foreground">Static Toast Variations</h4>
 			</div>
 			<div class="card-body">
-				<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-					<BaseToast variant="success" title="Success Notification" :dismissible="false">
+				<div class="flex flex-col md:flex-row flex-wrap gap-4">
+					<BaseToast variant="success" title="Success Notification" :dismissible="false" class="flex-1 min-w-[240px]">
 						Your payment transaction was processed.
 					</BaseToast>
 
-					<BaseToast variant="info" title="Info Notification" :dismissible="false">
+					<BaseToast variant="info" title="Info Notification" :dismissible="false" class="flex-1 min-w-[240px]">
 						Maintenance scheduled at midnight.
 					</BaseToast>
 
-					<BaseToast variant="warning" title="Warning Notification" :dismissible="false">
+					<BaseToast variant="warning" title="Warning Notification" :dismissible="false" class="flex-1 min-w-[240px]">
 						API token will expire in 2 days.
 					</BaseToast>
 
-					<BaseToast variant="error" title="Error Notification" :dismissible="false">
+					<BaseToast variant="error" title="Error Notification" :dismissible="false" class="flex-1 min-w-[240px]">
 						Unable to delete user profile.
 					</BaseToast>
 
-					<BaseToast variant="neutral" title="Dark Neutral Notification" :dismissible="false">
+					<BaseToast variant="neutral" title="Dark Neutral Notification" :dismissible="false" class="flex-1 min-w-[240px]">
 						Saved draft automatically.
 					</BaseToast>
 				</div>

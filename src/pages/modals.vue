@@ -15,7 +15,7 @@ const newProjectDesc = ref('')
 </script>
 
 <template>
-	<div class="flex flex-col gap-6">
+	<div class="flex flex-col gap-4">
 		<div>
 			<h3 class="text-xl font-bold text-foreground">Modals</h3>
 			<p class="text-xs sm:text-sm text-muted-foreground">Dialog windows rendered on top of the main document view.</p>
@@ -26,7 +26,7 @@ const newProjectDesc = ref('')
 				<h4 class="font-semibold text-sm text-foreground">Modal Triggers</h4>
 			</div>
 			<div class="card-body">
-				<div class="flex flex-wrap gap-3">
+				<div class="flex flex-wrap gap-2">
 					<button @click="showBasicModal = true" class="btn btn-outline">
 						Standard Modal
 					</button>
@@ -56,7 +56,7 @@ const newProjectDesc = ref('')
 		</BaseModal>
 
 		<BaseModal v-model="showConfirmModal" title="Delete User Account" size="sm">
-			<div class="flex items-start gap-3">
+			<div class="flex items-start gap-4">
 				<div class="icon-box icon-box-md bg-destructive-soft text-destructive shrink-0">
 					<IconAlertTriangle :size="20" />
 				</div>
@@ -88,7 +88,7 @@ const newProjectDesc = ref('')
 		</BaseModal>
 
 		<BaseModal v-model="showLargeModal" title="Detailed Audit Log" size="lg">
-			<div class="flex flex-col gap-3">
+			<div class="flex flex-col gap-4">
 				<p class="text-xs text-muted-foreground">Showing recent activity recorded by the system kernel:</p>
 				<div class="bg-background p-4 rounded-xl border border-border text-xs font-mono text-muted-foreground flex flex-col gap-1.5 overflow-x-auto">
 					<p>[2026-09-25 10:14:02] AUTH: User admin@arunika.io logged in successfully.</p>
