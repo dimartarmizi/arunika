@@ -71,6 +71,35 @@ onUnmounted(() => {
 	window.removeEventListener('click', closeDropdowns)
 })
 
+const navItems = [
+	{ to: '/', label: 'Dashboard', icon: IconLayoutDashboard },
+	{
+		key: 'forms',
+		label: 'Forms & Tables',
+		icon: IconForms,
+		children: [
+			{ to: '/form-elements', label: 'Form Elements', icon: IconForms },
+			{ to: '/tables', label: 'Data Tables', icon: IconTable }
+		]
+	},
+	{
+		key: 'components',
+		label: 'UI Components',
+		icon: IconComponents,
+		children: [
+			{ to: '/accordion', label: 'Accordion', icon: IconLayoutList },
+			{ to: '/alerts', label: 'Alerts', icon: IconBell },
+			{ to: '/badges', label: 'Badges', icon: IconBadge },
+			{ to: '/buttons', label: 'Buttons', icon: IconClick },
+			{ to: '/modals', label: 'Modals', icon: IconAppWindow },
+			{ to: '/tabs', label: 'Tabs', icon: IconFolders },
+			{ to: '/toasts', label: 'Toasts', icon: IconNotification },
+			{ to: '/tooltips', label: 'Tooltips', icon: IconHelpCircle }
+		]
+	},
+	{ to: '/users', label: 'Users', icon: IconUsers }
+]
+
 const metrics = [
 	{ label: 'Total Revenue', value: '$48,250', change: '+12.5%', isUp: true },
 	{ label: 'Active Users', value: '2,840', change: '+8.1%', isUp: true },
@@ -132,79 +161,31 @@ const products = ref([
 			</div>
 
 			<div class="p-3 flex-1 overflow-y-auto flex flex-col gap-1">
-				<router-link to="/" @click="mobileMenuOpen = false" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium transition hover:bg-muted" :class="route.path === '/' ? 'bg-primary-soft text-primary' : 'text-foreground'">
-					<IconLayoutDashboard :size="18" />
-					<span>Dashboard</span>
-				</router-link>
+				<template v-for="item in navItems" :key="item.label">
+					<router-link v-if="!item.children" :to="item.to" @click="mobileMenuOpen = false" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium transition hover:bg-muted" :class="route.path === item.to ? 'bg-primary-soft text-primary' : 'text-foreground'">
+						<component :is="item.icon" :size="18" />
+						<span>{{ item.label }}</span>
+					</router-link>
 
-				<div>
-					<button type="button" @click="toggleMobileSubmenu('forms')" class="w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm font-medium text-foreground hover:bg-muted transition cursor-pointer">
-						<span class="flex items-center gap-2.5">
-							<IconForms :size="18" class="text-muted-foreground" />
-							<span>Forms & Tables</span>
-						</span>
-						<IconChevronDown :size="16" :class="['transition-transform duration-200', mobileSubmenu === 'forms' ? 'rotate-180' : '']" />
-					</button>
-					<div v-if="mobileSubmenu === 'forms'" class="pl-6 pr-2 py-1 flex flex-col gap-0.5">
-						<router-link to="/form-elements" @click="mobileMenuOpen = false" class="flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-muted transition">
-							<IconForms :size="16" />
-							<span>Form Elements</span>
-						</router-link>
-						<router-link to="/tables" @click="mobileMenuOpen = false" class="flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-muted transition">
-							<IconTable :size="16" />
-							<span>Data Tables</span>
-						</router-link>
+					<div v-else>
+						<button type="button" @click="toggleMobileSubmenu(item.key)" class="w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm font-medium text-foreground hover:bg-muted transition cursor-pointer">
+							<span class="flex items-center gap-2.5">
+								<component :is="item.icon" :size="18" class="text-foreground" />
+								<span>{{ item.label }}</span>
+							</span>
+							<IconChevronDown :size="16" :class="['transition-transform duration-200', mobileSubmenu === item.key ? 'rotate-180' : '']" />
+						</button>
+						<div v-if="mobileSubmenu === item.key" class="relative ml-5 pl-4 py-1 flex flex-col gap-0.5">
+							<router-link v-for="(sub, subIdx) in item.children" :key="sub.to" :to="sub.to" @click="mobileMenuOpen = false" class="relative flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium text-foreground hover:bg-muted transition" :class="route.path === sub.to ? 'bg-primary-soft text-primary!' : ''">
+								<span class="absolute -left-4 w-px bg-border pointer-events-none" :class="subIdx === item.children.length - 1 ? 'top-0 h-1/2' : 'top-0 h-full'"></span>
+								<span class="absolute -left-4 top-1/2 w-3 h-px bg-border pointer-events-none"></span>
+
+								<component :is="sub.icon" :size="16" />
+								<span>{{ sub.label }}</span>
+							</router-link>
+						</div>
 					</div>
-				</div>
-
-				<div>
-					<button type="button" @click="toggleMobileSubmenu('components')" class="w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm font-medium text-foreground hover:bg-muted transition cursor-pointer">
-						<span class="flex items-center gap-2.5">
-							<IconComponents :size="18" class="text-muted-foreground" />
-							<span>UI Components</span>
-						</span>
-						<IconChevronDown :size="16" :class="['transition-transform duration-200', mobileSubmenu === 'components' ? 'rotate-180' : '']" />
-					</button>
-					<div v-if="mobileSubmenu === 'components'" class="pl-6 pr-2 py-1 flex flex-col gap-0.5">
-						<router-link to="/accordion" @click="mobileMenuOpen = false" class="flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-muted transition">
-							<IconLayoutList :size="16" />
-							<span>Accordion</span>
-						</router-link>
-						<router-link to="/alerts" @click="mobileMenuOpen = false" class="flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-muted transition">
-							<IconBell :size="16" />
-							<span>Alerts</span>
-						</router-link>
-						<router-link to="/badges" @click="mobileMenuOpen = false" class="flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-muted transition">
-							<IconBadge :size="16" />
-							<span>Badges</span>
-						</router-link>
-						<router-link to="/buttons" @click="mobileMenuOpen = false" class="flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-muted transition">
-							<IconClick :size="16" />
-							<span>Buttons</span>
-						</router-link>
-						<router-link to="/modals" @click="mobileMenuOpen = false" class="flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-muted transition">
-							<IconAppWindow :size="16" />
-							<span>Modals</span>
-						</router-link>
-						<router-link to="/tabs" @click="mobileMenuOpen = false" class="flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-muted transition">
-							<IconFolders :size="16" />
-							<span>Tabs</span>
-						</router-link>
-						<router-link to="/toasts" @click="mobileMenuOpen = false" class="flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-muted transition">
-							<IconNotification :size="16" />
-							<span>Toasts</span>
-						</router-link>
-						<router-link to="/tooltips" @click="mobileMenuOpen = false" class="flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-muted transition">
-							<IconHelpCircle :size="16" />
-							<span>Tooltips</span>
-						</router-link>
-					</div>
-				</div>
-
-				<router-link to="/users" @click="mobileMenuOpen = false" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium transition hover:bg-muted" :class="route.path === '/users' ? 'bg-primary-soft text-primary' : 'text-foreground'">
-					<IconUsers :size="18" />
-					<span>Users</span>
-				</router-link>
+				</template>
 			</div>
 		</aside>
 
@@ -227,87 +208,37 @@ const products = ref([
 					<div class="h-6 w-px bg-muted hidden md:block"></div>
 
 					<nav class="hidden md:flex items-center gap-1.5">
-						<router-link to="/" class="px-3.5 py-2 rounded-lg text-sm font-medium flex items-center gap-2 bg-primary-soft text-primary transition">
-							<IconLayoutDashboard :size="18" />
-							<span>Dashboard</span>
-						</router-link>
-
-						<div class="relative" @click.stop>
-							<button @click="toggleDropdown('forms')" :class="[
-								'px-3.5 py-2 rounded-lg text-sm font-medium flex items-center gap-1.5 transition cursor-pointer',
-								activeDropdown === 'forms'
-									? 'bg-muted text-foreground'
+						<template v-for="item in navItems" :key="item.label">
+							<router-link v-if="!item.children" :to="item.to" :class="[
+								'px-3.5 py-2 rounded-lg text-sm font-medium flex items-center gap-2 transition',
+								route.path === item.to
+									? 'bg-primary-soft text-primary'
 									: 'text-muted-foreground hover:text-foreground hover:bg-muted'
 							]">
-								<IconForms :size="18" />
-								<span>Forms & Tables</span>
-								<IconChevronDown :size="16" :class="['transition-transform duration-200', activeDropdown === 'forms' ? 'rotate-180' : '']" />
-							</button>
+								<component :is="item.icon" :size="18" />
+								<span>{{ item.label }}</span>
+							</router-link>
 
-							<div v-if="activeDropdown === 'forms'" class="absolute top-full left-0 mt-2 w-52 bg-card rounded-xl shadow-xl border border-border/80 p-1.5 z-50 flex flex-col gap-0.5">
-								<router-link to="/form-elements" @click="closeDropdowns" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-normal text-muted-foreground hover:bg-muted hover:text-foreground transition">
-									<IconForms :size="18" class="text-muted-foreground" />
-									<span>Form Elements</span>
-								</router-link>
-								<router-link to="/tables" @click="closeDropdowns" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-normal text-muted-foreground hover:bg-muted hover:text-foreground transition">
-									<IconTable :size="18" class="text-muted-foreground" />
-									<span>Data Tables</span>
-								</router-link>
+							<div v-else class="relative" @click.stop>
+								<button @click="toggleDropdown(item.key)" :class="[
+									'px-3.5 py-2 rounded-lg text-sm font-medium flex items-center gap-1.5 transition cursor-pointer',
+									activeDropdown === item.key
+										? 'bg-muted text-foreground'
+										: 'text-muted-foreground hover:text-foreground hover:bg-muted'
+								]">
+									<component :is="item.icon" :size="18" />
+									<span>{{ item.label }}</span>
+									<IconChevronDown :size="16" :class="['transition-transform duration-200', activeDropdown === item.key ? 'rotate-180' : '']" />
+								</button>
+
+								<div v-if="activeDropdown === item.key" class="absolute top-full left-0 mt-2 min-w-[13rem] bg-card rounded-xl shadow-xl border border-border/80 p-1.5 z-50 flex flex-col gap-0.5">
+									<router-link v-for="sub in item.children" :key="sub.to" :to="sub.to" @click="closeDropdowns" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-normal text-muted-foreground hover:bg-muted hover:text-foreground transition" :class="route.path === sub.to ? 'bg-primary-soft text-primary' : ''">
+										<component :is="sub.icon" :size="18" class="text-muted-foreground" />
+										<span>{{ sub.label }}</span>
+									</router-link>
+								</div>
 							</div>
-						</div>
-
-						<div class="relative" @click.stop>
-							<button @click="toggleDropdown('components')" :class="[
-								'px-3.5 py-2 rounded-lg text-sm font-medium flex items-center gap-1.5 transition cursor-pointer',
-								activeDropdown === 'components'
-									? 'bg-muted text-foreground'
-									: 'text-muted-foreground hover:text-foreground hover:bg-muted'
-							]">
-								<IconComponents :size="18" />
-								<span>UI Components</span>
-								<IconChevronDown :size="16" :class="['transition-transform duration-200', activeDropdown === 'components' ? 'rotate-180' : '']" />
-							</button>
-
-							<div v-if="activeDropdown === 'components'" class="absolute top-full left-0 mt-2 w-56 bg-card rounded-xl shadow-xl border border-border/80 p-1.5 z-50 flex flex-col gap-0.5">
-								<router-link to="/accordion" @click="closeDropdowns" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-normal text-muted-foreground hover:bg-muted hover:text-foreground transition">
-									<IconLayoutList :size="18" class="text-muted-foreground" />
-									<span>Accordion</span>
-								</router-link>
-								<router-link to="/alerts" @click="closeDropdowns" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-normal text-muted-foreground hover:bg-muted hover:text-foreground transition">
-									<IconBell :size="18" class="text-muted-foreground" />
-									<span>Alerts</span>
-								</router-link>
-								<router-link to="/badges" @click="closeDropdowns" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-normal text-muted-foreground hover:bg-muted hover:text-foreground transition">
-									<IconBadge :size="18" class="text-muted-foreground" />
-									<span>Badges</span>
-								</router-link>
-								<router-link to="/buttons" @click="closeDropdowns" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-normal text-muted-foreground hover:bg-muted hover:text-foreground transition">
-									<IconClick :size="18" class="text-muted-foreground" />
-									<span>Buttons</span>
-								</router-link>
-								<router-link to="/modals" @click="closeDropdowns" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-normal text-muted-foreground hover:bg-muted hover:text-foreground transition">
-									<IconAppWindow :size="18" class="text-muted-foreground" />
-									<span>Modals</span>
-								</router-link>
-								<router-link to="/tabs" @click="closeDropdowns" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-normal text-muted-foreground hover:bg-muted hover:text-foreground transition">
-									<IconFolders :size="18" class="text-muted-foreground" />
-									<span>Tabs</span>
-								</router-link>
-								<router-link to="/toasts" @click="closeDropdowns" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-normal text-muted-foreground hover:bg-muted hover:text-foreground transition">
-									<IconNotification :size="18" class="text-muted-foreground" />
-									<span>Toasts</span>
-								</router-link>
-								<router-link to="/tooltips" @click="closeDropdowns" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-normal text-muted-foreground hover:bg-muted hover:text-foreground transition">
-									<IconHelpCircle :size="18" class="text-muted-foreground" />
-									<span>Tooltips</span>
-								</router-link>
-							</div>
-						</div>
-
-						<router-link to="/users" class="px-3.5 py-2 rounded-lg text-sm font-medium flex items-center gap-2 text-muted-foreground hover:text-foreground hover:bg-muted transition">
-							<IconUsers :size="18" />
-							<span>Users</span>
-						</router-link>
+						</template>
 					</nav>
 				</div>
 
