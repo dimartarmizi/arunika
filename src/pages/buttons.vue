@@ -1,5 +1,4 @@
 <script setup>
-import { ref } from 'vue'
 import {
 	IconPlus,
 	IconTrash,
@@ -14,6 +13,7 @@ import {
 	IconBookmark,
 	IconCopy
 } from '@tabler/icons-vue'
+import { ref } from 'vue'
 
 const activePeriod = ref('month')
 const activeAlign = ref('left')

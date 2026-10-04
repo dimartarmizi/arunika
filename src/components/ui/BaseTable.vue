@@ -1,9 +1,8 @@
 <script setup>
-import { ref, computed, watch, unref, onUnmounted } from 'vue'
-import BaseInput from '../form/BaseInput.vue'
-import BaseSelect from '../form/BaseSelect.vue'
 import BaseCheckbox from '../form/BaseCheckbox.vue'
 import BaseDatePicker from '../form/BaseDatePicker.vue'
+import BaseInput from '../form/BaseInput.vue'
+import BaseSelect from '../form/BaseSelect.vue'
 import {
 	IconSearch,
 	IconChevronUp,
@@ -21,6 +20,7 @@ import {
 	IconTrash,
 	IconX
 } from '@tabler/icons-vue'
+import { ref, computed, watch, unref, onUnmounted } from 'vue'
 
 const props = defineProps({
 	columns: {

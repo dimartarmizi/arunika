@@ -1,5 +1,4 @@
 <script setup>
-import { ref, computed, onMounted, onUnmounted, nextTick, watch } from 'vue'
 import {
 	IconChevronDown,
 	IconCheck,
@@ -11,6 +10,7 @@ import {
 	IconLoader2,
 	IconPlus
 } from '@tabler/icons-vue'
+import { ref, computed, onMounted, onUnmounted, nextTick, watch } from 'vue'
 
 const props = defineProps({
 	modelValue: {

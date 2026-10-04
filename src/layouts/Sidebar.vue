@@ -1,6 +1,4 @@
 <script setup>
-import { ref, onMounted, onUnmounted, nextTick, watch } from 'vue'
-import { useRoute } from 'vue-router'
 import {
 	IconLayoutDashboard,
 	IconUsers,
@@ -29,6 +27,8 @@ import {
 	IconUser,
 	IconMenu2
 } from '@tabler/icons-vue'
+import { ref, onMounted, onUnmounted, nextTick, watch } from 'vue'
+import { useRoute } from 'vue-router'
 
 defineProps({
 	open: {

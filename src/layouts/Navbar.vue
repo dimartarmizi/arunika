@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { useTheme } from '../composables/useTheme'
 import {
 	IconMenu2,
 	IconSearch,
@@ -10,7 +10,7 @@ import {
 	IconSun,
 	IconMoon
 } from '@tabler/icons-vue'
-import { useTheme } from '../composables/useTheme'
+import { ref, onMounted, onUnmounted } from 'vue'
 
 defineProps({
 	user: {

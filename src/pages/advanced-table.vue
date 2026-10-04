@@ -1,7 +1,7 @@
 <script setup>
-import { ref } from 'vue'
 import BaseTable from '../components/ui/BaseTable.vue'
 import { IconPencil, IconTrash, IconEye, IconRefresh, IconAlertTriangle, IconDownload, IconPlus } from '@tabler/icons-vue'
+import { ref } from 'vue'
 
 const advancedColumns = [
 	{ key: 'id', label: 'ID', width: '80px', sortable: true, filterType: 'number-range' },
@@ -82,59 +82,55 @@ const handleBulkAction = ({ action, ids }) => {
 			</div>
 		</div>
 
-		<div class="card overflow-hidden">
-			<div class="card-body">
-				<BaseTable advanced :columns="advancedColumns" :data="products" :loading="isLoading" :error="errorMessage" :default-page-size="10" sticky-header max-height="600px" @retry="handleRetry" @bulk-action="handleBulkAction">
-					<template #toolbar>
-						<button class="btn btn-primary h-9 px-3 gap-1.5">
-							<IconPlus :size="16" />
-							<span class="hidden sm:inline">Add Product</span>
-						</button>
-					</template>
+		<BaseTable advanced :columns="advancedColumns" :data="products" :loading="isLoading" :error="errorMessage" :default-page-size="10" sticky-header max-height="600px" @retry="handleRetry" @bulk-action="handleBulkAction">
+			<template #toolbar>
+				<button class="btn btn-primary h-9 px-3 gap-1.5">
+					<IconPlus :size="16" />
+					<span class="hidden sm:inline">Add Product</span>
+				</button>
+			</template>
 
-					<template #cell(product)="{ value }">
-						<span class="font-medium text-foreground text-xs sm:text-sm">{{ value }}</span>
-					</template>
+			<template #cell(product)="{ value }">
+				<span class="font-medium text-foreground text-xs sm:text-sm">{{ value }}</span>
+			</template>
 
-					<template #cell(category)="{ value }">
-						<span class="text-xs text-muted-foreground bg-muted px-2 py-0.5 rounded-md font-medium">{{ value }}</span>
-					</template>
+			<template #cell(category)="{ value }">
+				<span class="text-xs text-muted-foreground bg-muted px-2 py-0.5 rounded-md font-medium">{{ value }}</span>
+			</template>
 
-					<template #cell(stock)="{ value }">
-						<span class="text-xs font-semibold" :class="value === 0 ? 'text-destructive' : value < 10 ? 'text-warning' : 'text-muted-foreground'">
-							{{ value }}
-						</span>
-					</template>
+			<template #cell(stock)="{ value }">
+				<span class="text-xs font-semibold" :class="value === 0 ? 'text-destructive' : value < 10 ? 'text-warning' : 'text-muted-foreground'">
+					{{ value }}
+				</span>
+			</template>
 
-					<template #cell(price)="{ value }">
-						<span class="text-xs sm:text-sm font-semibold text-foreground">${{ Number(value).toFixed(2) }}</span>
-					</template>
+			<template #cell(price)="{ value }">
+				<span class="text-xs sm:text-sm font-semibold text-foreground">${{ Number(value).toFixed(2) }}</span>
+			</template>
 
-					<template #cell(status)="{ value }">
-						<span :class="[
-							'badge',
-							value === 'In Stock' ? 'badge-success' :
-								value === 'Low Stock' ? 'badge-warning' : 'badge-destructive'
-						]">
-							{{ value }}
-						</span>
-					</template>
+			<template #cell(status)="{ value }">
+				<span :class="[
+					'badge',
+					value === 'In Stock' ? 'badge-success' :
+						value === 'Low Stock' ? 'badge-warning' : 'badge-destructive'
+				]">
+					{{ value }}
+				</span>
+			</template>
 
-					<template #cell(actions)="{ row }">
-						<div class="inline-flex items-center gap-1.5">
-							<button class="btn btn-ghost btn-icon" title="View details">
-								<IconEye :size="16" />
-							</button>
-							<button class="btn btn-ghost btn-icon hover:text-primary" title="Edit item">
-								<IconPencil :size="16" />
-							</button>
-							<button @click="products = products.filter(p => p.id !== row.id)" class="btn btn-ghost btn-icon hover:text-destructive" title="Delete item">
-								<IconTrash :size="16" />
-							</button>
-						</div>
-					</template>
-				</BaseTable>
-			</div>
-		</div>
+			<template #cell(actions)="{ row }">
+				<div class="inline-flex items-center gap-1.5">
+					<button class="btn btn-ghost btn-icon" title="View details">
+						<IconEye :size="16" />
+					</button>
+					<button class="btn btn-ghost btn-icon hover:text-primary" title="Edit item">
+						<IconPencil :size="16" />
+					</button>
+					<button @click="products = products.filter(p => p.id !== row.id)" class="btn btn-ghost btn-icon hover:text-destructive" title="Delete item">
+						<IconTrash :size="16" />
+					</button>
+				</div>
+			</template>
+		</BaseTable>
 	</div>
 </template>

@@ -1,6 +1,6 @@
 <script setup>
-import { computed, watch, onMounted, onUnmounted } from 'vue'
 import { IconX } from '@tabler/icons-vue'
+import { computed, watch, onMounted, onUnmounted } from 'vue'
 
 const props = defineProps({
 	modelValue: {

@@ -1,5 +1,4 @@
 <script setup>
-import { ref } from 'vue'
 import BaseTabs from '../components/ui/BaseTabs.vue'
 import {
 	IconUser,
@@ -10,6 +9,7 @@ import {
 	IconActivity,
 	IconCode
 } from '@tabler/icons-vue'
+import { ref } from 'vue'
 
 const activeUnderlineTab = ref('account')
 const underlineTabs = [

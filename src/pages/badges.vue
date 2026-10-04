@@ -1,5 +1,4 @@
 <script setup>
-import { ref } from 'vue'
 import BaseBadge from '../components/ui/BaseBadge.vue'
 import {
 	IconCheck,
@@ -11,6 +10,7 @@ import {
 	IconMail,
 	IconShieldCheck
 } from '@tabler/icons-vue'
+import { ref } from 'vue'
 
 const tags = ref(['Vue 3', 'Tailwind CSS', 'Vite', 'TypeScript', 'Arunika'])
 

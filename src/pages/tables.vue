@@ -1,7 +1,7 @@
 <script setup>
-import { ref } from 'vue'
 import BaseTable from '../components/ui/BaseTable.vue'
 import { IconPencil, IconTrash, IconEye } from '@tabler/icons-vue'
+import { ref } from 'vue'
 
 const columns = [
 	{ key: 'product', label: 'Product Name' },

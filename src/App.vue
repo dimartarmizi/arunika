@@ -1,8 +1,8 @@
 <script setup>
+import Navbar from './layouts/Navbar.vue'
+import Sidebar from './layouts/Sidebar.vue'
 import { ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
-import Sidebar from './layouts/Sidebar.vue'
-import Navbar from './layouts/Navbar.vue'
 
 const route = useRoute()
 const sidebarOpen = ref(typeof window !== 'undefined' ? window.innerWidth >= 1024 : true)

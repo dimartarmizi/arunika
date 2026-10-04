@@ -1,6 +1,6 @@
 <script setup>
-import { ref, watch } from 'vue'
 import { IconChevronDown } from '@tabler/icons-vue'
+import { ref, watch } from 'vue'
 
 const props = defineProps({
 	items: {

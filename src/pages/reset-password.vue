@@ -1,9 +1,9 @@
 <script setup>
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
 import BaseInput from '../components/form/BaseInput.vue'
 import BaseAlert from '../components/ui/BaseAlert.vue'
 import { IconBuildingStore, IconLock, IconEye, IconEyeOff, IconArrowLeft } from '@tabler/icons-vue'
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
 const router = useRouter()
 const password = ref('')

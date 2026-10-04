@@ -1,5 +1,4 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
 import {
 	IconBuildingStore,
 	IconLayoutDashboard,
@@ -10,6 +9,7 @@ import {
 	IconLock,
 	IconLogout
 } from '@tabler/icons-vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 
 const profileOpen = ref(false)
 const profileDropdownRef = ref(null)

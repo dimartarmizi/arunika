@@ -1,9 +1,9 @@
 <script setup>
-import { ref } from 'vue'
-import BaseModal from '../components/ui/BaseModal.vue'
 import BaseInput from '../components/form/BaseInput.vue'
 import BaseTextarea from '../components/form/BaseTextarea.vue'
+import BaseModal from '../components/ui/BaseModal.vue'
 import { IconAlertTriangle, IconCheck } from '@tabler/icons-vue'
+import { ref } from 'vue'
 
 const showBasicModal = ref(false)
 const showConfirmModal = ref(false)

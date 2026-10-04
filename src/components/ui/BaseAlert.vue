@@ -1,5 +1,4 @@
 <script setup>
-import { computed } from 'vue'
 import {
 	IconInfoCircle,
 	IconCircleCheck,
@@ -7,6 +6,7 @@ import {
 	IconAlertCircle,
 	IconX
 } from '@tabler/icons-vue'
+import { computed } from 'vue'
 
 const props = defineProps({
 	variant: {

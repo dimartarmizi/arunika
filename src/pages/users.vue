@@ -1,5 +1,7 @@
 <script setup>
-import { ref, computed } from 'vue'
+import BaseInput from '../components/form/BaseInput.vue'
+import BaseSelect from '../components/form/BaseSelect.vue'
+import BaseTable from '../components/ui/BaseTable.vue'
 import {
 	IconSearch,
 	IconFilter,
@@ -7,9 +9,7 @@ import {
 	IconEdit,
 	IconTrash
 } from '@tabler/icons-vue'
-import BaseInput from '../components/form/BaseInput.vue'
-import BaseSelect from '../components/form/BaseSelect.vue'
-import BaseTable from '../components/ui/BaseTable.vue'
+import { ref, computed } from 'vue'
 
 const searchQuery = ref('')
 const selectedRole = ref('All')

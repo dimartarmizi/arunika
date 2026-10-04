@@ -1,11 +1,15 @@
 <script setup>
-import { computed } from 'vue'
-import { IconUpload, IconAlertCircle, IconCircleCheck, IconAlertTriangle } from '@tabler/icons-vue'
+import { IconUpload, IconFile, IconX } from '@tabler/icons-vue'
+import { ref, computed } from 'vue'
 
 const props = defineProps({
 	label: {
 		type: String,
 		default: ''
+	},
+	placeholder: {
+		type: String,
+		default: 'No file chosen'
 	},
 	dropzone: {
 		type: Boolean,
@@ -42,7 +46,9 @@ const props = defineProps({
 	}
 })
 
-defineEmits(['change'])
+const emit = defineEmits(['change'])
+const fileInputRef = ref(null)
+const fileName = ref('')
 
 const computedState = computed(() => {
 	if (props.error) return 'error'
@@ -57,6 +63,21 @@ const feedbackMessage = computed(() => {
 	if (typeof props.warning === 'string' && props.warning) return props.warning
 	return props.hint || ''
 })
+
+const handleFileChange = (e) => {
+	const file = e.target.files?.[0]
+	fileName.value = file ? file.name : ''
+	emit('change', e)
+}
+
+const clearFile = (e) => {
+	e.stopPropagation()
+	if (fileInputRef.value) {
+		fileInputRef.value.value = ''
+	}
+	fileName.value = ''
+	emit('change', { target: { files: [] } })
+}
 </script>
 
 <template>
@@ -69,28 +90,53 @@ const feedbackMessage = computed(() => {
 		</label>
 
 		<label v-if="dropzone" :class="[
-			'flex items-center justify-center gap-2 px-4 py-2.5 border-2 border-dashed rounded-xl transition group h-[42px]',
-			disabled ? 'opacity-50 cursor-not-allowed bg-muted border-border' : 'cursor-pointer',
+			'relative flex items-center justify-center gap-2 px-4 h-[42px] border-2 border-dashed rounded-xl transition group select-none',
+			disabled ? 'opacity-50 cursor-not-allowed bg-muted border-border' : 'cursor-pointer hover:border-primary bg-card/60 hover:bg-primary-soft/40',
 			computedState === 'error' ? 'border-destructive bg-destructive-soft' : '',
 			computedState === 'success' ? 'border-success bg-success-soft' : '',
 			computedState === 'warning' ? 'border-warning bg-warning-soft' : '',
-			!computedState && !disabled ? 'border-border hover:border-primary bg-background/50 hover:bg-primary-soft' : ''
+			!computedState && !disabled ? 'border-border' : ''
 		]">
 			<IconUpload :size="18" class="text-muted-foreground group-hover:text-primary transition shrink-0" />
-			<span class="text-xs text-muted-foreground">
-				<span class="font-semibold text-primary">Choose a file</span> or drag it here
+			<span class="text-xs truncate max-w-[calc(100%-80px)] text-muted-foreground">
+				<template v-if="fileName">
+					<span class="font-medium text-foreground">{{ fileName }}</span>
+				</template>
+				<template v-else>
+					<span class="font-semibold text-primary">Choose a file</span> or drag it here
+				</template>
 			</span>
-			<input type="file" :disabled="disabled" class="hidden" @change="$emit('change', $event)" v-bind="$attrs" />
+			<button v-if="fileName && !disabled" type="button" @click="clearFile" class="text-muted-foreground hover:text-destructive p-0.5 rounded cursor-pointer transition ml-1" title="Remove file">
+				<IconX :size="14" />
+			</button>
+			<input ref="fileInputRef" type="file" :disabled="disabled" class="hidden" @change="handleFileChange" />
 		</label>
 
-		<input v-else type="file" :disabled="disabled" @change="$emit('change', $event)" v-bind="$attrs" :class="[
-			'w-full text-xs text-muted-foreground file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-primary file:text-primary-foreground hover:file:bg-primary-hover file:cursor-pointer file:transition border rounded-xl bg-background focus:outline-none cursor-pointer',
-			computedState === 'error' ? 'border-destructive bg-destructive-soft' : '',
-			computedState === 'success' ? 'border-success bg-success-soft' : '',
-			computedState === 'warning' ? 'border-warning bg-warning-soft' : '',
-			!computedState ? 'border-border' : '',
-			disabled ? 'opacity-50 cursor-not-allowed' : ''
-		]" />
+		<label v-else :class="[
+			'relative flex items-center h-[42px] px-1 border rounded-xl bg-card transition select-none group',
+			disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer hover:border-primary',
+			computedState === 'error' ? 'border-destructive' : '',
+			computedState === 'success' ? 'border-success' : '',
+			computedState === 'warning' ? 'border-warning' : '',
+			!computedState ? 'border-border' : ''
+		]">
+			<span class="btn btn-sm btn-primary shrink-0 pointer-events-none rounded-lg px-3 py-1 font-medium text-xs">
+				Choose File
+			</span>
+
+			<div class="flex items-center gap-1.5 ml-3 flex-1 min-w-0 pr-2">
+				<IconFile v-if="fileName" :size="14" class="text-muted-foreground shrink-0" />
+				<span :class="['text-xs truncate', fileName ? 'text-foreground font-medium' : 'text-muted-foreground']">
+					{{ fileName || placeholder }}
+				</span>
+			</div>
+
+			<button v-if="fileName && !disabled" type="button" @click="clearFile" class="text-muted-foreground hover:text-destructive p-1 rounded cursor-pointer transition shrink-0" title="Remove file">
+				<IconX :size="14" />
+			</button>
+
+			<input ref="fileInputRef" type="file" :disabled="disabled" class="hidden" @change="handleFileChange" />
+		</label>
 
 		<p v-if="feedbackMessage" :class="[
 			computedState === 'error' ? 'form-hint-error' : '',

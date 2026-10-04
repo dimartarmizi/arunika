@@ -1,6 +1,4 @@
 <script setup>
-import { ref, onMounted, onUnmounted, watch } from 'vue'
-import { useRoute } from 'vue-router'
 import BaseTable from '../../components/ui/BaseTable.vue'
 import { useTheme } from '../../composables/useTheme'
 import {
@@ -31,6 +29,8 @@ import {
 	IconSun,
 	IconMoon
 } from '@tabler/icons-vue'
+import { ref, onMounted, onUnmounted, watch } from 'vue'
+import { useRoute } from 'vue-router'
 
 const { isDark, toggleTheme } = useTheme()
 const route = useRoute()

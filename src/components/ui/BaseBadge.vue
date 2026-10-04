@@ -1,6 +1,6 @@
 <script setup>
-import { computed } from 'vue'
 import { IconX } from '@tabler/icons-vue'
+import { computed } from 'vue'
 
 const props = defineProps({
 	variant: {

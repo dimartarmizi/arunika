@@ -1,5 +1,4 @@
 <script setup>
-import { ref, computed, watch, onMounted, onUnmounted, nextTick } from 'vue'
 import {
 	IconCalendar,
 	IconClock,
@@ -10,6 +9,7 @@ import {
 	IconArrowDown,
 	IconCaretDownFilled
 } from '@tabler/icons-vue'
+import { ref, computed, watch, onMounted, onUnmounted, nextTick } from 'vue'
 
 const props = defineProps({
 	modelValue: {
@@ -756,9 +756,9 @@ onUnmounted(() => {
 						</div>
 					</div>
 
-					<div v-if="navMode === 'years'" class="flex flex-wrap gap-2 mb-4">
+					<div v-if="navMode === 'years'" class="grid grid-cols-4 gap-2 mb-4">
 						<button v-for="y in yearsList" :key="y" type="button" @click.stop="selectYearNav(y)" :class="[
-							'py-2 w-[calc(25%-0.375rem)] rounded-lg text-xs font-semibold cursor-pointer transition text-center',
+							'py-2 rounded-lg text-xs font-semibold cursor-pointer transition text-center',
 							viewYear === y
 								? 'bg-primary text-primary-foreground font-bold shadow-xs'
 								: 'text-foreground hover:bg-muted'
@@ -767,9 +767,9 @@ onUnmounted(() => {
 						</button>
 					</div>
 
-					<div v-else class="flex flex-wrap gap-2 mb-4">
+					<div v-else class="grid grid-cols-4 gap-2 mb-4">
 						<button v-for="(mName, idx) in monthShortNames" :key="mName" type="button" @click.stop="selectMonth(idx)" :class="[
-							'py-2 w-[calc(25%-0.375rem)] rounded-lg text-xs font-semibold cursor-pointer transition text-center',
+							'py-2 rounded-lg text-xs font-semibold cursor-pointer transition text-center',
 							selectedMonth && selectedMonth.month === idx && selectedMonth.year === viewYear
 								? 'bg-primary text-primary-foreground font-bold shadow-xs'
 								: 'text-foreground hover:bg-muted'
@@ -805,9 +805,9 @@ onUnmounted(() => {
 						</div>
 
 						<div v-if="navMode === 'years'" class="py-2">
-							<div class="flex flex-wrap gap-2">
+							<div class="grid grid-cols-4 gap-2">
 								<button v-for="y in yearsList" :key="y" type="button" @click.stop="selectYearNav(y)" :class="[
-									'py-2 w-[calc(25%-0.375rem)] rounded-lg text-xs font-semibold cursor-pointer transition text-center',
+									'py-2 rounded-lg text-xs font-semibold cursor-pointer transition text-center',
 									viewYear === y
 										? 'bg-primary text-primary-foreground font-bold shadow-xs'
 										: 'hover:bg-muted text-foreground'
@@ -818,9 +818,9 @@ onUnmounted(() => {
 						</div>
 
 						<div v-else-if="navMode === 'months'" class="py-2">
-							<div class="flex flex-wrap gap-2">
+							<div class="grid grid-cols-3 gap-2">
 								<button v-for="(mName, idx) in monthShortNames" :key="mName" type="button" @click.stop="selectMonth(idx)" :class="[
-									'py-2 w-[calc(33.333%-0.375rem)] rounded-lg text-xs font-semibold cursor-pointer transition text-center',
+									'py-2 rounded-lg text-xs font-semibold cursor-pointer transition text-center',
 									viewMonth === idx
 										? 'bg-primary text-primary-foreground font-bold shadow-xs'
 										: 'hover:bg-muted text-foreground'

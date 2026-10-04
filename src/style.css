@@ -583,6 +583,10 @@
 		@apply border-b border-border gap-4;
 	}
 
+	.card-body .tabs-bordered {
+		@apply -mt-4;
+	}
+
 	.tab {
 		@apply inline-flex items-center gap-2 py-3 px-1 text-sm font-medium text-muted-foreground border-b-2 border-transparent transition cursor-pointer select-none whitespace-nowrap hover:text-foreground;
 	}

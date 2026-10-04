@@ -1,5 +1,4 @@
 <script setup>
-import { ref, computed } from 'vue'
 import {
 	IconUpload,
 	IconX,
@@ -12,6 +11,7 @@ import {
 	IconPlayerPause,
 	IconPlayerPlay
 } from '@tabler/icons-vue'
+import { ref, computed } from 'vue'
 
 const props = defineProps({
 	modelValue: {
@@ -452,7 +452,7 @@ const computedError = computed(() => {
 			</div>
 
 			<p class="text-xs font-semibold text-foreground pointer-events-none">
-				Drag & drop files here, or <span class="text-primary underline underline-offset-2">browse</span>
+				Drag & drop files here, or <span class="text-primary">browse</span>
 			</p>
 			<p class="text-[11px] text-muted-foreground mt-1 pointer-events-none">
 				<span v-if="accept">Accept: {{ accept }} • </span>

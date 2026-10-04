@@ -1,6 +1,4 @@
 <script setup>
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
 import BaseTable from '../components/ui/BaseTable.vue'
 import {
 	IconReceipt,
@@ -15,6 +13,8 @@ import {
 	IconCircleCheck,
 	IconUser
 } from '@tabler/icons-vue'
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
 const router = useRouter()
 

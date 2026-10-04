@@ -1,6 +1,6 @@
 <script setup>
-import { ref } from 'vue'
 import BaseAlert from '../components/ui/BaseAlert.vue'
+import { ref } from 'vue'
 
 const showDismissible = ref(true)
 const resetAlert = () => {

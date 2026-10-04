@@ -1,6 +1,6 @@
 <script setup>
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import BaseCheckbox from '../components/form/BaseCheckbox.vue'
+import BaseInput from '../components/form/BaseInput.vue'
 import {
 	IconBuildingStore,
 	IconUser,
@@ -9,8 +9,8 @@ import {
 	IconEye,
 	IconEyeOff
 } from '@tabler/icons-vue'
-import BaseInput from '../components/form/BaseInput.vue'
-import BaseCheckbox from '../components/form/BaseCheckbox.vue'
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
 const router = useRouter()
 const showPassword = ref(false)

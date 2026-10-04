@@ -1,15 +1,15 @@
 <script setup>
-import { ref } from 'vue'
-import BaseInput from '../components/form/BaseInput.vue'
-import BaseTextarea from '../components/form/BaseTextarea.vue'
-import BaseSelect from '../components/form/BaseSelect.vue'
-import BaseDatePicker from '../components/form/BaseDatePicker.vue'
-import BaseToggle from '../components/form/BaseToggle.vue'
-import BaseRange from '../components/form/BaseRange.vue'
 import BaseCheckbox from '../components/form/BaseCheckbox.vue'
-import BaseRadio from '../components/form/BaseRadio.vue'
+import BaseDatePicker from '../components/form/BaseDatePicker.vue'
 import BaseFileInput from '../components/form/BaseFileInput.vue'
 import BaseFileUpload from '../components/form/BaseFileUpload.vue'
+import BaseInput from '../components/form/BaseInput.vue'
+import BaseRadio from '../components/form/BaseRadio.vue'
+import BaseRange from '../components/form/BaseRange.vue'
+import BaseSelect from '../components/form/BaseSelect.vue'
+import BaseTextarea from '../components/form/BaseTextarea.vue'
+import BaseToggle from '../components/form/BaseToggle.vue'
+import { ref } from 'vue'
 
 const form = ref({
 	text: '',
@@ -214,26 +214,26 @@ const testForm = ref({
 		</div>
 
 		<form @submit.prevent class="card card-body flex flex-col gap-4">
-			<div class="flex flex-wrap gap-4">
-				<BaseInput v-model="form.text" label="Text" placeholder="Full Name" class="w-full md:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.67rem)]" />
-				<BaseInput v-model="form.password" type="password" label="Password" placeholder="Password" class="w-full md:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.67rem)]" />
-				<BaseInput v-model="form.email" type="email" label="Email" placeholder="name@email.com" class="w-full md:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.67rem)]" />
-				<BaseInput v-model="form.number" type="number" label="Number" placeholder="Age" class="w-full md:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.67rem)]" />
-				<BaseInput v-model="form.tel" type="tel" label="Tel" placeholder="+1234567890" class="w-full md:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.67rem)]" />
-				<BaseInput v-model="form.url" type="url" label="URL" placeholder="https://example.com" class="w-full md:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.67rem)]" />
-				<BaseInput v-model="form.search" type="search" label="Search" placeholder="Keywords" class="w-full md:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.67rem)]" />
+			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+				<BaseInput v-model="form.text" label="Text" placeholder="Full Name" />
+				<BaseInput v-model="form.password" type="password" label="Password" placeholder="Password" />
+				<BaseInput v-model="form.email" type="email" label="Email" placeholder="name@email.com" />
+				<BaseInput v-model="form.number" type="number" label="Number" placeholder="Age" />
+				<BaseInput v-model="form.tel" type="tel" label="Tel" placeholder="+1234567890" />
+				<BaseInput v-model="form.url" type="url" label="URL" placeholder="https://example.com" />
+				<BaseInput v-model="form.search" type="search" label="Search" placeholder="Keywords" />
 
-				<BaseSelect v-model="form.select" label="Select" :options="options" class="w-full md:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.67rem)]" />
+				<BaseSelect v-model="form.select" label="Select" :options="options" />
 
-				<BaseDatePicker v-model="form.date" type="date" label="Date" class="w-full md:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.67rem)]" />
-				<BaseDatePicker v-model="form.time" type="time" label="Time" class="w-full md:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.67rem)]" />
-				<BaseDatePicker v-model="form.datetime" type="datetime-local" label="Datetime-Local" class="w-full md:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.67rem)]" />
-				<BaseDatePicker v-model="form.month" type="month" label="Month" class="w-full md:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.67rem)]" />
-				<BaseDatePicker v-model="form.week" type="week" label="Week" class="w-full md:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.67rem)]" />
+				<BaseDatePicker v-model="form.date" type="date" label="Date" />
+				<BaseDatePicker v-model="form.time" type="time" label="Time" />
+				<BaseDatePicker v-model="form.datetime" type="datetime-local" label="Datetime-Local" />
+				<BaseDatePicker v-model="form.month" type="month" label="Month" />
+				<BaseDatePicker v-model="form.week" type="week" label="Week" />
 
-				<BaseTextarea v-model="form.bio" label="Textarea" placeholder="Write something about yourself..." class="w-full" />
+				<BaseTextarea v-model="form.bio" label="Textarea" placeholder="Write something about yourself..." class="col-span-full" />
 
-				<div class="w-full md:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.67rem)]">
+				<div>
 					<label class="form-label">Toggle</label>
 					<div class="flex items-center gap-4 mt-2">
 						<BaseToggle v-model="form.notifications" label="Notifications" />
@@ -241,9 +241,9 @@ const testForm = ref({
 					</div>
 				</div>
 
-				<BaseRange v-model="form.range" label="Range (0–100)" class="w-full md:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.67rem)]" />
+				<BaseRange v-model="form.range" label="Range (0–100)" />
 
-				<div class="w-full md:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.67rem)]">
+				<div>
 					<label class="form-label">Checkbox</label>
 					<div class="flex items-center gap-4 mt-2">
 						<BaseCheckbox v-model="form.agree" label="Agree" />
@@ -251,7 +251,7 @@ const testForm = ref({
 					</div>
 				</div>
 
-				<div class="w-full md:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.67rem)]">
+				<div>
 					<label class="form-label">Radio</label>
 					<div class="flex items-center gap-4 mt-2">
 						<BaseRadio v-model="form.gender" value="l" name="gender" label="Male" />
@@ -259,25 +259,13 @@ const testForm = ref({
 					</div>
 				</div>
 
-				<div class="w-full">
+				<div class="col-span-full">
 					<label class="form-label">File</label>
 					<div class="flex flex-col md:flex-row gap-4">
 						<BaseFileInput class="flex-1" />
 						<BaseFileInput dropzone class="flex-1" />
 					</div>
 				</div>
-			</div>
-
-			<input type="hidden" name="token" value="secret_csrf_12345" />
-
-			<div class="pt-6 border-t border-border flex flex-wrap items-center gap-2">
-				<input type="submit" value="Submit" class="btn btn-primary" />
-
-				<input type="reset" value="Reset" class="btn btn-secondary" />
-
-				<input type="button" value="Click" class="btn btn-outline" />
-
-				<input type="image" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='40' viewBox='0 0 100 40'%3E%3Crect width='100' height='40' rx='10' fill='%230f172a'/%3E%3Ctext x='50' y='24' fill='white' font-size='12' font-family='sans-serif' font-weight='600' text-anchor='middle'%3EImage%3C/text%3E%3C/svg%3E" alt="Submit Image" class="h-[42px] cursor-pointer rounded-xl hover:opacity-90 transition" />
 			</div>
 		</form>
 	</div>

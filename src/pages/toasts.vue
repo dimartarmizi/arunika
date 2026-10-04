@@ -1,6 +1,6 @@
 <script setup>
-import { ref } from 'vue'
 import BaseToast from '../components/ui/BaseToast.vue'
+import { ref } from 'vue'
 
 const activeToasts = ref([
 	{ id: 1, variant: 'success', title: 'Order Completed', message: 'Invoice #8849 has been sent.' },
