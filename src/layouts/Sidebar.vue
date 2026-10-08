@@ -205,11 +205,11 @@ const menuSections = [
 
 			<div v-else class="relative" ref="sidebarProfileRef">
 				<div v-if="sidebarProfileOpen" class="absolute bottom-full left-0 mb-2 w-full bg-sidebar-accent border border-sidebar-border rounded-2xl shadow-2xl p-1.5 z-50 flex flex-col gap-0.5">
-					<router-link to="/users" @click="close" class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium text-sidebar-foreground hover:text-sidebar-accent-foreground hover:bg-sidebar-border transition">
+					<router-link to="/users" @click="close" class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm font-medium text-sidebar-foreground hover:text-sidebar-accent-foreground hover:bg-sidebar-border transition">
 						<IconUser :size="16" class="text-sidebar-muted" />
 						<span>Account Profile</span>
 					</router-link>
-					<router-link to="/reset-password" @click="close" class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium text-sidebar-foreground hover:text-sidebar-accent-foreground hover:bg-sidebar-border transition">
+					<router-link to="/reset-password" @click="close" class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm font-medium text-sidebar-foreground hover:text-sidebar-accent-foreground hover:bg-sidebar-border transition">
 						<IconLock :size="16" class="text-sidebar-muted" />
 						<span>Change Password</span>
 					</router-link>

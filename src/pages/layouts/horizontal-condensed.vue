@@ -270,23 +270,23 @@ const products = ref([
 
 						<div v-if="profileOpen" class="absolute right-0 mt-2 w-56 bg-card border border-border rounded-2xl shadow-xl py-2 z-50 animate-in fade-in zoom-in-95 duration-100">
 							<div class="px-4 py-2.5 border-b border-border">
-								<p class="text-xs font-bold text-foreground truncate">Administrator</p>
-								<p class="text-[11px] text-muted-foreground truncate">admin@arunika.io</p>
+								<p class="text-sm font-semibold text-foreground truncate">Administrator</p>
+								<p class="text-xs text-muted-foreground truncate">admin@arunika.io</p>
 							</div>
 
 							<div class="py-1">
-								<router-link to="/users" @click="profileOpen = false" class="flex items-center gap-2.5 px-4 py-2 text-xs font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition">
+								<router-link to="/users" @click="profileOpen = false" class="flex items-center gap-2.5 px-4 py-2 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition">
 									<IconUser :size="16" class="text-muted-foreground" />
 									<span>Account Profile</span>
 								</router-link>
-								<router-link to="/reset-password" @click="profileOpen = false" class="flex items-center gap-2.5 px-4 py-2 text-xs font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition">
+								<router-link to="/reset-password" @click="profileOpen = false" class="flex items-center gap-2.5 px-4 py-2 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition">
 									<IconLock :size="16" class="text-muted-foreground" />
 									<span>Change Password</span>
 								</router-link>
 							</div>
 
 							<div class="pt-1 border-t border-border">
-								<router-link to="/login" @click="profileOpen = false" class="flex items-center gap-2.5 px-4 py-2 text-xs font-semibold text-destructive hover:bg-destructive-soft transition">
+								<router-link to="/login" @click="profileOpen = false" class="flex items-center gap-2.5 px-4 py-2 text-sm font-semibold text-destructive hover:bg-destructive-soft transition">
 									<IconLogout :size="16" />
 									<span>Log Out</span>
 								</router-link>
