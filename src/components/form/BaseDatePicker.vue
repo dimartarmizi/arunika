@@ -756,9 +756,9 @@ onUnmounted(() => {
 						</div>
 					</div>
 
-					<div v-if="navMode === 'years'" class="grid grid-cols-4 gap-2 mb-4">
+					<div v-if="navMode === 'years'" class="flex flex-wrap gap-2 mb-4">
 						<button v-for="y in yearsList" :key="y" type="button" @click.stop="selectYearNav(y)" :class="[
-							'py-2 rounded-lg text-xs font-semibold cursor-pointer transition text-center',
+							'py-2 flex-1 basis-[20%] rounded-lg text-xs font-semibold cursor-pointer transition text-center',
 							viewYear === y
 								? 'bg-primary text-primary-foreground font-bold shadow-xs'
 								: 'text-foreground hover:bg-muted'
@@ -767,9 +767,9 @@ onUnmounted(() => {
 						</button>
 					</div>
 
-					<div v-else class="grid grid-cols-4 gap-2 mb-4">
+					<div v-else class="flex flex-wrap gap-2 mb-4">
 						<button v-for="(mName, idx) in monthShortNames" :key="mName" type="button" @click.stop="selectMonth(idx)" :class="[
-							'py-2 rounded-lg text-xs font-semibold cursor-pointer transition text-center',
+							'py-2 flex-1 basis-[20%] rounded-lg text-xs font-semibold cursor-pointer transition text-center',
 							selectedMonth && selectedMonth.month === idx && selectedMonth.year === viewYear
 								? 'bg-primary text-primary-foreground font-bold shadow-xs'
 								: 'text-foreground hover:bg-muted'
@@ -805,9 +805,9 @@ onUnmounted(() => {
 						</div>
 
 						<div v-if="navMode === 'years'" class="py-2">
-							<div class="grid grid-cols-4 gap-2">
+							<div class="flex flex-wrap gap-2">
 								<button v-for="y in yearsList" :key="y" type="button" @click.stop="selectYearNav(y)" :class="[
-									'py-2 rounded-lg text-xs font-semibold cursor-pointer transition text-center',
+									'py-2 flex-1 basis-[20%] rounded-lg text-xs font-semibold cursor-pointer transition text-center',
 									viewYear === y
 										? 'bg-primary text-primary-foreground font-bold shadow-xs'
 										: 'hover:bg-muted text-foreground'
@@ -818,9 +818,9 @@ onUnmounted(() => {
 						</div>
 
 						<div v-else-if="navMode === 'months'" class="py-2">
-							<div class="grid grid-cols-3 gap-2">
+							<div class="flex flex-wrap gap-2">
 								<button v-for="(mName, idx) in monthShortNames" :key="mName" type="button" @click.stop="selectMonth(idx)" :class="[
-									'py-2 rounded-lg text-xs font-semibold cursor-pointer transition text-center',
+									'py-2 flex-1 basis-[28%] rounded-lg text-xs font-semibold cursor-pointer transition text-center',
 									viewMonth === idx
 										? 'bg-primary text-primary-foreground font-bold shadow-xs'
 										: 'hover:bg-muted text-foreground'
@@ -850,7 +850,7 @@ onUnmounted(() => {
 
 								<div class="flex-1 flex flex-col gap-1">
 									<div class="flex mb-1.5 text-center text-xs font-bold text-foreground h-6 items-center">
-										<span v-for="wd in weekDays" :key="wd" class="w-[14.285%] text-center">{{ wd }}</span>
+										<span v-for="wd in weekDays" :key="wd" class="flex-1">{{ wd }}</span>
 									</div>
 
 									<div v-for="(row, rIdx) in calendarRows" :key="'d-' + rIdx" @click="selectWeek(row)" :class="[
@@ -858,7 +858,7 @@ onUnmounted(() => {
 										isRowSelectedWeek(row) ? 'bg-primary text-primary-foreground font-semibold shadow-xs' : 'hover:bg-muted/50'
 									]">
 										<div v-for="(item, dIdx) in row.days" :key="dIdx" :class="[
-											'h-7 w-[14.285%] flex items-center justify-center text-xs font-medium',
+											'h-7 flex-1 flex items-center justify-center text-xs font-medium',
 											isRowSelectedWeek(row)
 												? 'text-primary-foreground'
 												: item.isCurrentMonth
@@ -873,18 +873,18 @@ onUnmounted(() => {
 
 							<div v-else>
 								<div class="flex mb-1.5 text-center text-xs font-bold text-foreground">
-									<span v-for="wd in weekDays" :key="wd" class="w-[14.285%] text-center">{{ wd }}</span>
+									<span v-for="wd in weekDays" :key="wd" class="flex-1">{{ wd }}</span>
 								</div>
 
 								<div class="flex flex-col gap-1">
 									<div v-for="(row, rIdx) in calendarRows" :key="rIdx" class="flex items-center">
 										<button v-for="(item, dIdx) in row.days" :key="dIdx" type="button" @click="handleDayClick(item.date)" @mouseenter="handleDayHover(item.date)" :class="[
-											'h-7 w-[14.285%] flex items-center justify-center text-xs font-medium rounded cursor-pointer transition',
+											'h-7 flex-1 flex items-center justify-center text-xs font-medium rounded cursor-pointer transition',
 											isRange
 												? (isRangeStart(item.date) || isRangeEnd(item.date))
 													? 'bg-primary text-primary-foreground font-semibold shadow-xs'
 													: isInRange(item.date)
-														? 'bg-primary/20 text-primary font-medium rounded-none w-full'
+														? 'bg-primary/20 text-primary font-medium rounded-none'
 														: item.isCurrentMonth ? 'text-foreground hover:bg-muted' : 'text-muted-foreground/60'
 												: isSameDay(item.date, selectedDate)
 													? 'bg-primary text-primary-foreground font-semibold shadow-xs'
@@ -892,18 +892,18 @@ onUnmounted(() => {
 														? 'text-foreground hover:bg-muted'
 														: 'text-muted-foreground/60'
 										]">
-											{{ item.day }}
+											<span class="w-7 h-7 flex items-center justify-center">{{ item.day }}</span>
 										</button>
 									</div>
 								</div>
 							</div>
+						</div>
 
-							<div class="flex items-center justify-between border-t border-border mt-3 pt-2 text-xs">
-								<button type="button" @click="clearValue" class="text-primary font-medium hover:opacity-80 cursor-pointer">Clear</button>
-								<button type="button" @click="setToday" class="text-primary font-medium hover:opacity-80 cursor-pointer">
-									{{ isWeek ? 'This week' : 'Today' }}
-								</button>
-							</div>
+						<div class="flex items-center justify-between border-t border-border mt-3 pt-2 text-xs">
+							<button type="button" @click="clearValue" class="text-primary font-medium hover:opacity-80 cursor-pointer">Clear</button>
+							<button type="button" @click="setToday" class="text-primary font-medium hover:opacity-80 cursor-pointer">
+								{{ isWeek ? 'This week' : 'Today' }}
+							</button>
 						</div>
 					</div>
 

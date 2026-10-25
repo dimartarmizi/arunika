@@ -36,7 +36,7 @@ const products = ref([
 		<div class="card overflow-hidden">
 			<div class="card-header">
 				<div>
-					<h4 class="font-semibold text-sm text-foreground">Standard Table</h4>
+					<h4 class="card-title">Standard Table</h4>
 					<p class="text-xs text-muted-foreground">Standard table with cell slots for custom badges & action buttons</p>
 				</div>
 			</div>
@@ -86,7 +86,7 @@ const products = ref([
 		<div class="card overflow-hidden">
 			<div class="card-header">
 				<div>
-					<h4 class="font-semibold text-sm text-foreground">Striped Variant</h4>
+					<h4 class="card-title">Striped Variant</h4>
 					<p class="text-xs text-muted-foreground">Adds alternating background colors using <code>striped</code> prop</p>
 				</div>
 			</div>
@@ -112,7 +112,7 @@ const products = ref([
 		<div class="card overflow-hidden">
 			<div class="card-header">
 				<div>
-					<h4 class="font-semibold text-sm text-foreground">Compact & Bordered Variant</h4>
+					<h4 class="card-title">Compact & Bordered Variant</h4>
 					<p class="text-xs text-muted-foreground">Dense density layout with full borders using <code>compact</code> and <code>bordered</code> props</p>
 				</div>
 			</div>

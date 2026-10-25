@@ -122,7 +122,7 @@ onUnmounted(() => {
 
 					<div class="card">
 						<div class="card-header">
-							<h4 class="font-semibold text-sm text-foreground">Layout Specifications</h4>
+							<h4 class="card-title">Layout Specifications</h4>
 						</div>
 						<div class="card-body text-xs text-muted-foreground leading-relaxed flex flex-col gap-2">
 							<p>

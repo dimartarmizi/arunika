@@ -20,7 +20,7 @@ import {
 	IconTrash,
 	IconX
 } from '@tabler/icons-vue'
-import { ref, computed, watch, unref, onUnmounted } from 'vue'
+import { ref, computed, watch, unref, onUnmounted, nextTick } from 'vue'
 
 const props = defineProps({
 	columns: {
@@ -337,6 +337,39 @@ const filteredData = computed(() => {
 const pageSize = ref(props.defaultPageSize)
 const currentPage = ref(1)
 
+const isEditingPage = ref(false)
+const pageInput = ref(1)
+const pageInputRef = ref(null)
+
+const startEditPage = () => {
+	pageInput.value = currentPage.value
+	isEditingPage.value = true
+	nextTick(() => {
+		pageInputRef.value?.focus()
+		pageInputRef.value?.select()
+	})
+}
+
+const submitPageEdit = () => {
+	if (!isEditingPage.value) return
+	let val = parseInt(pageInput.value, 10)
+	if (isNaN(val) || val < 1) val = 1
+	if (val > totalPages.value) val = totalPages.value
+	currentPage.value = val
+	isEditingPage.value = false
+}
+
+const cancelPageEdit = () => {
+	isEditingPage.value = false
+}
+
+const pageSizeSelectOptions = computed(() => {
+	return props.pageSizeOptions.map((opt) => ({
+		label: String(opt),
+		value: Number(opt)
+	}))
+})
+
 const totalPages = computed(() => {
 	if (!props.advanced) return 1
 	return Math.max(1, Math.ceil(filteredData.value.length / pageSize.value))
@@ -463,11 +496,16 @@ const tableClasses = computed(() => [
 				<button v-if="filterable" @click="showFilters = !showFilters" :class="[
 					'btn btn-outline h-10 px-3 gap-1.5 relative shrink-0',
 					showFilters || activeFiltersCount > 0 ? 'border-primary text-primary bg-primary-soft' : ''
-				]" title="Column filters">
+				]" title="Filter kolom">
 					<IconFilter :size="16" />
 					<span class="hidden md:inline">Filters</span>
-					<span v-if="activeFiltersCount > 0" class="w-4 h-4 rounded-full bg-primary text-primary-foreground text-[10px] flex items-center justify-center font-bold">
-						{{ activeFiltersCount }}
+					<span v-if="activeFiltersCount > 0" class="group/badge relative flex items-center justify-center">
+						<span class="w-4 h-4 rounded-full bg-primary text-primary-foreground text-[10px] flex items-center justify-center font-bold group-hover/badge:opacity-0 transition-opacity">
+							{{ activeFiltersCount }}
+						</span>
+						<span @click.stop="resetFilters" class="absolute inset-0 w-4 h-4 rounded-full bg-destructive text-destructive-foreground opacity-0 group-hover/badge:opacity-100 flex items-center justify-center transition-opacity cursor-pointer" title="Reset filter">
+							<IconX :size="10" class="stroke-[3]" />
+						</span>
 					</span>
 				</button>
 
@@ -536,7 +574,7 @@ const tableClasses = computed(() => [
 
 		<div v-if="showFilters" class="p-4 bg-muted/70 border border-border rounded-xl flex flex-wrap gap-4 text-xs">
 			<template v-for="col in columns" :key="col.key">
-				<div v-if="col.filterType" class="flex flex-col gap-1.5 flex-1 min-w-[200px]">
+				<div v-if="col.filterType" class="flex flex-col gap-1.5 flex-1 min-w-48">
 					<label class="font-semibold text-muted-foreground text-xs">{{ col.label }}</label>
 
 					<BaseInput v-if="col.filterType === 'text'" v-model="columnFilters[col.key]" type="text" :placeholder="`Filter ${col.label}...`" />
@@ -556,13 +594,6 @@ const tableClasses = computed(() => [
 					</div>
 				</div>
 			</template>
-
-			<div class="w-full flex items-center justify-end gap-2 pt-2 border-t border-border">
-				<button @click="resetFilters" class="btn btn-ghost btn-sm gap-1.5 text-muted-foreground hover:text-foreground">
-					<IconRefresh :size="14" />
-					<span>Reset Semua Filter</span>
-				</button>
-			</div>
 		</div>
 
 		<div class="border border-border rounded-xl bg-card overflow-hidden shadow-xs relative z-0">
@@ -673,9 +704,9 @@ const tableClasses = computed(() => [
 			<div class="p-4 border-t border-border bg-background/50 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
 				<div class="flex items-center gap-1.5 text-muted-foreground">
 					<span>Baris per halaman:</span>
-					<select v-model.number="pageSize" class="bg-card border border-border rounded-lg px-2 py-1 font-medium text-foreground focus:outline-none focus:ring-2 focus:ring-primary">
-						<option v-for="opt in pageSizeOptions" :key="opt" :value="opt">{{ opt }}</option>
-					</select>
+					<div class="w-16">
+						<BaseSelect v-model="pageSize" :options="pageSizeSelectOptions" size="sm" />
+					</div>
 				</div>
 
 				<div class="flex items-center gap-1">
@@ -687,9 +718,24 @@ const tableClasses = computed(() => [
 						<IconChevronLeft :size="16" />
 					</button>
 
-					<span class="px-3 py-1 font-semibold text-muted-foreground">
-						Halaman {{ currentPage }} dari {{ totalPages }}
+					<span v-if="!isEditingPage" class="inline-flex items-center font-semibold text-muted-foreground">
+						Halaman&nbsp;<button type="button" @click="startEditPage" class="font-semibold text-muted-foreground hover:underline underline-offset-4 decoration-dotted cursor-pointer transition" title="Klik untuk lompat halaman">{{ currentPage }}</button>&nbsp;dari {{ totalPages }}
 					</span>
+					<div v-else class="inline-flex items-center gap-1 font-semibold text-muted-foreground">
+						<span>Halaman</span>
+						<input
+							ref="pageInputRef"
+							v-model="pageInput"
+							type="number"
+							:min="1"
+							:max="totalPages"
+							@keydown.enter="submitPageEdit"
+							@keydown.esc="cancelPageEdit"
+							@blur="submitPageEdit"
+							class="w-12 h-7 px-1.5 py-0.5 text-xs text-center font-medium bg-card border border-primary rounded-md text-foreground focus:outline-none focus:ring-1 focus:ring-primary [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+						/>
+						<span>dari {{ totalPages }}</span>
+					</div>
 
 					<button @click="currentPage++" :disabled="currentPage === totalPages" class="p-1.5 rounded-lg border border-border bg-card hover:bg-muted disabled:opacity-40 disabled:hover:bg-card cursor-pointer disabled:cursor-not-allowed text-muted-foreground" title="Halaman berikutnya">
 						<IconChevronRight :size="16" />
@@ -701,10 +747,8 @@ const tableClasses = computed(() => [
 				</div>
 
 				<div class="text-muted-foreground text-center sm:text-right">
-					Menampilkan
-					<strong class="text-muted-foreground font-semibold">{{ filteredData.length === 0 ? 0 : (currentPage - 1) * pageSize + 1 }}</strong>
-					sampai
-					<strong class="text-muted-foreground font-semibold">{{ Math.min(currentPage * pageSize, filteredData.length) }}</strong>
+					Tampil
+					<strong class="text-muted-foreground font-semibold">{{ filteredData.length === 0 ? 0 : (currentPage - 1) * pageSize + 1 }}-{{ Math.min(currentPage * pageSize, filteredData.length) }}</strong>
 					dari
 					<strong class="text-muted-foreground font-semibold">{{ filteredData.length }}</strong>
 					hasil

@@ -31,7 +31,7 @@ const removeToast = (id) => {
 
 		<div class="card">
 			<div class="card-header">
-				<h4 class="font-semibold text-sm text-foreground">Trigger Toast Notifications</h4>
+				<h4 class="card-title">Trigger Toast Notifications</h4>
 			</div>
 			<div class="card-body flex flex-col gap-4">
 				<div class="flex flex-wrap items-center gap-2">
@@ -78,27 +78,27 @@ const removeToast = (id) => {
 
 		<div class="card">
 			<div class="card-header">
-				<h4 class="font-semibold text-sm text-foreground">Static Toast Variations</h4>
+				<h4 class="card-title">Static Toast Variations</h4>
 			</div>
 			<div class="card-body">
 				<div class="flex flex-col md:flex-row flex-wrap gap-4">
-					<BaseToast variant="success" title="Success Notification" :dismissible="false" class="flex-1 min-w-[240px]">
+					<BaseToast variant="success" title="Success Notification" :dismissible="false" class="flex-1 min-w-60">
 						Your payment transaction was processed.
 					</BaseToast>
 
-					<BaseToast variant="info" title="Info Notification" :dismissible="false" class="flex-1 min-w-[240px]">
+					<BaseToast variant="info" title="Info Notification" :dismissible="false" class="flex-1 min-w-60">
 						Maintenance scheduled at midnight.
 					</BaseToast>
 
-					<BaseToast variant="warning" title="Warning Notification" :dismissible="false" class="flex-1 min-w-[240px]">
+					<BaseToast variant="warning" title="Warning Notification" :dismissible="false" class="flex-1 min-w-60">
 						API token will expire in 2 days.
 					</BaseToast>
 
-					<BaseToast variant="error" title="Error Notification" :dismissible="false" class="flex-1 min-w-[240px]">
+					<BaseToast variant="error" title="Error Notification" :dismissible="false" class="flex-1 min-w-60">
 						Unable to delete user profile.
 					</BaseToast>
 
-					<BaseToast variant="neutral" title="Dark Neutral Notification" :dismissible="false" class="flex-1 min-w-[240px]">
+					<BaseToast variant="neutral" title="Dark Neutral Notification" :dismissible="false" class="flex-1 min-w-60">
 						Saved draft automatically.
 					</BaseToast>
 				</div>

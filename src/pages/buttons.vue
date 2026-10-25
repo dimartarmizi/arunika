@@ -36,7 +36,7 @@ const triggerLoading = () => {
 
 		<div class="card">
 			<div class="card-header">
-				<h4 class="font-semibold text-sm text-foreground">Button Variants</h4>
+				<h4 class="card-title">Button Variants</h4>
 			</div>
 			<div class="card-body flex flex-wrap items-center gap-2">
 				<button class="btn btn-primary">Primary</button>
@@ -52,7 +52,7 @@ const triggerLoading = () => {
 
 		<div class="card">
 			<div class="card-header">
-				<h4 class="font-semibold text-sm text-foreground">Button Sizes</h4>
+				<h4 class="card-title">Button Sizes</h4>
 			</div>
 			<div class="card-body flex flex-wrap items-center gap-2">
 				<button class="btn btn-primary btn-sm">Small (btn-sm)</button>
@@ -63,7 +63,7 @@ const triggerLoading = () => {
 
 		<div class="card">
 			<div class="card-header">
-				<h4 class="font-semibold text-sm text-foreground">Icons & States</h4>
+				<h4 class="card-title">Icons & States</h4>
 			</div>
 			<div class="card-body flex flex-col gap-4">
 				<div class="flex flex-wrap items-center gap-2">
@@ -118,7 +118,7 @@ const triggerLoading = () => {
 
 		<div class="card">
 			<div class="card-header">
-				<h4 class="font-semibold text-sm text-foreground">Button Groups</h4>
+				<h4 class="card-title">Button Groups</h4>
 			</div>
 			<div class="card-body flex flex-col gap-4">
 				<div>

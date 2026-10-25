@@ -231,7 +231,7 @@ const products = ref([
 									<IconChevronDown :size="16" :class="['transition-transform duration-200', activeDropdown === item.key ? 'rotate-180' : '']" />
 								</button>
 
-								<div v-if="activeDropdown === item.key" class="absolute top-full left-0 mt-2 min-w-[13rem] bg-card rounded-xl shadow-xl border border-border/80 p-1.5 z-50 flex flex-col gap-0.5">
+								<div v-if="activeDropdown === item.key" class="absolute top-full left-0 mt-1 min-w-56 w-max bg-card rounded-xl shadow-xl border border-border/80 p-1.5 z-50 flex flex-col gap-0.5">
 									<router-link v-for="sub in item.children" :key="sub.to" :to="sub.to" @click="closeDropdowns" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-normal text-muted-foreground hover:bg-muted hover:text-foreground transition" :class="route.path === sub.to ? 'bg-primary-soft text-primary' : ''">
 										<component :is="sub.icon" :size="18" class="text-muted-foreground" />
 										<span>{{ sub.label }}</span>
@@ -299,7 +299,7 @@ const products = ref([
 
 		<main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col gap-4">
 			<section aria-label="Key metrics" class="flex flex-col sm:flex-row flex-wrap gap-4">
-				<article v-for="metric in metrics" :key="metric.label" class="card p-5 flex-1 min-w-[200px] flex flex-col justify-between">
+				<article v-for="metric in metrics" :key="metric.label" class="card p-5 flex-1 min-w-48 flex flex-col justify-between">
 					<span class="text-xs font-medium text-muted-foreground">{{ metric.label }}</span>
 					<div class="flex items-baseline justify-between mt-2">
 						<span class="text-2xl font-bold text-foreground">{{ metric.value }}</span>
@@ -313,7 +313,7 @@ const products = ref([
 			<div class="card overflow-hidden">
 				<div class="card-header flex items-center justify-between">
 					<div>
-						<h4 class="font-semibold text-sm text-foreground">Products Catalog</h4>
+						<h4 class="card-title">Products Catalog</h4>
 						<p class="text-xs text-muted-foreground">Standard table with cell slots for custom badges & action buttons</p>
 					</div>
 				</div>

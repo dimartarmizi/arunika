@@ -105,6 +105,11 @@ const props = defineProps({
 	disabled: {
 		type: Boolean,
 		default: false
+	},
+	size: {
+		type: String,
+		default: 'md',
+		validator: (val) => ['sm', 'md', 'lg'].includes(val)
 	}
 })
 
@@ -169,23 +174,23 @@ const filteredOptions = computed(() => {
 
 const isOptionSelected = (opt) => {
 	if (props.multiple) {
-		return Array.isArray(props.modelValue) && props.modelValue.includes(opt.value)
+		return Array.isArray(props.modelValue) && props.modelValue.some((v) => String(v) === String(opt.value))
 	}
-	return props.modelValue === opt.value
+	return props.modelValue !== null && props.modelValue !== undefined && props.modelValue !== '' && String(props.modelValue) === String(opt.value)
 }
 
 const selectedList = computed(() => {
 	if (props.multiple) {
 		if (!Array.isArray(props.modelValue)) return []
 		return props.modelValue.map((val) => {
-			const found = activeOptions.value.find((opt) => opt.value === val)
+			const found = activeOptions.value.find((opt) => String(opt.value) === String(val))
 			return found || { value: val, label: String(val) }
 		})
 	}
 	if (props.modelValue === null || props.modelValue === undefined || props.modelValue === '') {
 		return []
 	}
-	const found = activeOptions.value.find((opt) => opt.value === props.modelValue)
+	const found = activeOptions.value.find((opt) => String(opt.value) === String(props.modelValue))
 	return found ? [found] : [{ value: props.modelValue, label: String(props.modelValue) }]
 })
 
@@ -200,7 +205,7 @@ const isAllSelected = computed(() => {
 	if (!props.multiple || activeOptions.value.length === 0) return false
 	return (
 		Array.isArray(props.modelValue) &&
-		activeOptions.value.every((opt) => props.modelValue.includes(opt.value))
+		activeOptions.value.every((opt) => props.modelValue.some((v) => String(v) === String(opt.value)))
 	)
 })
 
@@ -247,7 +252,7 @@ const updatePosition = () => {
 	const dropdownHeight = 288
 
 	const openUpwards = spaceBelow < dropdownHeight && spaceAbove > spaceBelow
-	const targetWidth = Math.max(rect.width, 220)
+	const targetWidth = props.size === 'sm' ? rect.width : Math.max(rect.width, 220)
 	let left = rect.left
 
 	if (left + targetWidth > window.innerWidth - 16) {
@@ -259,7 +264,7 @@ const updatePosition = () => {
 		top: openUpwards ? 'auto' : `${rect.bottom + 6}px`,
 		bottom: openUpwards ? `${window.innerHeight - rect.top + 6}px` : 'auto',
 		left: `${left}px`,
-		width: `${rect.width}px`,
+		width: `${targetWidth}px`,
 		minWidth: `${Math.min(targetWidth, window.innerWidth - 32)}px`,
 		zIndex: 9999
 	}
@@ -403,7 +408,8 @@ onUnmounted(() => {
 		</label>
 		<div class="relative w-full min-w-0" ref="selectRef">
 			<button type="button" :disabled="disabled" @click="toggleOpen" :class="[
-				'w-full min-w-0 input min-h-10 h-auto py-1.5 flex items-center justify-between cursor-pointer text-left gap-2',
+				'w-full min-w-0 input flex items-center justify-between cursor-pointer text-left gap-1.5',
+				size === 'sm' ? 'input-sm min-h-8 h-8 py-1 px-2 text-xs' : 'min-h-10 h-auto py-1.5 gap-2',
 				computedState === 'error' ? 'input-error' : '',
 				computedState === 'success' ? 'input-success' : '',
 				computedState === 'warning' ? 'input-warning' : '',
@@ -428,17 +434,17 @@ onUnmounted(() => {
 					<span v-else class="text-muted-foreground truncate">{{ placeholder }}</span>
 				</div>
 
-				<div class="flex items-center gap-1 shrink-0 ml-1">
+				<div :class="['flex items-center shrink-0', size === 'sm' ? 'gap-0.5 ml-0.5' : 'gap-1 ml-1']">
 					<button v-if="clearable && selectedList.length > 0 && !disabled" type="button" @click="handleClear" class="text-muted-foreground hover:text-foreground p-0.5 rounded cursor-pointer" title="Clear selection">
 						<IconX :size="14" />
 					</button>
 
-					<IconLoader2 v-if="isLoading" :size="16" class="text-primary animate-spin" />
-					<IconAlertCircle v-else-if="computedState === 'error'" :size="16" class="text-destructive" />
-					<IconCircleCheck v-else-if="computedState === 'success'" :size="16" class="text-success" />
-					<IconAlertTriangle v-else-if="computedState === 'warning'" :size="16" class="text-warning" />
+					<IconLoader2 v-if="isLoading" :size="size === 'sm' ? 13 : 16" class="text-primary animate-spin" />
+					<IconAlertCircle v-else-if="computedState === 'error'" :size="size === 'sm' ? 13 : 16" class="text-destructive" />
+					<IconCircleCheck v-else-if="computedState === 'success'" :size="size === 'sm' ? 13 : 16" class="text-success" />
+					<IconAlertTriangle v-else-if="computedState === 'warning'" :size="size === 'sm' ? 13 : 16" class="text-warning" />
 
-					<IconChevronDown :size="18" :class="['text-muted-foreground transition-transform duration-200', isOpen ? 'rotate-180 text-primary' : '']" />
+					<IconChevronDown :size="size === 'sm' ? 13 : 18" :class="['text-muted-foreground transition-transform duration-200 shrink-0', isOpen ? '-rotate-180 text-primary' : '']" />
 				</div>
 			</button>
 
@@ -474,17 +480,18 @@ onUnmounted(() => {
 
 						<template v-else-if="filteredOptions.length > 0">
 							<div v-for="opt in filteredOptions" :key="opt.value" @click="selectOption(opt)" :class="[
-								'flex items-center justify-between px-3 py-2 text-sm rounded-lg cursor-pointer transition select-none',
+								'flex items-center justify-between cursor-pointer transition select-none',
+								size === 'sm' ? 'px-2 py-1.5 text-xs rounded-lg' : 'px-3 py-2 text-sm rounded-lg',
 								isOptionSelected(opt)
 									? 'bg-primary-soft text-primary font-medium'
 									: 'text-foreground hover:bg-muted'
 							]">
-								<div class="flex items-center gap-2.5 min-w-0 flex-1">
+								<div class="flex items-center gap-1.5 min-w-0 flex-1">
 									<slot name="option" :option="opt" :selected="isOptionSelected(opt)">
 										<span class="truncate" :title="opt.label">{{ opt.label }}</span>
 									</slot>
 								</div>
-								<IconCheck v-if="isOptionSelected(opt)" :size="16" class="text-primary shrink-0 ml-2" />
+								<IconCheck v-if="isOptionSelected(opt)" :size="size === 'sm' ? 13 : 16" class="text-primary shrink-0 ml-1" />
 							</div>
 
 							<div v-if="isLoading && activeOptions.length > 0" class="p-2 text-center text-xs text-muted-foreground flex items-center justify-center gap-1.5">

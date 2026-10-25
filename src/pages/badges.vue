@@ -37,7 +37,7 @@ const resetTags = () => {
 
 		<div class="card">
 			<div class="card-header">
-				<h4 class="font-semibold text-sm text-foreground">Soft / Light Variants</h4>
+				<h4 class="card-title">Soft / Light Variants</h4>
 			</div>
 			<div class="card-body flex flex-wrap items-center gap-2">
 				<BaseBadge variant="primary">Primary</BaseBadge>
@@ -53,7 +53,7 @@ const resetTags = () => {
 
 		<div class="card">
 			<div class="card-header">
-				<h4 class="font-semibold text-sm text-foreground">Solid / Filled Variants</h4>
+				<h4 class="card-title">Solid / Filled Variants</h4>
 			</div>
 			<div class="card-body flex flex-wrap items-center gap-2">
 				<BaseBadge variant="primary" solid>Primary</BaseBadge>
@@ -66,7 +66,7 @@ const resetTags = () => {
 
 		<div class="card">
 			<div class="card-header">
-				<h4 class="font-semibold text-sm text-foreground">Outline Variants</h4>
+				<h4 class="card-title">Outline Variants</h4>
 			</div>
 			<div class="card-body flex flex-wrap items-center gap-2">
 				<BaseBadge variant="primary" outline>Primary</BaseBadge>
@@ -81,7 +81,7 @@ const resetTags = () => {
 		<div class="flex flex-col md:flex-row gap-4">
 			<div class="card flex-1">
 				<div class="card-header">
-					<h4 class="font-semibold text-sm text-foreground">Sizes</h4>
+					<h4 class="card-title">Sizes</h4>
 				</div>
 				<div class="card-body flex flex-wrap items-center gap-2">
 					<div class="flex items-center gap-2">
@@ -99,7 +99,7 @@ const resetTags = () => {
 
 			<div class="card flex-1">
 				<div class="card-header">
-					<h4 class="font-semibold text-sm text-foreground">Status Dots</h4>
+					<h4 class="card-title">Status Dots</h4>
 				</div>
 				<div class="card-body flex flex-wrap items-center gap-2">
 					<BaseBadge variant="success" dot>Active</BaseBadge>
@@ -120,7 +120,7 @@ const resetTags = () => {
 		<div class="flex flex-col md:flex-row gap-4">
 			<div class="card flex-1">
 				<div class="card-header">
-					<h4 class="font-semibold text-sm text-foreground">With Icons</h4>
+					<h4 class="card-title">With Icons</h4>
 				</div>
 				<div class="card-body flex flex-wrap items-center gap-2">
 					<BaseBadge variant="primary">
@@ -148,7 +148,7 @@ const resetTags = () => {
 
 			<div class="card">
 				<div class="card-header">
-					<h4 class="font-semibold text-sm text-foreground">Dismissible Tags</h4>
+					<h4 class="card-title">Dismissible Tags</h4>
 				</div>
 				<div class="card-body flex flex-wrap items-center gap-2">
 					<BaseBadge v-for="(tag, index) in tags" :key="tag" variant="neutral" dismissible @dismiss="removeTag(index)">
@@ -161,7 +161,7 @@ const resetTags = () => {
 
 		<div class="card">
 			<div class="card-header">
-				<h4 class="font-semibold text-sm text-foreground">Positioned Notification Indicators</h4>
+				<h4 class="card-title">Positioned Notification Indicators</h4>
 			</div>
 			<div class="card-body flex flex-wrap items-center gap-4">
 				<button class="btn btn-outline relative">

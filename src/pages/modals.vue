@@ -23,7 +23,7 @@ const newProjectDesc = ref('')
 
 		<div class="card">
 			<div class="card-header">
-				<h4 class="font-semibold text-sm text-foreground">Modal Triggers</h4>
+				<h4 class="card-title">Modal Triggers</h4>
 			</div>
 			<div class="card-body">
 				<div class="flex flex-wrap gap-2">

@@ -98,7 +98,7 @@ const clearFile = (e) => {
 			!computedState && !disabled ? 'border-border' : ''
 		]">
 			<IconUpload :size="18" class="text-muted-foreground group-hover:text-primary transition shrink-0" />
-			<span class="text-xs truncate max-w-[calc(100%-80px)] text-muted-foreground">
+			<span class="text-xs truncate max-w-full text-muted-foreground">
 				<template v-if="fileName">
 					<span class="font-medium text-foreground">{{ fileName }}</span>
 				</template>

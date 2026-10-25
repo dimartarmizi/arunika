@@ -19,6 +19,10 @@ const props = defineProps({
 	closeOnBackdrop: {
 		type: Boolean,
 		default: true
+	},
+	formId: {
+		type: String,
+		default: null
 	}
 })
 
@@ -79,20 +83,20 @@ onUnmounted(() => {
 			<div v-if="modelValue" class="modal-backdrop" @click="onBackdropClick" role="dialog" aria-modal="true">
 				<Transition enter-active-class="transition duration-200 ease-out" enter-from-class="opacity-0 scale-95 translate-y-2" enter-to-class="opacity-100 scale-100 translate-y-0" leave-active-class="transition duration-150 ease-in" leave-from-class="opacity-100 scale-100 translate-y-0" leave-to-class="opacity-0 scale-95 translate-y-2">
 					<div v-if="modelValue" :class="['modal-box', sizeClass]">
-						<div class="flex items-center justify-between pb-4 border-b border-border">
+						<div class="flex items-center justify-between pb-4 shrink-0">
 							<slot name="header">
 								<h3 class="modal-title">{{ title }}</h3>
 							</slot>
-							<button type="button" @click="close" class="btn btn-ghost btn-icon btn-sm text-muted-foreground hover:text-muted-foreground rounded-lg cursor-pointer" aria-label="Close modal">
+							<button type="button" @click="close" class="btn btn-ghost btn-icon btn-sm text-muted-foreground hover:text-muted-foreground rounded-lg cursor-pointer" aria-label="Tutup modal">
 								<IconX :size="18" />
 							</button>
 						</div>
 
-						<div class="py-4 text-sm text-muted-foreground">
+						<div class="overflow-y-auto min-h-0 flex-1">
 							<slot></slot>
 						</div>
 
-						<div v-if="$slots.footer" class="modal-action">
+						<div v-if="$slots.footer" class="modal-footer shrink-0">
 							<slot name="footer" :close="close"></slot>
 						</div>
 					</div>

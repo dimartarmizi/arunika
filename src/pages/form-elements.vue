@@ -126,7 +126,7 @@ const testForm = ref({
 		<div class="card">
 			<div class="card-header flex flex-col sm:flex-row sm:items-center justify-between gap-4">
 				<div>
-					<h4 class="font-semibold text-sm text-foreground">Interactive State Tester</h4>
+					<h4 class="card-title">Interactive State Tester</h4>
 					<p class="text-xs text-muted-foreground">Click state buttons to test the visual response of the inputs live.</p>
 				</div>
 				<div class="btn-group">
@@ -148,23 +148,23 @@ const testForm = ref({
 				</div>
 			</div>
 			<div class="card-body flex flex-col md:flex-row flex-wrap gap-4">
-				<BaseInput v-model="testForm.username" label="Username / Email" placeholder="Enter username" :required="testState !== 'disabled'" :disabled="testState === 'disabled'" :error="testState === 'error' ? 'Username is invalid or already taken.' : false" :success="testState === 'success' ? 'Username is valid and available!' : false" :warning="testState === 'warning' ? 'Username format is not recommended.' : false" :hint="testState === 'normal' ? 'Use 3-20 alphanumeric characters.' : ''" class="flex-1 min-w-[240px]" />
+				<BaseInput v-model="testForm.username" label="Username / Email" placeholder="Enter username" :required="testState !== 'disabled'" :disabled="testState === 'disabled'" :error="testState === 'error' ? 'Username is invalid or already taken.' : false" :success="testState === 'success' ? 'Username is valid and available!' : false" :warning="testState === 'warning' ? 'Username format is not recommended.' : false" :hint="testState === 'normal' ? 'Use 3-20 alphanumeric characters.' : ''" class="flex-1 min-w-60" />
 
-				<BaseSelect v-model="testForm.role" label="User Role" :options="options" :required="testState !== 'disabled'" :disabled="testState === 'disabled'" :error="testState === 'error' ? 'Role selection is required.' : false" :success="testState === 'success' ? 'Role has been successfully set.' : false" :warning="testState === 'warning' ? 'This role has restricted access.' : false" :hint="testState === 'normal' ? 'Select an account access level.' : ''" class="flex-1 min-w-[240px]" />
+				<BaseSelect v-model="testForm.role" label="User Role" :options="options" :required="testState !== 'disabled'" :disabled="testState === 'disabled'" :error="testState === 'error' ? 'Role selection is required.' : false" :success="testState === 'success' ? 'Role has been successfully set.' : false" :warning="testState === 'warning' ? 'This role has restricted access.' : false" :hint="testState === 'normal' ? 'Select an account access level.' : ''" class="flex-1 min-w-60" />
 
-				<BaseDatePicker v-model="testForm.date" label="Activation Date" :required="testState !== 'disabled'" :disabled="testState === 'disabled'" :error="testState === 'error' ? 'Date cannot be in the past.' : false" :success="testState === 'success' ? 'Activation date confirmed.' : false" :warning="testState === 'warning' ? 'Date falls on a weekend.' : false" :hint="testState === 'normal' ? 'Choose when activation begins.' : ''" class="flex-1 min-w-[240px]" />
+				<BaseDatePicker v-model="testForm.date" label="Activation Date" :required="testState !== 'disabled'" :disabled="testState === 'disabled'" :error="testState === 'error' ? 'Date cannot be in the past.' : false" :success="testState === 'success' ? 'Activation date confirmed.' : false" :warning="testState === 'warning' ? 'Date falls on a weekend.' : false" :hint="testState === 'normal' ? 'Choose when activation begins.' : ''" class="flex-1 min-w-60" />
 			</div>
 		</div>
 
 		<div class="card">
 			<div class="card-header">
 				<div>
-					<h4 class="font-semibold text-sm text-foreground">Advanced Select Showcase</h4>
+					<h4 class="card-title">Advanced Select Showcase</h4>
 					<p class="text-xs text-muted-foreground">Searchable, Multi-select, Creatable, Dependent, Async/API, Custom template</p>
 				</div>
 			</div>
 			<div class="card-body flex flex-col md:flex-row flex-wrap gap-4">
-				<BaseSelect v-model="selectedFramework" label="Custom Option & Searchable" :options="frameworkOptions" searchable clearable hint="Custom display with icons and description metadata" class="flex-1 min-w-[240px]">
+				<BaseSelect v-model="selectedFramework" label="Custom Option & Searchable" :options="frameworkOptions" searchable clearable hint="Custom display with icons and description metadata" class="flex-1 min-w-60">
 					<template #option="{ option }">
 						<span class="text-base mr-1">{{ option.icon }}</span>
 						<div class="flex flex-col">
@@ -180,9 +180,9 @@ const testForm = ref({
 					</template>
 				</BaseSelect>
 
-				<BaseSelect v-model="multiTags" label="Multi-Select + Creatable" :options="tagOptions" multiple searchable creatable clearable selectAll hint="Select multiple, select all, or type a new option then Enter" class="flex-1 min-w-[240px]" />
+				<BaseSelect v-model="multiTags" label="Multi-Select + Creatable" :options="tagOptions" multiple searchable creatable clearable selectAll hint="Select multiple, select all, or type a new option then Enter" class="flex-1 min-w-60" />
 
-				<BaseSelect v-model="asyncUser" label="Async / Debounce Search" :loadOptions="loadUsersApi" :debounce="400" searchable clearable placeholder="Search users via API..." hint="Async search with debounced requests and loader" class="flex-1 min-w-[240px]">
+				<BaseSelect v-model="asyncUser" label="Async / Debounce Search" :loadOptions="loadUsersApi" :debounce="400" searchable clearable placeholder="Search users via API..." hint="Async search with debounced requests and loader" class="flex-1 min-w-60">
 					<template #option="{ option }">
 						<div class="flex flex-col">
 							<span class="font-medium text-xs">{{ option.label }}</span>
@@ -191,47 +191,47 @@ const testForm = ref({
 					</template>
 				</BaseSelect>
 
-				<BaseSelect v-model="selectedProvince" label="Dependent: Region" :options="provinces" clearable placeholder="Select region..." @change="onProvinceChange" class="flex-1 min-w-[240px]" />
+				<BaseSelect v-model="selectedProvince" label="Dependent: Region" :options="provinces" clearable placeholder="Select region..." @change="onProvinceChange" class="flex-1 min-w-60" />
 
-				<BaseSelect v-model="selectedCity" label="Dependent: City" :options="currentCities" :disabled="!selectedProvince" clearable placeholder="Select city..." :hint="!selectedProvince ? 'Please select a region first' : ''" class="flex-1 min-w-[240px]" />
+				<BaseSelect v-model="selectedCity" label="Dependent: City" :options="currentCities" :disabled="!selectedProvince" clearable placeholder="Select city..." :hint="!selectedProvince ? 'Please select a region first' : ''" class="flex-1 min-w-60" />
 			</div>
 		</div>
 
 		<div class="card">
 			<div class="card-header">
 				<div>
-					<h4 class="font-semibold text-sm text-foreground">Advanced File Upload Showcase</h4>
+					<h4 class="card-title">Advanced File Upload Showcase</h4>
 					<p class="text-xs text-muted-foreground">Drag & drop, multi-file, preview, progress, image compression, chunks & validation</p>
 				</div>
 			</div>
 			<div class="card-body flex flex-col md:flex-row flex-wrap gap-4">
-				<BaseFileUpload v-model="uploadedDocs" label="Multiple Documents" multiple :maxFiles="5" :maxSize="15 * 1024 * 1024" hint="Drag & drop PDF, ZIP, or Docs (max 15MB each, up to 5 files)" class="flex-1 min-w-[260px]" />
+				<BaseFileUpload v-model="uploadedDocs" label="Multiple Documents" multiple :maxFiles="5" :maxSize="15 * 1024 * 1024" hint="Drag & drop PDF, ZIP, or Docs (max 15MB each, up to 5 files)" class="flex-1 min-w-64" />
 
-				<BaseFileUpload v-model="uploadedImages" label="Image Upload + Client Compression" multiple accept="image/*" compressImages :maxWidth="1200" :maxHeight="1200" :quality="0.75" hint="Images auto-resized to max 1200px & compressed before upload" class="flex-1 min-w-[260px]" />
+				<BaseFileUpload v-model="uploadedImages" label="Image Upload + Client Compression" multiple accept="image/*" compressImages :maxWidth="1200" :maxHeight="1200" :quality="0.75" hint="Images auto-resized to max 1200px & compressed before upload" class="flex-1 min-w-64" />
 
-				<BaseFileUpload v-model="chunkedFiles" label="Chunked / Resumable Large File" chunked :chunkSize="512 * 1024" :maxSize="100 * 1024 * 1024" hint="Simulates resumable chunk uploads (512KB chunks, pause & retry)" class="flex-1 min-w-[260px]" />
+				<BaseFileUpload v-model="chunkedFiles" label="Chunked / Resumable Large File" chunked :chunkSize="512 * 1024" :maxSize="100 * 1024 * 1024" hint="Simulates resumable chunk uploads (512KB chunks, pause & retry)" class="flex-1 min-w-64" />
 			</div>
 		</div>
 
 		<form @submit.prevent class="card card-body flex flex-col gap-4">
-			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-				<BaseInput v-model="form.text" label="Text" placeholder="Full Name" />
-				<BaseInput v-model="form.password" type="password" label="Password" placeholder="Password" />
-				<BaseInput v-model="form.email" type="email" label="Email" placeholder="name@email.com" />
-				<BaseInput v-model="form.number" type="number" label="Number" placeholder="Age" />
-				<BaseInput v-model="form.tel" type="tel" label="Tel" placeholder="+1234567890" />
-				<BaseInput v-model="form.url" type="url" label="URL" placeholder="https://example.com" />
-				<BaseInput v-model="form.search" type="search" label="Search" placeholder="Keywords" />
+			<div class="flex flex-wrap gap-4">
+				<BaseInput v-model="form.text" label="Text" placeholder="Full Name" class="flex-1 min-w-64" />
+				<BaseInput v-model="form.password" type="password" label="Password" placeholder="Password" class="flex-1 min-w-64" />
+				<BaseInput v-model="form.email" type="email" label="Email" placeholder="name@email.com" class="flex-1 min-w-64" />
+				<BaseInput v-model="form.number" type="number" label="Number" placeholder="Age" class="flex-1 min-w-64" />
+				<BaseInput v-model="form.tel" type="tel" label="Tel" placeholder="+1234567890" class="flex-1 min-w-64" />
+				<BaseInput v-model="form.url" type="url" label="URL" placeholder="https://example.com" class="flex-1 min-w-64" />
+				<BaseInput v-model="form.search" type="search" label="Search" placeholder="Keywords" class="flex-1 min-w-64" />
 
-				<BaseSelect v-model="form.select" label="Select" :options="options" />
+				<BaseSelect v-model="form.select" label="Select" :options="options" class="flex-1 min-w-64" />
 
-				<BaseDatePicker v-model="form.date" type="date" label="Date" />
-				<BaseDatePicker v-model="form.time" type="time" label="Time" />
-				<BaseDatePicker v-model="form.datetime" type="datetime-local" label="Datetime-Local" />
-				<BaseDatePicker v-model="form.month" type="month" label="Month" />
-				<BaseDatePicker v-model="form.week" type="week" label="Week" />
+				<BaseDatePicker v-model="form.date" type="date" label="Date" class="flex-1 min-w-64" />
+				<BaseDatePicker v-model="form.time" type="time" label="Time" class="flex-1 min-w-64" />
+				<BaseDatePicker v-model="form.datetime" type="datetime-local" label="Datetime-Local" class="flex-1 min-w-64" />
+				<BaseDatePicker v-model="form.month" type="month" label="Month" class="flex-1 min-w-64" />
+				<BaseDatePicker v-model="form.week" type="week" label="Week" class="flex-1 min-w-64" />
 
-				<BaseTextarea v-model="form.bio" label="Textarea" placeholder="Write something about yourself..." class="col-span-full" />
+				<BaseTextarea v-model="form.bio" label="Textarea" placeholder="Write something about yourself..." class="w-full" />
 
 				<div>
 					<label class="form-label">Toggle</label>

@@ -22,7 +22,7 @@ const resetAlert = () => {
 
 		<div class="card">
 			<div class="card-header">
-				<h4 class="font-semibold text-sm text-foreground">Basic Variants</h4>
+				<h4 class="card-title">Basic Variants</h4>
 			</div>
 			<div class="card-body flex flex-col gap-4">
 				<BaseAlert variant="info">
@@ -45,7 +45,7 @@ const resetAlert = () => {
 
 		<div class="card">
 			<div class="card-header">
-				<h4 class="font-semibold text-sm text-foreground">Alerts with Titles & Actions</h4>
+				<h4 class="card-title">Alerts with Titles & Actions</h4>
 			</div>
 			<div class="card-body flex flex-col gap-4">
 				<BaseAlert v-model="showDismissible" variant="info" title="Information Notice" dismissible>

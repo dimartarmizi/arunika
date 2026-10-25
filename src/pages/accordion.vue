@@ -89,7 +89,7 @@ const iconItems = [
 		<div class="flex flex-col lg:flex-row gap-4">
 			<div class="card flex-1">
 				<div class="card-header">
-					<h4 class="font-semibold text-sm text-foreground">Basic (Single Expand)</h4>
+					<h4 class="card-title">Basic (Single Expand)</h4>
 				</div>
 				<div class="card-body">
 					<BaseAccordion :items="faqItems" />
@@ -98,7 +98,7 @@ const iconItems = [
 
 			<div class="card flex-1">
 				<div class="card-header">
-					<h4 class="font-semibold text-sm text-foreground">Multiple Expand (Always Open)</h4>
+					<h4 class="card-title">Multiple Expand (Always Open)</h4>
 				</div>
 				<div class="card-body">
 					<BaseAccordion :items="multipleItems" :model-value="['m-1', 'm-2']" multiple />
@@ -108,7 +108,7 @@ const iconItems = [
 
 		<div class="card">
 			<div class="card-header">
-				<h4 class="font-semibold text-sm text-foreground">Separated / Card Style with Icons & Badges</h4>
+				<h4 class="card-title">Separated / Card Style with Icons & Badges</h4>
 			</div>
 			<div class="card-body">
 				<BaseAccordion :items="iconItems" variant="separated" multiple />
@@ -118,7 +118,7 @@ const iconItems = [
 		<div class="flex flex-col lg:flex-row gap-4">
 			<div class="card flex-1">
 				<div class="card-header">
-					<h4 class="font-semibold text-sm text-foreground">Flush Variant (Border-free)</h4>
+					<h4 class="card-title">Flush Variant (Border-free)</h4>
 				</div>
 				<div class="card-body">
 					<BaseAccordion :items="faqItems" variant="flush" />
@@ -127,7 +127,7 @@ const iconItems = [
 
 			<div class="card flex-1">
 				<div class="card-header flex items-center justify-between">
-					<h4 class="font-semibold text-sm text-foreground">Native HTML5 &lt;details&gt; (Zero JS)</h4>
+					<h4 class="card-title">Native HTML5 &lt;details&gt; (Zero JS)</h4>
 				</div>
 				<div class="card-body">
 					<div class="accordion">

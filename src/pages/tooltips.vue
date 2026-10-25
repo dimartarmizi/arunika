@@ -19,7 +19,7 @@ import {
 
 		<div class="card">
 			<div class="card-header">
-				<h4 class="font-semibold text-sm text-foreground">Placement Positions</h4>
+				<h4 class="card-title">Placement Positions</h4>
 			</div>
 			<div class="card-body">
 				<div class="flex flex-wrap items-center gap-2 justify-center sm:justify-start">
@@ -44,7 +44,7 @@ import {
 
 		<div class="card">
 			<div class="card-header">
-				<h4 class="font-semibold text-sm text-foreground">Tooltips on Common UI Elements</h4>
+				<h4 class="card-title">Tooltips on Common UI Elements</h4>
 			</div>
 			<div class="card-body flex flex-col gap-4">
 				<div>

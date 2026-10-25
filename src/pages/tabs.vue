@@ -39,7 +39,7 @@ const boxedTabs = ['general', 'team', 'integrations']
 
 		<div class="card">
 			<div class="card-header">
-				<h4 class="font-semibold text-sm text-foreground">Bordered Underline Tabs (BaseTabs)</h4>
+				<h4 class="card-title">Bordered Underline Tabs (BaseTabs)</h4>
 			</div>
 			<div class="card-body">
 				<BaseTabs v-model="activeUnderlineTab" :tabs="underlineTabs" variant="bordered">
@@ -68,7 +68,7 @@ const boxedTabs = ['general', 'team', 'integrations']
 
 		<div class="card">
 			<div class="card-header">
-				<h4 class="font-semibold text-sm text-foreground">Pills / Segmented Tabs</h4>
+				<h4 class="card-title">Pills / Segmented Tabs</h4>
 			</div>
 			<div class="card-body">
 				<BaseTabs v-model="activePillTab" :tabs="pillTabs" variant="pills">
@@ -81,7 +81,7 @@ const boxedTabs = ['general', 'team', 'integrations']
 
 		<div class="card">
 			<div class="card-header">
-				<h4 class="font-semibold text-sm text-foreground">Boxed Tabs</h4>
+				<h4 class="card-title">Boxed Tabs</h4>
 			</div>
 			<div class="card-body">
 				<BaseTabs v-model="activeBoxedTab" :tabs="boxedTabs" variant="boxed">

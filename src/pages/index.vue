@@ -62,7 +62,7 @@ const orders = ref([
 		</div>
 
 		<section aria-label="Dashboard statistics" class="flex flex-col sm:flex-row flex-wrap gap-4">
-			<article v-for="(st, index) in stats" :key="index" class="card p-5 flex-1 min-w-[220px]">
+			<article v-for="(st, index) in stats" :key="index" class="card p-5 flex-1 min-w-56">
 				<div class="flex items-center justify-between">
 					<span class="stat-title">{{ st.title }}</span>
 					<div class="icon-box icon-box-md icon-box-neutral">
@@ -86,7 +86,7 @@ const orders = ref([
 		<div class="flex flex-col lg:flex-row gap-4">
 			<div class="lg:w-2/3 card overflow-hidden">
 				<div class="card-header">
-					<h4 class="font-bold text-foreground text-sm sm:text-base">Recent Orders</h4>
+					<h4 class="card-title">Recent Orders</h4>
 				</div>
 				<BaseTable :columns="orderColumns" :data="orders">
 					<template #cell(id)="{ value }">
@@ -117,7 +117,7 @@ const orders = ref([
 
 			<div class="lg:w-1/3 card p-5 flex flex-col justify-between">
 				<div>
-					<h4 class="font-bold text-foreground text-sm sm:text-base mb-4">System Activity</h4>
+					<h4 class="card-title mb-4">System Activity</h4>
 					<div class="flex flex-col gap-4">
 						<div class="flex gap-4">
 							<div class="w-8 h-8 rounded-full bg-success-soft text-success flex items-center justify-center shrink-0">
